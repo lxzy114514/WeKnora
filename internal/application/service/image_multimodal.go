@@ -83,7 +83,8 @@ type ImageMultimodalService struct {
 	// resourceCatalog resolves resource:// references to their owning storage
 	// backend so multimodal reads target the resource's real backend instead of
 	// the knowledge base's currently configured one.
-	resourceCatalog interfaces.ResourceCatalog
+	resourceCatalog   interfaces.ResourceCatalog
+	modelCallRecorder vlm.CallRecorder
 
 	// spanTracker records this image's subspan under the parent attempt's
 	// multimodal stage. nil-safe — falls back to no-op via tracker().
@@ -105,22 +106,24 @@ func NewImageMultimodalService(
 	storageResolver interfaces.StorageBackendResolver,
 	resourceCatalog interfaces.ResourceCatalog,
 	spanTracker SpanTracker,
+	modelCallRepo interfaces.ModelCallRepository,
 ) interfaces.TaskHandler {
 	return &ImageMultimodalService{
-		chunkService:    chunkService,
-		modelService:    modelService,
-		kbService:       kbService,
-		knowledgeRepo:   knowledgeRepo,
-		tenantRepo:      tenantRepo,
-		retrieveEngine:  retrieveEngine,
-		ownership:       ownership,
-		ollamaService:   ollamaService,
-		taskEnqueuer:    taskEnqueuer,
-		redisClient:     redisClient,
-		fileSvc:         fileSvc,
-		storageResolver: storageResolver,
-		resourceCatalog: resourceCatalog,
-		spanTracker:     spanTracker,
+		chunkService:      chunkService,
+		modelService:      modelService,
+		kbService:         kbService,
+		knowledgeRepo:     knowledgeRepo,
+		tenantRepo:        tenantRepo,
+		retrieveEngine:    retrieveEngine,
+		ownership:         ownership,
+		ollamaService:     ollamaService,
+		taskEnqueuer:      taskEnqueuer,
+		redisClient:       redisClient,
+		fileSvc:           fileSvc,
+		storageResolver:   storageResolver,
+		resourceCatalog:   resourceCatalog,
+		spanTracker:       spanTracker,
+		modelCallRecorder: modelCallRepo,
 	}
 }
 
@@ -268,7 +271,8 @@ func (s *ImageMultimodalService) Handle(ctx context.Context, task *asynq.Task) e
 		}
 		prompt = types.AppendCustomPromptInstructions(prompt, vlmCfg.CustomInstructions, "image_ocr")
 
-		ocrText, ocrErr := vlmModel.Predict(ctx, [][]byte{imgBytes}, prompt)
+		ocrCtx := types.WithLLMCallMetadata(ctx, "vlm_ocr", "")
+		ocrText, ocrErr := vlmModel.Predict(ocrCtx, [][]byte{imgBytes}, prompt)
 		if ocrErr != nil {
 			logger.Warnf(ctx, "[ImageMultimodal] OCR failed for %s: %v", payload.ImageURL, ocrErr)
 			imgOut["ocr_error"] = ocrErr.Error()
@@ -286,7 +290,8 @@ func (s *ImageMultimodalService) Handle(ctx context.Context, task *asynq.Task) e
 		}
 	}
 
-	caption, capErr := vlmModel.Predict(ctx, [][]byte{imgBytes}, buildVLMCaptionPrompt(ctx, vlmCfg))
+	captionCtx := types.WithLLMCallMetadata(ctx, "vlm_caption", "")
+	caption, capErr := vlmModel.Predict(captionCtx, [][]byte{imgBytes}, buildVLMCaptionPrompt(ctx, vlmCfg))
 	if capErr != nil {
 		logger.Warnf(ctx, "[ImageMultimodal] Caption failed for %s: %v", payload.ImageURL, capErr)
 		imgOut["caption_error"] = capErr.Error()
@@ -542,7 +547,15 @@ func (s *ImageMultimodalService) resolveVLM(ctx context.Context, kbID, knowledge
 
 	// Legacy: create VLM from inline config
 	model, err := vlm.NewVLMFromLegacyConfig(vlmCfg, s.ollamaService)
-	return model, vlmCfg, err
+	if err != nil {
+		return nil, vlmCfg, err
+	}
+	return s.observeLegacyVLM(ctx, model), vlmCfg, nil
+}
+
+func (s *ImageMultimodalService) observeLegacyVLM(ctx context.Context, model vlm.VLM) vlm.VLM {
+	tenantID, _ := types.TenantIDFromContext(ctx)
+	return vlm.NewObservedVLM(model, tenantID, s.modelCallRecorder, types.ModelPricing{})
 }
 
 // resolveFileServiceForPayload resolves tenant/KB scoped file service for reading provider:// URLs.

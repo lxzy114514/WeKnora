@@ -20,6 +20,22 @@ func TestModelUpdateRequestDisplayNamePresence(t *testing.T) {
 	assert.Equal(t, "", *cleared.DisplayName)
 }
 
+func TestModelUpdateRequestPricingPresencePreservesOldClientsAndAllowsClear(t *testing.T) {
+	stored := types.ModelPricing{Currency: "USD", InputPerMillion: 2}
+
+	var omitted UpdateModelRequest
+	require.NoError(t, json.Unmarshal([]byte(`{"parameters":{"base_url":"https://example.test"}}`), &omitted))
+	assert.False(t, omitted.pricingProvided)
+	omitted.inheritOmittedPricing(stored)
+	assert.Equal(t, stored, omitted.Parameters.Pricing)
+
+	var cleared UpdateModelRequest
+	require.NoError(t, json.Unmarshal([]byte(`{"parameters":{"pricing":{}}}`), &cleared))
+	assert.True(t, cleared.pricingProvided)
+	cleared.inheritOmittedPricing(stored)
+	assert.Equal(t, types.ModelPricing{}, cleared.Parameters.Pricing)
+}
+
 func TestParseModelDebugOptionsPreservesExplicitThinkingFalse(t *testing.T) {
 	opts, err := parseModelDebugOptions(`{"thinking":false,"temperature":0,"max_tokens":256}`)
 	require.NoError(t, err)

@@ -2,6 +2,7 @@ package handler
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/Tencent/WeKnora/internal/errors"
 	"github.com/Tencent/WeKnora/internal/logger"
@@ -16,6 +17,55 @@ type EvaluationHandler struct {
 	evaluationService interfaces.EvaluationService // Service for evaluation operations
 }
 
+// ListEvaluationRuns returns durable run history for the active tenant.
+func (e *EvaluationHandler) ListEvaluationRuns(c *gin.Context) {
+	limit, offset, ok := parseEvaluationPagination(c)
+	if !ok {
+		return
+	}
+	runs, err := e.evaluationService.ListEvaluations(c.Request.Context(), limit, offset)
+	if err != nil {
+		c.Error(errors.NewInternalServerError(err.Error()))
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"success": true, "data": runs})
+}
+
+// ListEvaluationCases returns bounded per-question evidence pages. Keeping
+// this separate prevents status polling from repeatedly serializing every
+// answer accumulated so far.
+func (e *EvaluationHandler) ListEvaluationCases(c *gin.Context) {
+	taskID := c.Query("task_id")
+	if taskID == "" {
+		c.Error(errors.NewBadRequestError("task_id is required"))
+		return
+	}
+	limit, offset, ok := parseEvaluationPagination(c)
+	if !ok {
+		return
+	}
+	cases, err := e.evaluationService.ListEvaluationCases(c.Request.Context(), taskID, limit, offset)
+	if err != nil {
+		c.Error(errors.NewInternalServerError(err.Error()))
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"success": true, "data": cases})
+}
+
+func parseEvaluationPagination(c *gin.Context) (int, int, bool) {
+	limit, err := strconv.Atoi(c.DefaultQuery("limit", "50"))
+	if err != nil || limit <= 0 || limit > 200 {
+		c.Error(errors.NewBadRequestError("limit must be between 1 and 200"))
+		return 0, 0, false
+	}
+	offset, err := strconv.Atoi(c.DefaultQuery("offset", "0"))
+	if err != nil || offset < 0 {
+		c.Error(errors.NewBadRequestError("offset must be zero or greater"))
+		return 0, 0, false
+	}
+	return limit, offset, true
+}
+
 // NewEvaluationHandler creates a new EvaluationHandler instance
 func NewEvaluationHandler(evaluationService interfaces.EvaluationService) *EvaluationHandler {
 	return &EvaluationHandler{evaluationService: evaluationService}
@@ -23,10 +73,12 @@ func NewEvaluationHandler(evaluationService interfaces.EvaluationService) *Evalu
 
 // EvaluationRequest contains parameters for evaluation request
 type EvaluationRequest struct {
-	DatasetID       string `json:"dataset_id"`        // ID of dataset to evaluate
-	KnowledgeBaseID string `json:"knowledge_base_id"` // ID of knowledge base to use
-	ChatModelID     string `json:"chat_id"`           // ID of chat model to use
-	RerankModelID   string `json:"rerank_id"`         // ID of rerank model to use
+	DatasetID        string `json:"dataset_id"`        // ID of dataset to evaluate
+	KnowledgeBaseID  string `json:"knowledge_base_id"` // ID of knowledge base to use
+	ChatModelID      string `json:"chat_id"`           // ID of chat model to use
+	EmbeddingModelID string `json:"embedding_id"`      // ID of embedding model to use
+	RerankModelID    string `json:"rerank_id"`         // ID of rerank model to use
+	SummaryModelID   string `json:"summary_id"`        // ID of summary model to use
 }
 
 // Evaluation godoc
@@ -69,10 +121,12 @@ func (e *EvaluationHandler) Evaluation(c *gin.Context) {
 	)
 
 	task, err := e.evaluationService.Evaluation(ctx,
-		secutils.SanitizeForLog(request.DatasetID),
-		secutils.SanitizeForLog(request.KnowledgeBaseID),
-		secutils.SanitizeForLog(request.ChatModelID),
-		secutils.SanitizeForLog(request.RerankModelID),
+		request.DatasetID,
+		request.KnowledgeBaseID,
+		request.ChatModelID,
+		request.EmbeddingModelID,
+		request.RerankModelID,
+		request.SummaryModelID,
 	)
 	if err != nil {
 		logger.ErrorWithFields(ctx, err, nil)

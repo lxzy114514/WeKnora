@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
 
@@ -133,9 +134,12 @@ func (s *knowledgeService) processDocumentFromPassage(ctx context.Context,
 		end += len([]rune(p))
 		chunks = append(chunks, types.ParsedChunk{
 			Content: p,
-			Seq:     i,
-			Start:   start,
-			End:     end,
+			Metadata: map[string]string{
+				sourcePassageIndexMetadataKey: strconv.Itoa(i),
+			},
+			Seq:   i,
+			Start: start,
+			End:   end,
 		})
 		start = end
 	}
@@ -411,6 +415,16 @@ func (s *knowledgeService) processChunks(ctx context.Context,
 			continue
 		}
 
+		var chunkMetadata types.JSON
+		if len(chunkData.Metadata) > 0 {
+			metadataData, err := json.Marshal(chunkData.Metadata)
+			if err != nil {
+				logger.Warnf(ctx, "Failed to encode chunk metadata for sequence %d: %v", chunkData.Seq, err)
+			} else {
+				chunkMetadata = types.JSON(metadataData)
+			}
+		}
+
 		// 创建主文本Chunk
 		textChunk := &types.Chunk{
 			ID:              uuid.New().String(),
@@ -426,6 +440,7 @@ func (s *knowledgeService) processChunks(ctx context.Context,
 			StartAt:         int(chunkData.Start),
 			EndAt:           int(chunkData.End),
 			ChunkType:       types.ChunkTypeText,
+			Metadata:        chunkMetadata,
 		}
 
 		// Wire up ParentChunkID for child chunks

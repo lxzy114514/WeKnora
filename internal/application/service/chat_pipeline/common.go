@@ -89,11 +89,13 @@ func prepareMessagesWithHistory(chatManage *types.ChatManage) []chat.Message {
 	if chatManage.SystemPromptOverride != "" {
 		base = chatManage.SystemPromptOverride
 	}
-	systemPrompt := types.RenderPromptPlaceholders(base, types.PlaceholderValues{
+	placeholders := types.PlaceholderValues{
 		"query":    chatManage.Query,
 		"language": chatManage.Language,
 		"contexts": chatManage.RenderedContexts,
-	})
+	}
+	stablePrefix := stableSystemPromptPrefix(base, placeholders)
+	systemPrompt := types.RenderPromptPlaceholders(base, placeholders)
 	systemPrompt = appendRetrievedImageOutputRequirement(systemPrompt, chatManage.RenderedContexts)
 	// Memory goes at the end of the system prompt, after the retrieved-context
 	// placeholders have been rendered, so a remembered sentence can never be
@@ -101,7 +103,7 @@ func prepareMessagesWithHistory(chatManage *types.ChatManage) []chat.Message {
 	systemPrompt += chatManage.MemoryPrompt
 
 	chatMessages := []chat.Message{
-		{Role: "system", Content: systemPrompt},
+		{Role: "system", Content: systemPrompt, CachePrefix: &stablePrefix},
 	}
 
 	chatMessages = AppendHistoryMessages(chatMessages, chatManage.History)
@@ -115,6 +117,20 @@ func prepareMessagesWithHistory(chatManage *types.ChatManage) []chat.Message {
 	chatMessages = append(chatMessages, userMsg)
 
 	return chatMessages
+}
+
+// stableSystemPromptPrefix keeps provider-visible prompt assembly unchanged
+// while making the cache fingerprint stop before per-request data. The default
+// templates already put rules before contexts; custom templates receive the
+// same deterministic treatment at their first dynamic placeholder.
+func stableSystemPromptPrefix(base string, placeholders types.PlaceholderValues) string {
+	boundary := len(base)
+	for _, marker := range []string{"{{contexts}}", "{{query}}", "{{current_time}}"} {
+		if index := strings.Index(base, marker); index >= 0 && index < boundary {
+			boundary = index
+		}
+	}
+	return types.RenderPromptPlaceholders(base[:boundary], placeholders)
 }
 
 func withPromptCacheMetadata(

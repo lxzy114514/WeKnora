@@ -313,7 +313,7 @@
       </template>
 
       <!-- Section 3 — 高级选项（仅在有内容时渲染，避免空 section 出现底部分隔线） -->
-      <section v-if="['embedding', 'chat', 'vllm'].includes(activeModelType)" class="setting-drawer__section">
+      <section v-if="['embedding', 'chat', 'vllm', 'rerank'].includes(activeModelType)" class="setting-drawer__section">
         <h4 class="setting-drawer__section-title">{{ $t('model.editor.sectionAdvanced') }}</h4>
 
         <!-- Embedding 专用：维度 -->
@@ -382,11 +382,41 @@
           are gated by the governor (see internal/models/limiter), so we surface
           it just for those three. 0 = fall back to the global default.
         -->
-        <div class="form-item">
+        <div v-if="['embedding', 'chat', 'vllm'].includes(activeModelType)" class="form-item">
           <label class="form-label">{{ $t('model.editor.maxConcurrencyLabel') }}</label>
           <t-input v-model.number="formData.maxConcurrency" type="number" :min="0" :max="4096"
             :placeholder="$t('model.editor.maxConcurrencyPlaceholder')" />
           <p class="form-desc">{{ $t('model.editor.maxConcurrencyDesc') }}</p>
+        </div>
+
+        <div v-if="supportsModelPricing(activeModelType)" class="form-item">
+          <label class="form-label">{{ $t('model.editor.pricingLabel') }}</label>
+          <div class="pricing-grid">
+            <template v-if="usesTokenPricing(activeModelType)">
+              <div class="pricing-field"><span>{{ $t('model.editor.priceInput') }}</span>
+                <t-input v-model.number="formData.pricing.input_per_million" type="number" :min="0" suffix="USD / 1M" />
+              </div>
+              <div class="pricing-field"><span>{{ $t('model.editor.priceOutput') }}</span>
+                <t-input v-model.number="formData.pricing.output_per_million" type="number" :min="0" suffix="USD / 1M" />
+              </div>
+              <template v-if="activeModelType === 'chat'">
+                <div class="pricing-field"><span>{{ $t('model.editor.priceCacheRead') }}</span>
+                  <t-input v-model.number="formData.pricing.cache_read_per_million" type="number" :min="0" suffix="USD / 1M" />
+                </div>
+                <div class="pricing-field"><span>{{ $t('model.editor.priceCacheWrite') }}</span>
+                  <t-input v-model.number="formData.pricing.cache_write_per_million" type="number" :min="0" suffix="USD / 1M" />
+                </div>
+              </template>
+            </template>
+            <div v-else-if="activeModelType === 'embedding'" class="pricing-field">
+              <span>{{ $t('model.editor.priceEmbedding') }}</span>
+              <t-input v-model.number="formData.pricing.embedding_per_million" type="number" :min="0" suffix="USD / 1M" />
+            </div>
+            <div v-else class="pricing-field"><span>{{ $t('model.editor.priceRerank') }}</span>
+              <t-input v-model.number="formData.pricing.rerank_per_thousand" type="number" :min="0" suffix="USD / 1K" />
+            </div>
+          </div>
+          <p class="form-desc">{{ $t('model.editor.pricingDesc') }}</p>
         </div>
       </section>
 
@@ -403,9 +433,11 @@ import {
   putModelCredentials,
   deleteModelCredentialField,
   type ModelCredentialField,
+  type ModelPricing,
 } from '@/api/model'
 import { useI18n } from 'vue-i18n'
 import { useUIStore } from '@/stores/ui'
+import { supportsModelPricing, usesTokenPricing } from '@/utils/modelPricing'
 import {
   defaultThinkingControl,
   resolveThinkingControl,
@@ -439,6 +471,7 @@ interface ModelFormData {
   supportsVision?: boolean
   /** 后台任务对该模型的并发上限；0/undefined 表示沿用全局默认。仅 chat/embedding/vllm 生效。 */
   maxConcurrency?: number
+  pricing: ModelPricing
   /** extra_config.thinking_control — how agent thinking on/off maps to API fields. */
   thinkingControl?: string
   // 自定义 HTTP 请求头（类似 OpenAI Python SDK 的 extra_headers）
@@ -875,6 +908,7 @@ const formData = ref<ModelFormData>({
   isDefault: false,
   supportsVision: false,
   maxConcurrency: undefined,
+  pricing: { currency: 'USD' },
   thinkingControl: defaultThinkingControl('generic', ''),
   customHeaders: [],
   appSecret: '',
@@ -1063,6 +1097,7 @@ watch(() => props.visible, (val) => {
         formData.value = {
           ...props.modelData,
           apiKey: '',
+          pricing: { currency: 'USD', ...(props.modelData.pricing || {}) },
           customHeaders: Array.isArray(props.modelData.customHeaders)
             ? props.modelData.customHeaders.map(h => ({ key: h.key, value: h.value }))
             : [],
@@ -1116,6 +1151,7 @@ const resetForm = () => {
     isDefault: false,
     supportsVision: false,
     maxConcurrency: undefined,
+    pricing: { currency: 'USD' },
     thinkingControl: defaultThinkingControl('generic', ''),
     customHeaders: [],
     appSecret: '',
@@ -2132,6 +2168,23 @@ const handleCancel = () => {
 
 .dimension-check-btn {
   flex-shrink: 0;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.pricing-field {
+  min-width: 0;
+
+  > span {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--td-text-color-secondary);
+    font-size: 12px;
+  }
 }
 
 .dimension-hint {

@@ -4158,6 +4158,14 @@ export default {
       supportsVisionLabel: 'Supports Vision / Multimodal',
       supportsVisionDesc: 'Whether the model accepts image and multimodal input',
       maxConcurrencyLabel: 'Background concurrency limit',
+      pricingLabel: 'Pricing',
+      pricingDesc: 'Enter provider billing rates. Each call stores a price snapshot; blank prices estimate cost as zero.',
+      priceInput: 'Input tokens',
+      priceOutput: 'Output tokens',
+      priceCacheRead: 'Cache read tokens',
+      priceCacheWrite: 'Cache write tokens',
+      priceEmbedding: 'Embedding input tokens',
+      priceRerank: 'Rerank documents',
       maxConcurrencyPlaceholder: '0 = use global default',
       maxConcurrencyDesc: 'Caps concurrent background (ingestion/enrichment) calls to this model, shared per model across all replicas. 0 or empty falls back to the global default; interactive chat is never affected.',
       thinkingControlLabel: 'Thinking mode request format',
@@ -4525,6 +4533,12 @@ export default {
   modelSettings: {
     title: 'Model Settings',
     description: 'Manage different types of AI models, including local Ollama and remote APIs',
+    usage: {
+      title: 'Model usage and cost', description: 'Database-backed calls filtered by model and time range.',
+      allModels: 'All models', refresh: 'Refresh', calls: 'Calls',
+      cacheReadTokens: 'Prompt cache tokens', embeddingHits: 'Embedding cache hit rate',
+      estimatedCost: 'Estimated cost', loadFailed: 'Failed to load model usage'
+    },
     typeShort: {
       chat: 'Chat',
       embedding: 'Embedding',

@@ -67,6 +67,9 @@ type Message struct {
 	// 把 assistant 的 reasoning_content 原样回传，否则会以 400 拒绝请求；其他不要求的供应商
 	// 会忽略未知字段，无副作用。
 	ReasoningContent string `json:"reasoning_content,omitempty"`
+	// CachePrefix is the stable leading substring used only for an opaque
+	// observability fingerprint. The provider still receives Content verbatim.
+	CachePrefix *string `json:"-"`
 }
 
 // ToolCall represents a tool call in a message

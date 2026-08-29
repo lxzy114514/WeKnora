@@ -23,7 +23,8 @@ import (
 // ModelHandler handles HTTP requests for model-related operations
 // It implements the necessary methods to create, retrieve, update, and delete models
 type ModelHandler struct {
-	service interfaces.ModelService
+	service   interfaces.ModelService
+	usageRepo interfaces.ModelCallRepository
 }
 
 // NewModelHandler creates a new instance of ModelHandler
@@ -34,6 +35,50 @@ type ModelHandler struct {
 // Returns a pointer to the newly created ModelHandler
 func NewModelHandler(service interfaces.ModelService) *ModelHandler {
 	return &ModelHandler{service: service}
+}
+
+func NewModelHandlerWithUsage(
+	service interfaces.ModelService, usageRepo interfaces.ModelCallRepository,
+) *ModelHandler {
+	return &ModelHandler{service: service, usageRepo: usageRepo}
+}
+
+// GetModelUsage returns database-backed, tenant-scoped model-call aggregates.
+func (h *ModelHandler) GetModelUsage(c *gin.Context) {
+	if h.usageRepo == nil {
+		c.Error(errors.NewInternalServerError("model usage repository is unavailable"))
+		return
+	}
+	query := types.ModelUsageQuery{
+		TenantID: types.MustTenantIDFromContext(c.Request.Context()),
+		ModelID:  strings.TrimSpace(c.Query("model_id")),
+		Purpose:  strings.TrimSpace(c.Query("purpose")),
+	}
+	var err error
+	if raw := strings.TrimSpace(c.Query("start_time")); raw != "" {
+		query.StartTime, err = time.Parse(time.RFC3339, raw)
+		if err != nil {
+			c.Error(errors.NewBadRequestError("invalid start_time; expected RFC3339"))
+			return
+		}
+	}
+	if raw := strings.TrimSpace(c.Query("end_time")); raw != "" {
+		query.EndTime, err = time.Parse(time.RFC3339, raw)
+		if err != nil {
+			c.Error(errors.NewBadRequestError("invalid end_time; expected RFC3339"))
+			return
+		}
+	}
+	if !query.StartTime.IsZero() && !query.EndTime.IsZero() && query.EndTime.Before(query.StartTime) {
+		c.Error(errors.NewBadRequestError("end_time must not be before start_time"))
+		return
+	}
+	summary, err := h.usageRepo.Summary(c.Request.Context(), query)
+	if err != nil {
+		c.Error(errors.NewInternalServerError(err.Error()))
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"success": true, "data": summary})
 }
 
 // Per-response redaction/stripping for Model now lives in
@@ -71,6 +116,10 @@ func (h *ModelHandler) CreateModel(c *gin.Context) {
 	var req CreateModelRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		logger.Error(ctx, "Failed to parse request parameters", err)
+		c.Error(errors.NewBadRequestError(err.Error()))
+		return
+	}
+	if err := req.Parameters.Pricing.NormalizeAndValidate(); err != nil {
 		c.Error(errors.NewBadRequestError(err.Error()))
 		return
 	}
@@ -524,12 +573,47 @@ func (h *ModelHandler) DebugModel(c *gin.Context) {
 // UpdateModelRequest defines the structure for model update requests
 // Contains fields that can be updated for an existing model
 type UpdateModelRequest struct {
-	Name        string                `json:"name"`
-	DisplayName *string               `json:"display_name"`
-	Description string                `json:"description"`
-	Parameters  types.ModelParameters `json:"parameters"`
-	Source      types.ModelSource     `json:"source"`
-	Type        types.ModelType       `json:"type"`
+	Name            string                `json:"name"`
+	DisplayName     *string               `json:"display_name"`
+	Description     string                `json:"description"`
+	Parameters      types.ModelParameters `json:"parameters"`
+	Source          types.ModelSource     `json:"source"`
+	Type            types.ModelType       `json:"type"`
+	pricingProvided bool
+}
+
+// UnmarshalJSON tracks whether nested pricing was sent. Model parameters are
+// historically a full replacement payload, while pricing was added later;
+// presence tracking keeps older clients from silently clearing stored rates.
+func (r *UpdateModelRequest) UnmarshalJSON(data []byte) error {
+	type requestAlias UpdateModelRequest
+	var decoded requestAlias
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+	*r = UpdateModelRequest(decoded)
+
+	var raw struct {
+		Parameters json.RawMessage `json:"parameters"`
+	}
+	if err := json.Unmarshal(data, &raw); err != nil {
+		return err
+	}
+	if len(raw.Parameters) == 0 || string(raw.Parameters) == "null" {
+		return nil
+	}
+	var parameters map[string]json.RawMessage
+	if err := json.Unmarshal(raw.Parameters, &parameters); err != nil {
+		return err
+	}
+	_, r.pricingProvided = parameters["pricing"]
+	return nil
+}
+
+func (r *UpdateModelRequest) inheritOmittedPricing(stored types.ModelPricing) {
+	if !r.pricingProvided {
+		r.Parameters.Pricing = stored
+	}
 }
 
 // UpdateModel godoc
@@ -563,7 +647,6 @@ func (h *ModelHandler) UpdateModel(c *gin.Context) {
 		c.Error(errors.NewBadRequestError(err.Error()))
 		return
 	}
-
 	logger.Infof(ctx, "Retrieving model information, ID: %s", id)
 	model, err := h.service.GetModelByID(ctx, id)
 	if err != nil {
@@ -574,6 +657,11 @@ func (h *ModelHandler) UpdateModel(c *gin.Context) {
 		}
 		logger.ErrorWithFields(ctx, err, nil)
 		c.Error(errors.NewInternalServerError(err.Error()))
+		return
+	}
+	req.inheritOmittedPricing(model.Parameters.Pricing)
+	if err := req.Parameters.Pricing.NormalizeAndValidate(); err != nil {
+		c.Error(errors.NewBadRequestError(err.Error()))
 		return
 	}
 

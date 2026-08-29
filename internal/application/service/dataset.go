@@ -2,8 +2,17 @@ package service
 
 import (
 	"context"
+	"crypto/sha256"
+	"encoding/hex"
+	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
+	"os"
+	"path/filepath"
+	"regexp"
+	"sort"
+	"strings"
 
 	"github.com/Tencent/WeKnora/internal/logger"
 	"github.com/Tencent/WeKnora/internal/types"
@@ -12,11 +21,21 @@ import (
 )
 
 // DatasetService provides operations for working with datasets
-type DatasetService struct{}
+type DatasetService struct {
+	root string
+}
+
+var safeDatasetID = regexp.MustCompile(`^[A-Za-z0-9][A-Za-z0-9._-]*$`)
 
 // NewDatasetService creates a new DatasetService instance
 func NewDatasetService() interfaces.DatasetService {
-	return &DatasetService{}
+	return NewDatasetServiceWithRoot(filepath.Join("dataset"))
+}
+
+// NewDatasetServiceWithRoot is an explicit test/deployment seam. Production
+// uses ./dataset; tests can point at a temporary catalog without changing CWD.
+func NewDatasetServiceWithRoot(root string) *DatasetService {
+	return &DatasetService{root: root}
 }
 
 // TextInfo represents text data with ID in parquet format
@@ -42,36 +61,127 @@ func (d *DatasetService) GetDatasetByID(ctx context.Context, datasetID string) (
 	logger.Info(ctx, "Start getting dataset by ID")
 	logger.Infof(ctx, "Getting dataset with ID: %s", datasetID)
 
-	dataset := DefaultDataset()
-	dataset.PrintStats(ctx)
-	qaPairs := dataset.Iterate()
+	snapshot, err := d.GetDatasetSnapshot(ctx, datasetID)
+	if err != nil {
+		return nil, err
+	}
+	qaPairs := snapshot.QAPairs
 
 	logger.Infof(ctx, "Retrieved %d QA pairs from dataset", len(qaPairs))
 	return qaPairs, nil
 }
 
+// GetDatasetSnapshot resolves the default alias, verifies every declared file,
+// and only then parses the dataset. This turns accidental data edits into an
+// explicit version bump rather than a silent evaluation change.
+func (d *DatasetService) GetDatasetSnapshot(ctx context.Context, datasetID string) (*types.DatasetSnapshot, error) {
+	if datasetID == "" || datasetID == "default" {
+		datasetID = "baseline-v1"
+	}
+	if !safeDatasetID.MatchString(datasetID) || strings.Contains(datasetID, "..") {
+		return nil, fmt.Errorf("invalid dataset ID %q", datasetID)
+	}
+
+	manifestPath := filepath.Join(d.root, "manifests", datasetID+".json")
+	data, err := os.ReadFile(manifestPath)
+	if err != nil {
+		return nil, fmt.Errorf("read dataset manifest %q: %w", datasetID, err)
+	}
+	var manifest types.DatasetManifest
+	if err := json.Unmarshal(data, &manifest); err != nil {
+		return nil, fmt.Errorf("decode dataset manifest %q: %w", datasetID, err)
+	}
+	if manifest.ID != datasetID || strings.TrimSpace(manifest.Version) == "" {
+		return nil, fmt.Errorf("dataset manifest identity mismatch: requested %q, declared %q", datasetID, manifest.ID)
+	}
+
+	required := []string{"queries", "corpus", "answers", "qrels", "qas"}
+	paths := make(map[string]string, len(required))
+	for _, role := range required {
+		declared, ok := manifest.Files[role]
+		if !ok || declared.Path == "" || declared.Size <= 0 || declared.SHA256 == "" {
+			return nil, fmt.Errorf("dataset manifest %q is missing %s", datasetID, role)
+		}
+		fullPath, err := secureDatasetPath(d.root, declared.Path)
+		if err != nil {
+			return nil, fmt.Errorf("dataset %s path: %w", role, err)
+		}
+		info, err := os.Stat(fullPath)
+		if err != nil {
+			return nil, fmt.Errorf("stat dataset %s: %w", role, err)
+		}
+		if info.Size() != declared.Size {
+			return nil, fmt.Errorf(
+				"dataset %s size mismatch: expected %d, got %d", role, declared.Size, info.Size(),
+			)
+		}
+		actual, err := hashFile(fullPath)
+		if err != nil {
+			return nil, fmt.Errorf("hash dataset %s: %w", role, err)
+		}
+		if !strings.EqualFold(actual, declared.SHA256) {
+			return nil, fmt.Errorf("dataset %s hash mismatch: expected %s, got %s", role, declared.SHA256, actual)
+		}
+		paths[role] = fullPath
+	}
+
+	loaded, err := loadDataset(paths)
+	if err != nil {
+		return nil, err
+	}
+	if len(loaded.queries) == 0 || len(loaded.corpus) == 0 || len(loaded.answers) == 0 ||
+		len(loaded.qrels) == 0 || len(loaded.qas) == 0 {
+		return nil, fmt.Errorf("dataset manifest %q resolved to an incomplete dataset", datasetID)
+	}
+	loaded.PrintStats(ctx)
+	canonical, _ := json.Marshal(manifest)
+	sum := sha256.Sum256(canonical)
+	return &types.DatasetSnapshot{
+		ID:      manifest.ID,
+		Version: manifest.Version,
+		Hash:    hex.EncodeToString(sum[:]),
+		Files:   manifest.Files,
+		QAPairs: loaded.Iterate(),
+	}, nil
+}
+
 // DefaultDataset loads and initializes the default dataset from parquet files
 func DefaultDataset() dataset {
-	datasetDir := "./dataset/samples"
-	queries, err := loadParquet[TextInfo](fmt.Sprintf("%s/queries.parquet", datasetDir))
+	datasetDir := filepath.Join("dataset", "samples")
+	paths := map[string]string{
+		"queries": filepath.Join(datasetDir, "queries.parquet"),
+		"corpus":  filepath.Join(datasetDir, "corpus.parquet"),
+		"answers": filepath.Join(datasetDir, "answers.parquet"),
+		"qrels":   filepath.Join(datasetDir, "qrels.parquet"),
+		"qas":     filepath.Join(datasetDir, "qas.parquet"),
+	}
+	loaded, err := loadDataset(paths)
 	if err != nil {
 		panic(err)
 	}
-	corpus, err := loadParquet[TextInfo](fmt.Sprintf("%s/corpus.parquet", datasetDir))
+	return loaded
+}
+
+func loadDataset(paths map[string]string) (dataset, error) {
+	queries, err := loadParquet[TextInfo](paths["queries"])
 	if err != nil {
-		panic(err)
+		return dataset{}, fmt.Errorf("load queries: %w", err)
 	}
-	answers, err := loadParquet[TextInfo](fmt.Sprintf("%s/answers.parquet", datasetDir))
+	corpus, err := loadParquet[TextInfo](paths["corpus"])
 	if err != nil {
-		panic(err)
+		return dataset{}, fmt.Errorf("load corpus: %w", err)
 	}
-	qrels, err := loadParquet[RelsInfo](fmt.Sprintf("%s/qrels.parquet", datasetDir))
+	answers, err := loadParquet[TextInfo](paths["answers"])
 	if err != nil {
-		panic(err)
+		return dataset{}, fmt.Errorf("load answers: %w", err)
 	}
-	qas, err := loadParquet[QaInfo](fmt.Sprintf("%s/qas.parquet", datasetDir))
+	qrels, err := loadParquet[RelsInfo](paths["qrels"])
 	if err != nil {
-		panic(err)
+		return dataset{}, fmt.Errorf("load qrels: %w", err)
+	}
+	qas, err := loadParquet[QaInfo](paths["qas"])
+	if err != nil {
+		return dataset{}, fmt.Errorf("load qas: %w", err)
 	}
 
 	res := dataset{
@@ -96,7 +206,7 @@ func DefaultDataset() dataset {
 	for _, qi := range qas {
 		res.qas[qi.QID] = qi.AID
 	}
-	return res
+	return res, nil
 }
 
 // dataset represents the in-memory dataset structure
@@ -112,7 +222,13 @@ type dataset struct {
 func (d *dataset) Iterate() []*types.QAPair {
 	var pairs []*types.QAPair
 
-	for qid, question := range d.queries {
+	qids := make([]int64, 0, len(d.queries))
+	for qid := range d.queries {
+		qids = append(qids, qid)
+	}
+	sort.Slice(qids, func(i, j int) bool { return qids[i] < qids[j] })
+	for _, qid := range qids {
+		question := d.queries[qid]
 		// Get answer info
 		aid, hasAnswer := d.qas[qid]
 		answer := ""
@@ -142,6 +258,38 @@ func (d *dataset) Iterate() []*types.QAPair {
 	}
 
 	return pairs
+}
+
+func secureDatasetPath(root, declared string) (string, error) {
+	if filepath.IsAbs(declared) {
+		return "", errors.New("absolute paths are not allowed")
+	}
+	rootAbs, err := filepath.Abs(root)
+	if err != nil {
+		return "", err
+	}
+	fullPath, err := filepath.Abs(filepath.Join(rootAbs, filepath.FromSlash(declared)))
+	if err != nil {
+		return "", err
+	}
+	rel, err := filepath.Rel(rootAbs, fullPath)
+	if err != nil || rel == ".." || strings.HasPrefix(rel, ".."+string(filepath.Separator)) {
+		return "", errors.New("path escapes dataset root")
+	}
+	return fullPath, nil
+}
+
+func hashFile(path string) (string, error) {
+	file, err := os.Open(path)
+	if err != nil {
+		return "", err
+	}
+	defer file.Close()
+	h := sha256.New()
+	if _, err := io.Copy(h, file); err != nil {
+		return "", err
+	}
+	return hex.EncodeToString(h.Sum(nil)), nil
 }
 
 // GetContextForQID retrieves context passages for a given question ID

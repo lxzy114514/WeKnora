@@ -1,6 +1,8 @@
 package types
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
 	"encoding/json"
 	"os"
 	"path/filepath"
@@ -43,9 +45,10 @@ type EvaluationTask struct {
 	TenantID  uint64 `json:"tenant_id"`  // Tenant/Organization ID
 	DatasetID string `json:"dataset_id"` // Dataset ID for evaluation
 
-	StartTime time.Time        `json:"start_time"`        // Task start time
-	Status    EvaluationStatue `json:"status"`            // Current task status
-	ErrMsg    string           `json:"err_msg,omitempty"` // Error message if failed
+	StartTime time.Time        `json:"start_time"`         // Task start time
+	EndTime   *time.Time       `json:"end_time,omitempty"` // Task completion time
+	Status    EvaluationStatue `json:"status"`             // Current task status
+	ErrMsg    string           `json:"err_msg,omitempty"`  // Error message if failed
 
 	Total    int `json:"total,omitempty"`    // Total items to evaluate
 	Finished int `json:"finished,omitempty"` // Completed items count
@@ -53,9 +56,99 @@ type EvaluationTask struct {
 
 // EvaluationDetail contains detailed evaluation information
 type EvaluationDetail struct {
-	Task   *EvaluationTask `json:"task"`             // Evaluation task info
-	Params *ChatManage     `json:"params"`           // Evaluation parameters
-	Metric *MetricResult   `json:"metric,omitempty"` // Evaluation metrics
+	Task     *EvaluationTask           `json:"task"`               // Evaluation task info
+	Params   *ChatManage               `json:"params,omitempty"`   // Evaluation parameters
+	Config   *EvaluationConfigSnapshot `json:"config,omitempty"`   // Immutable inputs
+	Metric   *MetricResult             `json:"metric,omitempty"`   // Evaluation metrics
+	Cost     *EvaluationCostReport     `json:"cost,omitempty"`     // Model cost report
+	Duration *EvaluationDurationReport `json:"duration,omitempty"` // Latency report
+	Cases    []*EvaluationCaseResult   `json:"cases,omitempty"`    // Per-question evidence
+}
+
+// EvaluationConfigSnapshot freezes inputs that could otherwise drift between
+// runs. Model prices are captured by individual model-call records.
+type EvaluationConfigSnapshot struct {
+	ConfigHash       string                             `json:"config_hash"`
+	DatasetID        string                             `json:"dataset_id"`
+	DatasetVersion   string                             `json:"dataset_version"`
+	DatasetHash      string                             `json:"dataset_hash"`
+	DatasetFiles     map[string]DatasetManifestFile     `json:"dataset_files,omitempty"`
+	ChatModelID      string                             `json:"chat_model_id,omitempty"`
+	EmbeddingModelID string                             `json:"embedding_model_id,omitempty"`
+	RerankModelID    string                             `json:"rerank_model_id,omitempty"`
+	SummaryModelID   string                             `json:"summary_model_id,omitempty"`
+	Models           map[string]EvaluationModelSnapshot `json:"models,omitempty"`
+	KnowledgeBaseID  string                             `json:"knowledge_base_id,omitempty"`
+	ChunkSize        int                                `json:"chunk_size"`
+	ChunkOverlap     int                                `json:"chunk_overlap"`
+	PipelineHash     string                             `json:"pipeline_hash"`
+	CodeVersion      string                             `json:"code_version,omitempty"`
+}
+
+type EvaluationModelSnapshot struct {
+	ID            string       `json:"id"`
+	Name          string       `json:"name"`
+	Type          ModelType    `json:"type"`
+	Source        ModelSource  `json:"source"`
+	Provider      string       `json:"provider,omitempty"`
+	InterfaceType string       `json:"interface_type,omitempty"`
+	Dimensions    int          `json:"dimensions,omitempty"`
+	ParameterHash string       `json:"parameter_hash"`
+	Pricing       ModelPricing `json:"pricing"`
+}
+
+// Fingerprint returns a deterministic digest of the effective evaluation
+// inputs. ConfigHash and CodeVersion are excluded: the latter identifies the
+// implementation being measured and must be allowed to change across a
+// regression comparison; dataset/model/chunk conditions must not.
+func (c EvaluationConfigSnapshot) Fingerprint() (string, error) {
+	c.ConfigHash = ""
+	c.CodeVersion = ""
+	data, err := json.Marshal(c)
+	if err != nil {
+		return "", err
+	}
+	sum := sha256.Sum256(data)
+	return hex.EncodeToString(sum[:]), nil
+}
+
+type EvaluationCostReport struct {
+	Currency  string  `json:"currency"`
+	Total     float64 `json:"total"`
+	Chat      float64 `json:"chat"`
+	Embedding float64 `json:"embedding"`
+	Rerank    float64 `json:"rerank"`
+	CallCount int64   `json:"call_count"`
+	Estimated bool    `json:"estimated"`
+}
+
+type EvaluationDurationReport struct {
+	TotalMS       int64   `json:"total_ms"`
+	AverageCaseMS float64 `json:"average_case_ms"`
+	ModelCallMS   int64   `json:"model_call_ms"`
+	IndexMS       int64   `json:"index_ms"`
+	RetrievalMS   int64   `json:"retrieval_ms"`
+	RerankMS      int64   `json:"rerank_ms"`
+	GenerationMS  int64   `json:"generation_ms"`
+}
+
+type EvaluationStageDuration struct {
+	RetrievalMS  int64 `json:"retrieval_ms"`
+	RerankMS     int64 `json:"rerank_ms"`
+	GenerationMS int64 `json:"generation_ms"`
+}
+
+type EvaluationCaseResult struct {
+	TaskID        string                   `json:"task_id"`
+	TenantID      uint64                   `json:"tenant_id"`
+	QID           int                      `json:"qid"`
+	DurationMS    int64                    `json:"duration_ms"`
+	Stages        *EvaluationStageDuration `json:"stages,omitempty"`
+	RetrievedPIDs []int                    `json:"retrieved_pids,omitempty"`
+	RerankedPIDs  []int                    `json:"reranked_pids,omitempty"`
+	FinalAnswer   string                   `json:"final_answer,omitempty"`
+	Metric        *MetricResult            `json:"metric,omitempty"`
+	Error         string                   `json:"error,omitempty"`
 }
 
 // String returns JSON representation of EvaluationTask

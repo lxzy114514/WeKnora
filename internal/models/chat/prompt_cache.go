@@ -35,6 +35,9 @@ func PromptPrefixFingerprint(messages []Message, opts *ChatOptions) string {
 		if message.Role != "system" {
 			break
 		}
+		if message.CachePrefix != nil {
+			message.Content = *message.CachePrefix
+		}
 		prefix.System = append(prefix.System, message)
 	}
 	if opts != nil {
@@ -126,13 +129,13 @@ func applyRawPromptCacheUsage(data []byte, usage *types.TokenUsage) {
 	if raw.Usage.CacheReadInput != nil || raw.Usage.CacheCreationInput != nil {
 		read := valueOrZero(raw.Usage.CacheReadInput)
 		write := valueOrZero(raw.Usage.CacheCreationInput)
-		usage.SetPromptCacheUsage(read, write, max(0, usage.PromptTokens-read), true)
+		usage.SetPromptCacheUsage(read, write, max(0, usage.PromptTokens-read-write), true)
 		return
 	}
 	if details := raw.Usage.PromptTokensDetails; details != nil {
 		read := valueOrZero(details.CachedTokens)
 		write := valueOrZero(details.CacheWriteTokens)
-		usage.SetPromptCacheUsage(read, write, max(0, usage.PromptTokens-read), true)
+		usage.SetPromptCacheUsage(read, write, max(0, usage.PromptTokens-read-write), true)
 	}
 }
 

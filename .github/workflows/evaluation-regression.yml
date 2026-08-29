@@ -1,0 +1,145 @@
+name: Evaluation Regression
+
+on:
+  pull_request:
+  schedule:
+    - cron: "17 2 * * 1-5"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  GO_VERSION: "1.26"
+
+jobs:
+  evaluation-quality-gate:
+    name: Deterministic quality gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-go@v6
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache: true
+
+      - name: Verify evaluation, telemetry, and cache contracts
+        run: >-
+          go test
+          ./cmd/evalbench
+          ./cmd/evalctl
+          ./cmd/evalgate
+          ./internal/evaluation/gate
+          ./internal/application/repository
+          ./internal/models/chat
+          ./internal/models/embedding
+          ./internal/models/rerank
+          ./internal/models/vlm
+          ./internal/models/asr
+
+      - name: Verify service, API, and migration integration
+        run: |
+          go test ./internal/types
+          go test ./internal/application/service -run 'Test(Evaluation|MetricHook|MapSearchResults|Dataset|StableSystemPrompt|Wiki)'
+          go test ./internal/handler -run 'Test(GetModelUsage|ModelUpdateRequest)'
+          go test ./internal/database -run '^TestSQLiteMigrations(CreateVersionedSchema|UpgradeV4PreservesData)$'
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Verify model cost interface
+        working-directory: frontend
+        run: |
+          npm ci
+          npm run type-check
+          npm run check-i18n
+          npm test
+
+      - name: Generate deterministic report from current code
+        run: >-
+          go run ./cmd/evalbench
+          -input testdata/evaluation/deterministic-cases.json
+          -output artifacts/deterministic-report.json
+
+      - name: Enforce reviewed deterministic thresholds
+        run: >-
+          go run ./cmd/evalgate
+          -baseline testdata/evaluation/deterministic-baseline.json
+          -current artifacts/deterministic-report.json
+          -thresholds config/evaluation-gate-deterministic.json
+          -json-out artifacts/evaluation-gate-result.json
+
+      - uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: deterministic-evaluation-gate
+          path: artifacts/
+          if-no-files-found: warn
+
+  live-evaluation:
+    name: Live RAG quality gate
+    if: >-
+      vars.WEKNORA_EVAL_BASELINE_CONFIG_HASH != '' &&
+      vars.WEKNORA_EVAL_CHAT_MODEL_ID != '' &&
+      vars.WEKNORA_EVAL_EMBEDDING_MODEL_ID != '' &&
+      vars.WEKNORA_EVAL_SUMMARY_MODEL_ID != '' &&
+      ((github.event_name == 'pull_request' &&
+        github.event.pull_request.head.repo.full_name == github.repository &&
+        vars.WEKNORA_EVAL_PR_BASE_URL != '') ||
+       (github.event_name != 'pull_request' &&
+        vars.WEKNORA_EVAL_BASE_URL != ''))
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-go@v6
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache: true
+
+      - name: Run versioned dataset against the configured deployment
+        env:
+          WEKNORA_BASE_URL: ${{ github.event_name == 'pull_request' && vars.WEKNORA_EVAL_PR_BASE_URL || vars.WEKNORA_EVAL_BASE_URL }}
+          WEKNORA_API_KEY: ${{ secrets.WEKNORA_EVAL_API_KEY }}
+          WEKNORA_TENANT_ID: ${{ vars.WEKNORA_EVAL_TENANT_ID }}
+        run: >-
+          go run ./cmd/evalctl
+          -dataset baseline-v1
+          -chat-model "${{ vars.WEKNORA_EVAL_CHAT_MODEL_ID }}"
+          -embedding-model "${{ vars.WEKNORA_EVAL_EMBEDDING_MODEL_ID }}"
+          -rerank-model "${{ vars.WEKNORA_EVAL_RERANK_MODEL_ID }}"
+          -summary-model "${{ vars.WEKNORA_EVAL_SUMMARY_MODEL_ID }}"
+          -output artifacts/evaluation-report.json
+          -detail-output artifacts/evaluation-detail.json
+
+      - name: Locate immutable reviewed baseline
+        env:
+          BASELINE_CONFIG_HASH: ${{ vars.WEKNORA_EVAL_BASELINE_CONFIG_HASH }}
+        run: |
+          baseline="testdata/evaluation/live-baselines/${BASELINE_CONFIG_HASH}.json"
+          if [ ! -f "$baseline" ]; then
+            echo "Missing reviewed live baseline: $baseline" >&2
+            exit 2
+          fi
+          cp "$baseline" artifacts/live-baseline.json
+
+      - name: Enforce reviewed live thresholds
+        run: >-
+          go run ./cmd/evalgate
+          -baseline artifacts/live-baseline.json
+          -current artifacts/evaluation-report.json
+          -thresholds config/evaluation-gate.json
+          -json-out artifacts/evaluation-gate-result.json
+
+      - uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: live-evaluation-report
+          path: artifacts/
+          if-no-files-found: warn

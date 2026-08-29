@@ -3,7 +3,10 @@ package types
 import (
 	"database/sql/driver"
 	"encoding/json"
+	"fmt"
 	"log"
+	"math"
+	"strings"
 	"time"
 
 	"github.com/Tencent/WeKnora/internal/utils"
@@ -62,6 +65,47 @@ type EmbeddingParameters struct {
 	SupportsDimensionOverride bool `yaml:"supports_dimension_override" json:"supports_dimension_override"`
 }
 
+// ModelPricing is a user-maintained price snapshot. Token prices are complete
+// rates per one million units (cache-write is not an input-price surcharge);
+// rerank price is per one thousand candidate documents.
+type ModelPricing struct {
+	Currency             string  `yaml:"currency,omitempty" json:"currency,omitempty"`
+	InputPerMillion      float64 `yaml:"input_per_million,omitempty" json:"input_per_million,omitempty"`
+	OutputPerMillion     float64 `yaml:"output_per_million,omitempty" json:"output_per_million,omitempty"`
+	CacheReadPerMillion  float64 `yaml:"cache_read_per_million,omitempty" json:"cache_read_per_million,omitempty"`
+	CacheWritePerMillion float64 `yaml:"cache_write_per_million,omitempty" json:"cache_write_per_million,omitempty"`
+	EmbeddingPerMillion  float64 `yaml:"embedding_per_million,omitempty" json:"embedding_per_million,omitempty"`
+	RerankPerThousand    float64 `yaml:"rerank_per_thousand,omitempty" json:"rerank_per_thousand,omitempty"`
+}
+
+// NormalizeAndValidate keeps persisted costs meaningful. The current UI and
+// aggregate reports use USD; accepting negative, NaN, or mixed-currency rates
+// would produce deceptively precise but invalid totals.
+func (p *ModelPricing) NormalizeAndValidate() error {
+	if p == nil {
+		return nil
+	}
+	if strings.TrimSpace(p.Currency) != "" {
+		p.Currency = strings.ToUpper(strings.TrimSpace(p.Currency))
+		if p.Currency != "USD" {
+			return fmt.Errorf("model pricing: unsupported currency %q; expected USD", p.Currency)
+		}
+	}
+	rates := map[string]float64{
+		"input_per_million": p.InputPerMillion, "output_per_million": p.OutputPerMillion,
+		"cache_read_per_million":  p.CacheReadPerMillion,
+		"cache_write_per_million": p.CacheWritePerMillion,
+		"embedding_per_million":   p.EmbeddingPerMillion,
+		"rerank_per_thousand":     p.RerankPerThousand,
+	}
+	for name, value := range rates {
+		if value < 0 || math.IsNaN(value) || math.IsInf(value, 0) {
+			return fmt.Errorf("model pricing: %s must be a finite non-negative number", name)
+		}
+	}
+	return nil
+}
+
 type ModelParameters struct {
 	BaseURL             string              `yaml:"base_url"             json:"base_url"`
 	APIKey              string              `yaml:"api_key"              json:"api_key"`
@@ -81,7 +125,8 @@ type ModelParameters struct {
 	// across all replicas. 0 (the default) means "fall back to the
 	// process-wide model.max_concurrency". Interactive user-facing calls are
 	// never gated. Only chat / vlm / embedding honour this (see limiter.Gate).
-	MaxConcurrency int `yaml:"max_concurrency,omitempty" json:"max_concurrency,omitempty"`
+	MaxConcurrency int          `yaml:"max_concurrency,omitempty" json:"max_concurrency,omitempty"`
+	Pricing        ModelPricing `yaml:"pricing,omitempty" json:"pricing,omitempty"`
 	// WeKnoraCloud 厂商专用凭证
 	AppID     string `yaml:"app_id,omitempty"     json:"app_id,omitempty"`
 	AppSecret string `yaml:"app_secret,omitempty" json:"app_secret,omitempty"` // AES-256 加密存储，实际承载上游 API Key

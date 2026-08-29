@@ -92,7 +92,7 @@ func TestAnthropicChat_CacheUsage(t *testing.T) {
 	assert.Equal(t, 1024, resp.Usage.PromptTokens)
 	assert.Equal(t, 900, resp.Usage.CacheReadTokens)
 	assert.Equal(t, 100, resp.Usage.CacheWriteTokens)
-	assert.Equal(t, 124, resp.Usage.CacheMissTokens)
+	assert.Equal(t, 24, resp.Usage.CacheMissTokens)
 	assert.True(t, resp.Usage.CacheReported)
 	assert.Equal(t, types.PromptCacheStatusHit, resp.Usage.CacheStatus)
 }

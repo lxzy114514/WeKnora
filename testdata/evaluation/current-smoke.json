@@ -1,0 +1,12 @@
+{
+  "run_id": "deterministic-policy-smoke",
+  "config_hash": "policy-demo-v1",
+  "metrics": {
+    "retrieval.recall": 0.81,
+    "retrieval.mrr": 0.78,
+    "retrieval.ndcg10": 0.79,
+    "answer.rougel": 0.60,
+    "cost.total_usd": 0.43,
+    "latency.average_case_ms": 1850
+  }
+}

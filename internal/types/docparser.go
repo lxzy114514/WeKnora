@@ -71,6 +71,9 @@ type DocParserVLMConfig struct {
 
 type ParsedChunk struct {
 	Content string
+	// Metadata is persisted with the resulting Chunk. Passage-based ingestion
+	// uses it to retain stable source identity through retrieval and reranking.
+	Metadata map[string]string
 	// ContextHeader is an optional context string (e.g. a Markdown heading
 	// breadcrumb) that should be prepended at embedding time but is NOT
 	// part of the stored Content. Lets retrieval pipelines see section

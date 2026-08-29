@@ -221,6 +221,17 @@ func TestLLMCallMetadataContext(t *testing.T) {
 	}
 }
 
+func TestModelCallCorrelationFallsBackToRequestID(t *testing.T) {
+	ctx := context.WithValue(context.Background(), RequestIDContextKey, "request-1")
+	if got := ModelCallCorrelationFromContext(ctx); got != "request-1" {
+		t.Fatalf("correlation = %q, want request-1", got)
+	}
+	explicit := WithModelCallCorrelation(ctx, "evaluation-1")
+	if got := ModelCallCorrelationFromContext(explicit); got != "evaluation-1" {
+		t.Fatalf("explicit correlation = %q, want evaluation-1", got)
+	}
+}
+
 func TestTaskRetryMetadataContext(t *testing.T) {
 	if _, _, ok := TaskRetryMetadataFromContext(nil); ok {
 		t.Fatal("nil context should not contain task retry metadata")

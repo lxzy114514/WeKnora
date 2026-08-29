@@ -1955,6 +1955,12 @@ export default {
   modelSettings: {
     title: '모델 설정',
     description: '다양한 유형의 AI 모델을 관리합니다. Ollama 로컬 모델과 원격 API를 지원합니다',
+    usage: {
+      title: '모델 사용량 및 비용', description: '데이터베이스의 모델 호출을 모델과 시간 범위로 필터링합니다.',
+      allModels: '모든 모델', refresh: '조회', calls: '호출 수',
+      cacheReadTokens: '프롬프트 캐시 토큰', embeddingHits: 'Embedding 캐시 적중률',
+      estimatedCost: '예상 비용', loadFailed: '모델 사용량을 불러오지 못했습니다'
+    },
     copySuffix: ' 사본',
     builtinTag: '기본제공',
     confirmDelete: '모델 "{name}"을(를) 삭제하시겠습니까?',
@@ -2331,6 +2337,11 @@ export default {
       supportsVisionLabel: '비전/멀티모달 지원',
       supportsVisionDesc: '모델의 이미지 등 멀티모달 입력 지원 여부',
       maxConcurrencyLabel: '백그라운드 동시 실행 상한',
+      pricingLabel: '가격 설정',
+      pricingDesc: '공급자 요금을 입력합니다. 각 호출에 가격 스냅샷이 저장되며 빈 값은 비용을 0으로 계산합니다.',
+      priceInput: '입력 토큰', priceOutput: '출력 토큰',
+      priceCacheRead: '캐시 읽기 토큰', priceCacheWrite: '캐시 쓰기 토큰',
+      priceEmbedding: 'Embedding 입력 토큰', priceRerank: 'Rerank 문서',
       maxConcurrencyPlaceholder: '0이면 전역 기본값 사용',
       maxConcurrencyDesc: '문서 인덱싱/보강 등 백그라운드 작업이 이 모델을 호출하는 동시 실행 수를 제한합니다(모델별로 모든 복제본이 공유). 0 또는 비워 두면 전역 기본값을 사용하며, 대화형 채팅에는 영향을 주지 않습니다.',
       thinkingControlLabel: '사고 모드 매개변수 형식',

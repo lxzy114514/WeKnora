@@ -19,21 +19,27 @@ var versionedSQLiteTables = []string{
 	"system_settings",
 	"knowledge_processing_spans",
 	"knowledge_tag_relations",
+	"evaluation_runs",
+	"evaluation_cases",
+	"model_calls",
+	"embedding_cache",
 }
 
 // versionedSQLiteColumns maps each existing table to the columns that the
 // versioned migrations add and the SQLite baseline was missing.
 var versionedSQLiteColumns = map[string][]string{
-	"tenants":            {"api_principal_config"},           // 000064
-	"users":              {"is_system_admin"},                // 000053
-	"knowledges":         {"pending_subtasks_count"},         // 000056
-	"messages":           {"attachments", "usage"},           // 000034, 000085
-	"tenant_invitations": {"token", "accepted_count"},        // 000054
-	"embed_channels":     {"allow_memory"},                   // 000060
-	"mcp_oauth_tokens":   {"principal_type", "principal_id"}, // 000064
+	"tenants":            {"api_principal_config"},                            // 000064
+	"users":              {"is_system_admin"},                                 // 000053
+	"knowledges":         {"pending_subtasks_count"},                          // 000056
+	"messages":           {"attachments", "usage"},                            // 000034, 000085
+	"tenant_invitations": {"token", "accepted_count"},                         // 000054
+	"embed_channels":     {"allow_memory"},                                    // 000060
+	"mcp_oauth_tokens":   {"principal_type", "principal_id"},                  // 000064
+	"evaluation_cases":   {"stages", "retrieved", "reranked", "final_answer"}, // 000013
+	"embedding_cache":    {"model_fingerprint"},                               // 000013
 }
 
-const expectedSQLiteMigrationVersion = 12
+const expectedSQLiteMigrationVersion = 13
 
 func TestSQLiteMigrationsCreateVersionedSchema(t *testing.T) {
 	repoRoot := sqliteRepoRoot(t)

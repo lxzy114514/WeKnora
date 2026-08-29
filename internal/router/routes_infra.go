@@ -22,6 +22,8 @@ func RegisterModelRoutes(
 	{
 		// 获取模型厂商列表 — Viewer+
 		models.GET("/providers", g.Viewer(), handler.ListModelProviders)
+		// 数据库中的模型调用、缓存和成本聚合 — Viewer+
+		models.GET("/usage", g.Viewer(), handler.GetModelUsage)
 		// 创建模型 — Admin+
 		models.POST("", g.Admin(), handler.CreateModel)
 		// 获取模型列表 — Viewer+
@@ -83,6 +85,8 @@ func RegisterEvaluationRoutes(r *gin.RouterGroup, handler *handler.EvaluationHan
 	evaluationRoutes := g.apiKeyGroup(r.Group("/evaluation"), apiKeyRunEvaluations(apiKeyFullAccess()))
 	{
 		evaluationRoutes.POST("", g.Admin(), handler.Evaluation)
+		evaluationRoutes.GET("/runs", g.Viewer(), handler.ListEvaluationRuns)
+		evaluationRoutes.GET("/cases", g.Viewer(), handler.ListEvaluationCases)
 		evaluationRoutes.GET("", g.Viewer(), handler.GetEvaluationResult)
 	}
 }

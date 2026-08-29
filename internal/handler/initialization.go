@@ -64,6 +64,7 @@ type InitializationHandler struct {
 	documentReader   interfaces.DocumentReader
 	pooler           embedding.EmbedderPooler
 	storageResolver  interfaces.StorageBackendResolver
+	modelCallRepo    interfaces.ModelCallRepository
 }
 
 // NewInitializationHandler 创建初始化处理器
@@ -78,6 +79,7 @@ func NewInitializationHandler(
 	documentReader interfaces.DocumentReader,
 	pooler embedding.EmbedderPooler,
 	storageResolver interfaces.StorageBackendResolver,
+	modelCallRepo interfaces.ModelCallRepository,
 ) *InitializationHandler {
 	return &InitializationHandler{
 		config:           config,
@@ -90,6 +92,7 @@ func NewInitializationHandler(
 		documentReader:   documentReader,
 		pooler:           pooler,
 		storageResolver:  storageResolver,
+		modelCallRepo:    modelCallRepo,
 	}
 }
 
@@ -1703,6 +1706,7 @@ func (h *InitializationHandler) buildTestModel(
 		source = defaultSource
 	}
 	return &types.Model{
+		ID:     temporaryModelCallID(req.ModelID, modelType),
 		Name:   req.ModelName,
 		Type:   modelType,
 		Source: source,
@@ -1721,6 +1725,19 @@ func (h *InitializationHandler) buildTestModel(
 			},
 		},
 	}
+}
+
+func temporaryModelCallID(modelID string, modelType types.ModelType) string {
+	if modelID != "" {
+		return modelID
+	}
+	return "connection-test-" + string(modelType)
+}
+
+func (h *InitializationHandler) modelTestContext(ctx context.Context) (context.Context, uint64) {
+	ctx = types.WithLLMCallMetadata(ctx, "model_connection_test", "")
+	tenantID, _ := types.TenantIDFromContext(ctx)
+	return ctx, tenantID
 }
 
 // resolveTenantWeKnoraCloudCreds 从当前空间上下文里取出 WeKnoraCloud 凭证，
@@ -1867,7 +1884,9 @@ func (h *InitializationHandler) TestEmbeddingModel(c *gin.Context) {
 		return
 	}
 
-	vec, err := emb.Embed(ctx, "hello")
+	testCtx, tenantID := h.modelTestContext(ctx)
+	emb = embedding.NewObservedEmbedder(emb, tenantID, h.modelCallRepo, model.Parameters.Pricing)
+	vec, err := emb.Embed(testCtx, "hello")
 	if err != nil {
 		logger.Error(ctx, "Failed to call embedder", err)
 		c.JSON(http.StatusOK, gin.H{
@@ -1924,7 +1943,9 @@ func (h *InitializationHandler) checkChatModelConnection(
 		Thinking:  &[]bool{false}[0], // for dashscope.aliyuncs qwen3-32b
 	}
 
-	_, err = chatInstance.Chat(ctx, testMessages, testOptions)
+	testCtx, tenantID := h.modelTestContext(ctx)
+	chatInstance = chat.NewObservedChat(chatInstance, tenantID, h.modelCallRepo, model.Parameters.Pricing)
+	_, err = chatInstance.Chat(testCtx, testMessages, testOptions)
 	if err != nil {
 		errMsg := err.Error()
 		// 400 = endpoint reachable + auth ok, just a parameter mismatch
@@ -1954,7 +1975,9 @@ func (h *InitializationHandler) checkRerankModelConnection(
 		return false, fmt.Sprintf("创建Reranker失败: %v", err)
 	}
 
-	results, err := reranker.Rerank(ctx, "ping", []string{"pong"})
+	testCtx, tenantID := h.modelTestContext(ctx)
+	reranker = rerank.NewObservedReranker(reranker, tenantID, h.modelCallRepo, model.Parameters.Pricing)
+	results, err := reranker.Rerank(testCtx, "ping", []string{"pong"})
 	if err != nil {
 		return false, fmt.Sprintf("重排测试失败: %v", err)
 	}
@@ -2079,7 +2102,9 @@ func (h *InitializationHandler) CheckASRModel(c *gin.Context) {
 		return
 	}
 
-	res, err := asrInstance.Transcribe(ctx, assets.ASRTestWAV, "asr_test.wav")
+	testCtx, tenantID := h.modelTestContext(ctx)
+	asrInstance = asr.NewObservedASR(asrInstance, tenantID, h.modelCallRepo, model.Parameters.Pricing)
+	res, err := asrInstance.Transcribe(testCtx, assets.ASRTestWAV, "asr_test.wav")
 	var text string
 	if res != nil {
 		text = res.Text

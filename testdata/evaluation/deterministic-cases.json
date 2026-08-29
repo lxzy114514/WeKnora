@@ -1,0 +1,18 @@
+{
+  "run_id": "deterministic-current-code",
+  "config_hash": "deterministic-cases-v1",
+  "cases": [
+    {
+      "RetrievalGT": [[1, 2]],
+      "RetrievalIDs": [1, 3, 2],
+      "GeneratedTexts": "WeKnora uses retrieval augmented generation for grounded answers",
+      "GeneratedGT": "WeKnora uses retrieval augmented generation to produce grounded answers"
+    },
+    {
+      "RetrievalGT": [[4]],
+      "RetrievalIDs": [5, 4],
+      "GeneratedTexts": "Embedding cache keys include tenant model dimension and text hash",
+      "GeneratedGT": "Embedding cache keys include tenant model dimension and content hash"
+    }
+  ]
+}

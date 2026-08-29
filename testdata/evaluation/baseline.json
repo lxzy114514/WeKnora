@@ -1,0 +1,12 @@
+{
+  "run_id": "policy-demo-baseline-v1",
+  "config_hash": "policy-demo-v1",
+  "metrics": {
+    "retrieval.recall": 0.82,
+    "retrieval.mrr": 0.78,
+    "retrieval.ndcg10": 0.80,
+    "answer.rougel": 0.61,
+    "cost.total_usd": 0.42,
+    "latency.average_case_ms": 1800
+  }
+}

@@ -35,6 +35,43 @@
       </div>
     </div>
 
+    <section class="usage-summary" aria-labelledby="model-usage-title">
+      <div class="usage-summary__header">
+        <div>
+          <h3 id="model-usage-title">{{ $t('modelSettings.usage.title') }}</h3>
+          <p>{{ $t('modelSettings.usage.description') }}</p>
+        </div>
+        <div class="usage-summary__filters">
+          <t-select v-model="usageModelId" :options="usageModelOptions"
+            :placeholder="$t('modelSettings.usage.allModels')" clearable />
+          <t-date-range-picker v-model="usageRange" :clearable="false" />
+          <t-button variant="outline" :loading="usageLoading" @click="loadUsage">
+            {{ $t('modelSettings.usage.refresh') }}
+          </t-button>
+        </div>
+      </div>
+      <t-loading :loading="usageLoading" size="small">
+        <div class="usage-summary__metrics">
+          <div class="usage-metric">
+            <span>{{ $t('modelSettings.usage.calls') }}</span>
+            <strong>{{ usage.call_count.toLocaleString() }}</strong>
+          </div>
+          <div class="usage-metric">
+            <span>{{ $t('modelSettings.usage.cacheReadTokens') }}</span>
+            <strong>{{ usage.cache_read_tokens.toLocaleString() }}</strong>
+          </div>
+          <div class="usage-metric">
+            <span>{{ $t('modelSettings.usage.embeddingHits') }}</span>
+            <strong>{{ formatEmbeddingCacheHitRate(usage) }}</strong>
+          </div>
+          <div class="usage-metric">
+            <span>{{ $t('modelSettings.usage.estimatedCost') }}</span>
+            <strong>{{ formatUsageCost(usage.total_cost, usage.currency) }}</strong>
+          </div>
+        </div>
+      </t-loading>
+    </section>
+
     <t-tabs v-model="activeTypeFilter" class="model-type-tabs" data-guide="settings-models">
       <t-tab-panel value="all" :label="`${$t('common.all')}(${allLegacyModels.length})`" />
       <t-tab-panel value="chat" :label="`${$t('modelSettings.typeShort.chat')}(${countByType('chat')})`" />
@@ -147,9 +184,10 @@ import { AddIcon, PlayCircleIcon } from 'tdesign-icons-vue-next'
 import { useI18n } from 'vue-i18n'
 import ModelEditorDialog from '@/components/ModelEditorDialog.vue'
 import ModelDebugDrawer from '@/components/ModelDebugDrawer.vue'
-import { listModels, createModel, updateModel as updateModelAPI, deleteModel as deleteModelAPI, type ModelConfig } from '@/api/model'
+import { listModels, createModel, updateModel as updateModelAPI, deleteModel as deleteModelAPI, getModelUsage, type ModelConfig, type ModelUsageSummary } from '@/api/model'
 import { useAuthStore } from '@/stores/auth'
 import { useUIStore } from '@/stores/ui'
+import { normalizeModelPricing, serializeModelPricing, supportsModelPricing } from '@/utils/modelPricing'
 
 const { t, te } = useI18n()
 const authStore = useAuthStore()
@@ -177,6 +215,57 @@ watch(
 
 // 模型列表数据
 const allModels = ref<ModelConfig[]>([])
+const usageLoading = ref(false)
+const usageModelId = ref('')
+const today = new Date()
+const sevenDaysAgo = new Date(today)
+sevenDaysAgo.setDate(today.getDate() - 6)
+const asDateInput = (value: Date) => {
+  const year = value.getFullYear()
+  const month = String(value.getMonth() + 1).padStart(2, '0')
+  const day = String(value.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
+}
+const usageRange = ref<[string, string]>([asDateInput(sevenDaysAgo), asDateInput(today)])
+const emptyUsage = (): ModelUsageSummary => ({
+  currency: 'USD', call_count: 0, success_count: 0, prompt_tokens: 0,
+  completion_tokens: 0, cache_read_tokens: 0, cache_write_tokens: 0,
+  cache_miss_tokens: 0, input_units: 0, cache_hit_items: 0,
+  cache_miss_items: 0, duration_ms: 0, total_cost: 0, by_model: [],
+})
+const usage = ref<ModelUsageSummary>(emptyUsage())
+const usageModelOptions = computed(() => allModels.value.map(model => ({
+  value: model.id!, label: model.display_name || model.name,
+})))
+
+const loadUsage = async () => {
+  usageLoading.value = true
+  try {
+    const [start, end] = usageRange.value
+    usage.value = await getModelUsage({
+      modelId: usageModelId.value || undefined,
+      startTime: start ? new Date(`${start}T00:00:00`).toISOString() : undefined,
+      endTime: end ? new Date(`${end}T23:59:59.999`).toISOString() : undefined,
+    })
+  } catch (error: any) {
+    MessagePlugin.error(error.message || t('modelSettings.usage.loadFailed'))
+    usage.value = emptyUsage()
+  } finally {
+    usageLoading.value = false
+  }
+}
+
+const formatUsageCost = (cost: number, currency: string) =>
+  new Intl.NumberFormat(undefined, {
+    style: 'currency', currency: currency || 'USD', maximumFractionDigits: 6,
+  }).format(cost || 0)
+
+const formatEmbeddingCacheHitRate = (summary: ModelUsageSummary) => {
+  const total = summary.cache_hit_items + summary.cache_miss_items
+  if (total === 0) return '—'
+  const percent = (summary.cache_hit_items / total * 100).toFixed(1)
+  return `${percent}% (${summary.cache_hit_items.toLocaleString()})`
+}
 
 // 后端 type → 前端分组 type 的映射
 const backendTypeToModelType: Record<string, ModelType> = {
@@ -207,6 +296,7 @@ function convertToLegacyFormat(model: ModelConfig) {
     isBuiltin: model.is_builtin || false,
     supportsVision: model.parameters.supports_vision || false,
     maxConcurrency: model.parameters.max_concurrency,
+    pricing: normalizeModelPricing(model.parameters.pricing),
     customHeaders: model.parameters.custom_headers
       ? Object.entries(model.parameters.custom_headers).map(([key, value]) => ({ key, value: String(value) }))
       : [],
@@ -474,7 +564,10 @@ const handleModelSave = async (modelData: any) => {
         ...(['chat', 'embedding', 'vllm'].includes(saveType)
           && Number(modelData.maxConcurrency) > 0
           ? { max_concurrency: Number(modelData.maxConcurrency) }
-          : {})
+          : {}),
+        ...(supportsModelPricing(saveType) ? {
+          pricing: serializeModelPricing(modelData.pricing)
+        } : {})
       }
     }
 
@@ -615,6 +708,7 @@ function getModelType(type: ModelType): 'KnowledgeQA' | 'Embedding' | 'Rerank' |
 
 onMounted(() => {
   loadModels()
+  loadUsage()
 })
 </script>
 
@@ -697,6 +791,54 @@ onMounted(() => {
 
 .model-list-loading {
   min-height: 120px;
+}
+
+.usage-summary {
+  margin-bottom: 20px;
+  padding: 16px;
+  border: 1px solid var(--td-component-stroke);
+  border-radius: 10px;
+  background: var(--td-bg-color-container);
+}
+
+.usage-summary__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+
+  h3 { margin: 0 0 4px; font-size: 15px; }
+  p { margin: 0; color: var(--td-text-color-secondary); font-size: 12px; }
+}
+
+.usage-summary__filters {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+
+  :deep(.t-select__wrap) { width: 180px; }
+}
+
+.usage-summary__metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.usage-metric {
+  padding: 12px;
+  border-radius: 8px;
+  background: var(--td-bg-color-secondarycontainer);
+
+  span { display: block; color: var(--td-text-color-secondary); font-size: 12px; margin-bottom: 6px; }
+  strong { font-size: 18px; color: var(--td-text-color-primary); }
+}
+
+@media (max-width: 900px) {
+  .usage-summary__header,
+  .usage-summary__filters { flex-direction: column; align-items: stretch; }
+  .usage-summary__metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 .model-type-tabs {

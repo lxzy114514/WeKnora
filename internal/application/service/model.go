@@ -31,6 +31,8 @@ type modelService struct {
 	ollamaService *ollama.OllamaService
 	pooler        embedding.EmbedderPooler
 	tenantService interfaces.TenantService
+	callRepo      interfaces.ModelCallRepository
+	cacheRepo     interfaces.EmbeddingCacheRepository
 }
 
 // NewModelService creates a new model service instance
@@ -41,6 +43,33 @@ func NewModelService(repo interfaces.ModelRepository,
 	pooler embedding.EmbedderPooler,
 	tenantService interfaces.TenantService,
 ) interfaces.ModelService {
+	return newModelService(repo, kbRepo, agentRepo, ollamaService, pooler, tenantService, nil, nil)
+}
+
+// NewObservedModelService wires the same model lifecycle with durable call
+// telemetry and the content-addressed embedding cache. The legacy constructor
+// remains for focused service tests and embedding into smaller binaries.
+func NewObservedModelService(repo interfaces.ModelRepository,
+	kbRepo interfaces.KnowledgeBaseRepository,
+	agentRepo interfaces.CustomAgentRepository,
+	ollamaService *ollama.OllamaService,
+	pooler embedding.EmbedderPooler,
+	tenantService interfaces.TenantService,
+	callRepo interfaces.ModelCallRepository,
+	cacheRepo interfaces.EmbeddingCacheRepository,
+) interfaces.ModelService {
+	return newModelService(repo, kbRepo, agentRepo, ollamaService, pooler, tenantService, callRepo, cacheRepo)
+}
+
+func newModelService(repo interfaces.ModelRepository,
+	kbRepo interfaces.KnowledgeBaseRepository,
+	agentRepo interfaces.CustomAgentRepository,
+	ollamaService *ollama.OllamaService,
+	pooler embedding.EmbedderPooler,
+	tenantService interfaces.TenantService,
+	callRepo interfaces.ModelCallRepository,
+	cacheRepo interfaces.EmbeddingCacheRepository,
+) interfaces.ModelService {
 	return &modelService{
 		repo:          repo,
 		kbRepo:        kbRepo,
@@ -48,6 +77,8 @@ func NewModelService(repo interfaces.ModelRepository,
 		ollamaService: ollamaService,
 		pooler:        pooler,
 		tenantService: tenantService,
+		callRepo:      callRepo,
+		cacheRepo:     cacheRepo,
 	}
 }
 
@@ -97,6 +128,12 @@ func (s *modelService) resolveWeKnoraCloudCredentials(ctx context.Context, param
 // For local models, it initiates an asynchronous download process
 // Remote models are immediately set to active status
 func (s *modelService) CreateModel(ctx context.Context, model *types.Model) error {
+	if model == nil {
+		return errors.New("model is required")
+	}
+	if err := model.Parameters.Pricing.NormalizeAndValidate(); err != nil {
+		return err
+	}
 	logger.Infof(ctx, "Creating model: %s, type: %s, source: %s", model.Name, model.Type, model.Source)
 
 	// Handle remote models (e.g., OpenAI, Azure)
@@ -225,6 +262,12 @@ func (s *modelService) ListModels(ctx context.Context) ([]*types.Model, error) {
 
 // UpdateModel updates an existing model in the repository
 func (s *modelService) UpdateModel(ctx context.Context, model *types.Model) error {
+	if model == nil {
+		return errors.New("model is required")
+	}
+	if err := model.Parameters.Pricing.NormalizeAndValidate(); err != nil {
+		return err
+	}
 	logger.Info(ctx, "Start updating model")
 	logger.Infof(ctx, "Updating model ID: %s, name: %s", model.ID, model.Name)
 
@@ -248,6 +291,11 @@ func (s *modelService) UpdateModel(ctx context.Context, model *types.Model) erro
 		model.TenantID = existingModel.TenantID
 		model.IsBuiltin = true
 		model.ManagedBy = ""
+	}
+	if s.cacheRepo != nil {
+		if err := s.cacheRepo.InvalidateModel(ctx, model.ID); err != nil {
+			return fmt.Errorf("invalidate embedding cache for model update: %w", err)
+		}
 	}
 
 	// Update model in repository
@@ -414,6 +462,11 @@ func (s *modelService) DeleteModel(ctx context.Context, id string) error {
 			return apperrors.NewBadRequestError(formatModelInUseMessage(0, 0, true))
 		}
 	}
+	if s.cacheRepo != nil {
+		if err := s.cacheRepo.InvalidateModel(ctx, id); err != nil {
+			return fmt.Errorf("invalidate embedding cache for model deletion: %w", err)
+		}
+	}
 
 	// Delete model from repository
 	err = s.repo.Delete(ctx, tenantID, id)
@@ -455,7 +508,11 @@ func (s *modelService) GetEmbeddingModel(ctx context.Context, modelId string) (e
 	}
 
 	logger.Info(ctx, "Embedding model initialized successfully")
-	return embedder, nil
+	tenantID := types.MustTenantIDFromContext(ctx)
+	return embedding.NewCachedEmbedder(
+		embedder, tenantID, s.cacheRepo, s.callRepo, model.Parameters.Pricing,
+		types.EmbeddingModelFingerprint(model),
+	), nil
 }
 
 // GetEmbeddingModelForTenant retrieves and initializes an embedding model for a specific tenant
@@ -503,7 +560,10 @@ func (s *modelService) GetEmbeddingModelForTenant(ctx context.Context, modelId s
 	}
 
 	logger.Info(ctx, "Cross-tenant embedding model initialized successfully")
-	return embedder, nil
+	return embedding.NewCachedEmbedder(
+		embedder, tenantID, s.cacheRepo, s.callRepo, model.Parameters.Pricing,
+		types.EmbeddingModelFingerprint(model),
+	), nil
 }
 
 // GetRerankModel retrieves and initializes a reranking model instance
@@ -532,7 +592,8 @@ func (s *modelService) GetRerankModel(ctx context.Context, modelId string) (rera
 	}
 
 	logger.Info(ctx, "Rerank model initialized successfully")
-	return reranker, nil
+	tenantID := types.MustTenantIDFromContext(ctx)
+	return rerank.NewObservedReranker(reranker, tenantID, s.callRepo, model.Parameters.Pricing), nil
 }
 
 // GetChatModel retrieves and initializes a chat model instance
@@ -574,7 +635,7 @@ func (s *modelService) GetChatModel(ctx context.Context, modelId string) (chat.C
 		return nil, err
 	}
 
-	return chatModel, nil
+	return chat.NewObservedChat(chatModel, tenantID, s.callRepo, model.Parameters.Pricing), nil
 }
 
 // GetVLMModel retrieves and initializes a vision language model instance.
@@ -611,7 +672,7 @@ func (s *modelService) GetVLMModel(ctx context.Context, modelId string) (vlm.VLM
 		return nil, err
 	}
 
-	return vlmModel, nil
+	return vlm.NewObservedVLM(vlmModel, tenantID, s.callRepo, model.Parameters.Pricing), nil
 }
 
 // Note: default model selection logic has been removed; models no longer
@@ -649,7 +710,7 @@ func (s *modelService) GetASRModel(ctx context.Context, modelId string) (asr.ASR
 		return nil, err
 	}
 
-	return sttModel, nil
+	return asr.NewObservedASR(sttModel, tenantID, s.callRepo, model.Parameters.Pricing), nil
 }
 
 func formatModelInUseMessage(kbCount, agentCount int64, memory bool) string {

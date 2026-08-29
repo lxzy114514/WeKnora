@@ -1,0 +1,6 @@
+[
+  {"metric":"retrieval.recall","direction":"higher_is_better","max_regression":0.000001},
+  {"metric":"retrieval.mrr","direction":"higher_is_better","max_regression":0.000001},
+  {"metric":"retrieval.ndcg10","direction":"higher_is_better","max_regression":0.000001},
+  {"metric":"answer.rougel","direction":"higher_is_better","max_regression":0.000001}
+]

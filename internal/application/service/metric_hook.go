@@ -2,64 +2,33 @@ package service
 
 import (
 	"context"
+	"encoding/json"
+	"strconv"
 	"strings"
 	"sync"
 
 	"github.com/Tencent/WeKnora/internal/application/service/metric"
 	"github.com/Tencent/WeKnora/internal/logger"
 	"github.com/Tencent/WeKnora/internal/types"
-	"github.com/Tencent/WeKnora/internal/types/interfaces"
 )
+
+const sourcePassageIndexMetadataKey = "source_passage_index"
 
 // MetricList stores and aggregates metric results
 type MetricList struct {
 	results []*types.MetricResult
 }
 
-// metricCalculators defines all metrics to be calculated
-var metricCalculators = []struct {
-	calc     interfaces.Metrics                 // Metric calculator implementation
-	getField func(*types.MetricResult) *float64 // Field accessor for result
-}{
-	// Retrieval Metrics
-	{metric.NewPrecisionMetric(), func(r *types.MetricResult) *float64 { return &r.RetrievalMetrics.Precision }},
-	{metric.NewRecallMetric(), func(r *types.MetricResult) *float64 { return &r.RetrievalMetrics.Recall }},
-	{metric.NewNDCGMetric(3), func(r *types.MetricResult) *float64 { return &r.RetrievalMetrics.NDCG3 }},
-	{metric.NewNDCGMetric(10), func(r *types.MetricResult) *float64 { return &r.RetrievalMetrics.NDCG10 }},
-	{metric.NewMRRMetric(), func(r *types.MetricResult) *float64 { return &r.RetrievalMetrics.MRR }},
-	{metric.NewMAPMetric(), func(r *types.MetricResult) *float64 { return &r.RetrievalMetrics.MAP }},
-
-	// Generation Metrics
-	{metric.NewBLEUMetric(true, metric.BLEU1Gram), func(r *types.MetricResult) *float64 {
-		return &r.GenerationMetrics.BLEU1
-	}},
-	{metric.NewBLEUMetric(true, metric.BLEU2Gram), func(r *types.MetricResult) *float64 {
-		return &r.GenerationMetrics.BLEU2
-	}},
-	{metric.NewBLEUMetric(true, metric.BLEU4Gram), func(r *types.MetricResult) *float64 {
-		return &r.GenerationMetrics.BLEU4
-	}},
-	{metric.NewRougeMetric(true, "rouge-1", "f"), func(r *types.MetricResult) *float64 {
-		return &r.GenerationMetrics.ROUGE1
-	}},
-	{metric.NewRougeMetric(true, "rouge-2", "f"), func(r *types.MetricResult) *float64 {
-		return &r.GenerationMetrics.ROUGE2
-	}},
-	{metric.NewRougeMetric(true, "rouge-l", "f"), func(r *types.MetricResult) *float64 {
-		return &r.GenerationMetrics.ROUGEL
-	}},
-}
-
 // Append calculates and stores metrics for given input
-func (m *MetricList) Append(metricInput *types.MetricInput) {
+func (m *MetricList) Append(metricInput *types.MetricInput) *types.MetricResult {
 	result := &types.MetricResult{}
 	// Calculate all configured metrics
-	for _, c := range metricCalculators {
-		score := c.calc.Compute(metricInput)
-		*c.getField(result) = score
+	for _, definition := range metric.Definitions() {
+		definition.Set(result, definition.Compute(metricInput))
 	}
 	logger.Infof(context.Background(), "metric: %v", result)
 	m.results = append(m.results, result)
+	return result
 }
 
 // Avg calculates average of all stored metric results
@@ -72,12 +41,12 @@ func (m *MetricList) Avg() *types.MetricResult {
 	count := float64(len(m.results))
 
 	// Calculate average for each metric
-	for _, config := range metricCalculators {
+	for _, definition := range metric.Definitions() {
 		sum := 0.0
 		for _, r := range m.results {
-			sum += *config.getField(r)
+			sum += definition.Get(r)
 		}
-		*config.getField(avgResult) = sum / count
+		definition.Set(avgResult, sum/count)
 	}
 	return avgResult
 }
@@ -86,6 +55,7 @@ func (m *MetricList) Avg() *types.MetricResult {
 type HookMetric struct {
 	qaPairMetricList []*qaPairMetric // Per-QA pair metrics
 	metricResults    *MetricList     // Aggregated results
+	corpus           []string        // Passage text indexed by dataset PID
 	mu               *sync.RWMutex   // Thread safety
 }
 
@@ -98,10 +68,11 @@ type qaPairMetric struct {
 }
 
 // NewHookMetric creates a new HookMetric with given capacity
-func NewHookMetric(capacity int) *HookMetric {
+func NewHookMetric(capacity int, corpus []string) *HookMetric {
 	return &HookMetric{
 		metricResults:    &MetricList{},
 		qaPairMetricList: make([]*qaPairMetric, capacity),
+		corpus:           corpus,
 		mu:               &sync.RWMutex{},
 	}
 }
@@ -132,7 +103,7 @@ func (h *HookMetric) recordChatResponse(index int, chatResponse *types.ChatRespo
 }
 
 // recordFinish finalizes metrics for a QA pair
-func (h *HookMetric) recordFinish(index int) {
+func (h *HookMetric) recordFinish(index int) *types.MetricResult {
 	// Prepare retrieval source: prefer rerank results, fall back to search results
 	retrievalSource := h.qaPairMetricList[index].rerankResult
 	if len(retrievalSource) == 0 {
@@ -141,30 +112,11 @@ func (h *HookMetric) recordFinish(index int) {
 
 	// Map retrieved chunks back to original passage IDs via content matching.
 	// ChunkIndex is the chunk's ordinal position in the knowledge base, which
-	// does NOT correspond to the dataset's passage IDs. Instead, we match each
-	// retrieved chunk's content against the ground truth passages to determine
-	// which passage it came from.
+	// does NOT correspond to the dataset's passage IDs. Match against the whole
+	// corpus, not just ground-truth passages; otherwise false positives vanish
+	// from RetrievalIDs and precision is incorrectly inflated.
 	qaPair := h.qaPairMetricList[index].qaPair
-	retrievalIDs := make([]int, 0, len(retrievalSource))
-	seen := make(map[int]struct{})
-	for _, r := range retrievalSource {
-		if r.Content == "" {
-			continue
-		}
-		for i, passage := range qaPair.Passages {
-			if passage == "" {
-				continue
-			}
-			if strings.Contains(passage, r.Content) || strings.Contains(r.Content, passage) {
-				pid := qaPair.PIDs[i]
-				if _, ok := seen[pid]; !ok {
-					seen[pid] = struct{}{}
-					retrievalIDs = append(retrievalIDs, pid)
-				}
-				break
-			}
-		}
-	}
+	retrievalIDs := mapSearchResultsToPassageIDs(h.corpus, retrievalSource)
 
 	// Get generated text if available
 	generatedTexts := ""
@@ -183,7 +135,43 @@ func (h *HookMetric) recordFinish(index int) {
 	// Thread-safe append of metrics
 	h.mu.Lock()
 	defer h.mu.Unlock()
-	h.metricResults.Append(metricInput)
+	return h.metricResults.Append(metricInput)
+}
+
+func mapSearchResultsToPassageIDs(corpus []string, results []*types.SearchResult) []int {
+	retrievalIDs := make([]int, 0, len(results))
+	seen := make(map[int]struct{})
+	for _, r := range results {
+		var metadata map[string]string
+		if len(r.ChunkMetadata) > 0 && json.Unmarshal(r.ChunkMetadata, &metadata) == nil {
+			if rawPID, ok := metadata[sourcePassageIndexMetadataKey]; ok {
+				pid, err := strconv.Atoi(rawPID)
+				if err == nil && pid >= 0 && pid < len(corpus) && corpus[pid] != "" {
+					if _, exists := seen[pid]; !exists {
+						seen[pid] = struct{}{}
+						retrievalIDs = append(retrievalIDs, pid)
+					}
+					continue
+				}
+			}
+		}
+		if r.Content == "" {
+			continue
+		}
+		for pid, passage := range corpus {
+			if passage == "" {
+				continue
+			}
+			if strings.Contains(passage, r.Content) || strings.Contains(r.Content, passage) {
+				if _, ok := seen[pid]; !ok {
+					seen[pid] = struct{}{}
+					retrievalIDs = append(retrievalIDs, pid)
+				}
+				break
+			}
+		}
+	}
+	return retrievalIDs
 }
 
 // MetricResult returns the averaged metric results

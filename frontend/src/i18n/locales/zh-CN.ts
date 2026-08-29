@@ -1957,6 +1957,12 @@ export default {
   modelSettings: {
     title: '模型配置',
     description: '管理不同类型的 AI 模型，支持 Ollama 本地模型和远程 API',
+    usage: {
+      title: '模型调用与成本', description: '数据来自模型调用记录，可按模型和时间范围筛选。',
+      allModels: '全部模型', refresh: '查询', calls: '调用次数',
+      cacheReadTokens: '提示词缓存命中 Token', embeddingHits: 'Embedding 缓存命中率',
+      estimatedCost: '估算成本', loadFailed: '加载模型调用数据失败'
+    },
     copySuffix: ' 副本',
     builtinTag: '内置',
     confirmDelete: '确定删除模型「{name}」吗？',
@@ -2335,6 +2341,11 @@ export default {
       maxConcurrencyLabel: '后台并发上限',
       maxConcurrencyPlaceholder: '0 表示使用全局默认',
       maxConcurrencyDesc: '限制文档入库/富化等后台任务对该模型的并发调用数（按模型全副本共享）。0 或留空表示沿用全局默认；不影响交互式对话。',
+      pricingLabel: '计价配置',
+      pricingDesc: '按模型厂商账单填写；价格会随每次调用保存为快照，未填写时成本按 0 估算。',
+      priceInput: '输入 Token', priceOutput: '输出 Token',
+      priceCacheRead: '缓存读取 Token', priceCacheWrite: '缓存写入 Token',
+      priceEmbedding: 'Embedding 输入 Token', priceRerank: 'Rerank 候选文档',
       thinkingControlLabel: '思考模式参数格式',
       thinkingControlDesc: '决定智能体「思考模式」开/关时如何写入 API。已尝试按厂商/模型预选，若与实际情况不符请按 API 文档手动修改；选「不写入」时，智能体「思考模式」开关不生效。',
       dimensionHint: '模型已选择，点击"检测维度"按钮自动获取向量维度',

@@ -3,6 +3,16 @@ import i18n from '@/i18n'
 
 const t = (key: string) => i18n.global.t(key)
 
+export interface ModelPricing {
+  currency?: string;
+  input_per_million?: number;
+  output_per_million?: number;
+  cache_read_per_million?: number;
+  cache_write_per_million?: number;
+  embedding_per_million?: number;
+  rerank_per_thousand?: number;
+}
+
 // 模型类型定义
 export interface ModelConfig {
   id?: string;
@@ -31,6 +41,7 @@ export interface ModelConfig {
     // 后台任务（入库/富化）对该模型的并发上限，按模型 ID 全副本共享。
     // 0 或不填表示沿用全局默认（model.max_concurrency）；仅对 chat/embedding/vllm 生效。
     max_concurrency?: number;
+    pricing?: ModelPricing;
     app_id?: string;
     // Secret fields (api_key, app_secret) are never returned by the server in
     // this shape — they live behind the /credentials subresource. They are
@@ -47,6 +58,44 @@ export interface ModelConfig {
   created_at?: string;
   updated_at?: string;
   deleted_at?: string | null;
+}
+
+export interface ModelUsageBreakdown {
+  model_id: string;
+  model_type: string;
+  call_count: number;
+  success_count: number;
+  prompt_tokens: number;
+  completion_tokens: number;
+  cache_read_tokens: number;
+  cache_write_tokens: number;
+  cache_miss_tokens: number;
+  input_units: number;
+  cache_hit_items: number;
+  cache_miss_items: number;
+  duration_ms: number;
+  total_cost: number;
+}
+
+export interface ModelUsageSummary extends Omit<ModelUsageBreakdown, 'model_id' | 'model_type'> {
+  currency: string;
+  by_model: ModelUsageBreakdown[];
+}
+
+export async function getModelUsage(filters: {
+  modelId?: string;
+  purpose?: string;
+  startTime?: string;
+  endTime?: string;
+} = {}): Promise<ModelUsageSummary> {
+  const query = new URLSearchParams();
+  if (filters.modelId) query.set('model_id', filters.modelId);
+  if (filters.purpose) query.set('purpose', filters.purpose);
+  if (filters.startTime) query.set('start_time', filters.startTime);
+  if (filters.endTime) query.set('end_time', filters.endTime);
+  const response: any = await get(`/api/v1/models/usage?${query.toString()}`);
+  if (response?.success && response?.data) return response.data;
+  throw new Error(response?.message || t('error.model.getFailed'));
 }
 
 // 创建模型

@@ -134,6 +134,10 @@ type PipelineState struct {
 	// UsedMemories mirrors MemoryPrompt in structured form so the answer can
 	// tell the user which memories it saw.
 	UsedMemories UsedMemories `json:"-"`
+	// StageDurations records completed pipeline-stage wall time for callers
+	// that need an evaluation breakdown. It is request-local and never forms
+	// part of prompts or persisted chat state.
+	StageDurations map[EventType]int64 `json:"-"`
 }
 
 // PipelineContext holds runtime context for the current pipeline execution.

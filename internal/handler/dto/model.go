@@ -48,6 +48,7 @@ type ModelParametersDTO struct {
 	CustomHeaders       map[string]string         `json:"custom_headers,omitempty"`
 	SupportsVision      bool                      `json:"supports_vision"`
 	MaxConcurrency      int                       `json:"max_concurrency,omitempty"`
+	Pricing             types.ModelPricing        `json:"pricing,omitempty"`
 	AppID               string                    `json:"app_id,omitempty"`
 }
 
@@ -69,6 +70,7 @@ func NewModelResponse(ctx context.Context, m *types.Model) *ModelResponse {
 		CustomHeaders:       m.Parameters.CustomHeaders,
 		SupportsVision:      m.Parameters.SupportsVision,
 		MaxConcurrency:      m.Parameters.MaxConcurrency,
+		Pricing:             m.Parameters.Pricing,
 		AppID:               m.Parameters.AppID,
 	}
 	canManageBuiltin := m.IsBuiltin && types.IsSystemAdminFromContext(ctx)

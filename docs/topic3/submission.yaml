@@ -1,0 +1,24 @@
+topic: 3
+title: evaluation-model-cost-and-cache-engineering
+branch: feat/topic3-evaluation-cost-cache-20260828
+revision: HEAD
+revision_command: git rev-parse HEAD
+dataset: baseline-v1
+entrypoints:
+  evaluation: go run ./cmd/evalctl -dataset baseline-v1 -chat-model <chat-id> -embedding-model <embedding-id> -summary-model <summary-id>
+  deterministic_benchmark: go run ./cmd/evalbench
+  gate: go run ./cmd/evalgate
+required_check: Evaluation Regression / Deterministic quality gate
+reports:
+  overview: docs/topic3/README.md
+  specification: docs/topic3/SPEC.md
+  architecture: docs/topic3/ARCHITECTURE.md
+  runbook: docs/topic3/RUNBOOK.md
+  experiment: docs/topic3/EXPERIMENT_REPORT.md
+  tests: docs/topic3/TEST_REPORT.md
+  limitations: docs/topic3/LIMITATIONS.md
+security:
+  raw_prompts_persisted: false
+  secrets_committed: false
+  embedding_cache_tenant_scoped: true
+optional_parser_comparison: not_implemented

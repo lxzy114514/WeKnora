@@ -293,6 +293,30 @@ func LLMCallMetadataFromContext(ctx context.Context) (purpose, prefixFingerprint
 	return purpose, prefixFingerprint
 }
 
+func WithModelCallCorrelation(ctx context.Context, correlationID string) context.Context {
+	if strings.TrimSpace(correlationID) == "" {
+		return ctx
+	}
+	return context.WithValue(ctx, ModelCallCorrelationContextKey, strings.TrimSpace(correlationID))
+}
+
+func ModelCallCorrelationFromContext(ctx context.Context) string {
+	if ctx == nil {
+		return ""
+	}
+	value, _ := ctx.Value(ModelCallCorrelationContextKey).(string)
+	if strings.TrimSpace(value) != "" {
+		return strings.TrimSpace(value)
+	}
+	if requestID, ok := RequestIDFromContext(ctx); ok {
+		return requestID
+	}
+	if sessionID, ok := SessionIDFromContext(ctx); ok {
+		return sessionID
+	}
+	return ""
+}
+
 // LanguageFromContext extracts the language locale string from ctx (e.g. "zh-CN", "en-US").
 // Returns ("zh-CN", false) when the key is absent.
 func LanguageFromContext(ctx context.Context) (string, bool) {

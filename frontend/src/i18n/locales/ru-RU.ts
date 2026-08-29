@@ -1955,6 +1955,12 @@ export default {
   modelSettings: {
     title: 'Настройки моделей',
     description: 'Управление типами AI‑моделей: локальные (Ollama) и удалённые API',
+    usage: {
+      title: 'Использование и стоимость моделей', description: 'Вызовы из базы данных с фильтром по модели и времени.',
+      allModels: 'Все модели', refresh: 'Обновить', calls: 'Вызовы',
+      cacheReadTokens: 'Токены из кэша промпта', embeddingHits: 'Доля попаданий кэша Embedding',
+      estimatedCost: 'Расчётная стоимость', loadFailed: 'Не удалось загрузить статистику моделей'
+    },
     copySuffix: ' копия',
     builtinTag: 'Встроенная',
     confirmDelete: 'Удалить модель «{name}»?',
@@ -2331,6 +2337,11 @@ export default {
       supportsVisionLabel: 'Поддержка визуального / мультимодального ввода',
       supportsVisionDesc: 'Поддерживает ли модель изображения и другой мультимодальный ввод',
       maxConcurrencyLabel: 'Лимит фоновой параллельности',
+      pricingLabel: 'Тарифы',
+      pricingDesc: 'Укажите тарифы поставщика. Для каждого вызова сохраняется снимок цены; пустые значения дают нулевую оценку.',
+      priceInput: 'Входные токены', priceOutput: 'Выходные токены',
+      priceCacheRead: 'Чтение кэша', priceCacheWrite: 'Запись кэша',
+      priceEmbedding: 'Токены Embedding', priceRerank: 'Документы Rerank',
       maxConcurrencyPlaceholder: '0 — использовать глобальное значение',
       maxConcurrencyDesc: 'Ограничивает число одновременных фоновых вызовов (индексация/обогащение) к этой модели, общее для модели по всем репликам. 0 или пусто — используется глобальное значение по умолчанию; интерактивный чат не затрагивается.',
       thinkingControlLabel: 'Формат параметров режима размышления',

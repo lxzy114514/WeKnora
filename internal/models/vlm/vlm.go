@@ -2,6 +2,7 @@ package vlm
 
 import (
 	"context"
+	"crypto/sha256"
 	"fmt"
 	"strings"
 
@@ -136,6 +137,14 @@ func NewVLMFromLegacyConfig(vlmCfg types.VLMConfig, ollamaService *ollama.Ollama
 		BaseURL:       vlmCfg.BaseURL,
 		ModelName:     vlmCfg.ModelName,
 		APIKey:        vlmCfg.APIKey,
+		ModelID:       legacyVLMModelID(vlmCfg),
 		InterfaceType: ifType,
 	}, ollamaService)
+}
+
+func legacyVLMModelID(vlmCfg types.VLMConfig) string {
+	identity := strings.ToLower(strings.TrimSpace(vlmCfg.InterfaceType)) + "\x00" +
+		strings.TrimSpace(vlmCfg.BaseURL) + "\x00" + strings.TrimSpace(vlmCfg.ModelName)
+	digest := sha256.Sum256([]byte(identity))
+	return fmt.Sprintf("legacy-vlm-%x", digest[:16])
 }

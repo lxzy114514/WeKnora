@@ -157,6 +157,9 @@ func BuildContainer(container *dig.Container) *dig.Container {
 	must(container.Provide(repository.NewMessageRepository))
 	must(container.Provide(repository.NewMessageSuggestionRepository))
 	must(container.Provide(repository.NewModelRepository))
+	must(container.Provide(repository.NewModelCallRepository))
+	must(container.Provide(repository.NewEmbeddingCacheRepository))
+	must(container.Provide(repository.NewEvaluationRepository))
 	must(container.Provide(repository.NewUserRepository))
 	must(container.Provide(repository.NewAuthTokenRepository))
 	must(container.Provide(repository.NewSystemSettingRepository))
@@ -213,7 +216,7 @@ func BuildContainer(container *dig.Container) *dig.Container {
 	must(container.Provide(service.NewChunkService))
 	must(container.Provide(service.NewKnowledgeTagService))
 	must(container.Provide(embedding.NewBatchEmbedder))
-	must(container.Provide(service.NewModelService))
+	must(container.Provide(service.NewObservedModelService))
 	must(container.Provide(service.NewDatasetService))
 	must(container.Provide(service.NewEvaluationService))
 	must(container.Provide(service.NewUserService))
@@ -403,7 +406,7 @@ func BuildContainer(container *dig.Container) *dig.Container {
 	must(container.Provide(session.NewHandler))
 	must(container.Provide(handler.NewMessageHandler))
 	must(container.Provide(handler.NewMessageSuggestionHandler))
-	must(container.Provide(handler.NewModelHandler))
+	must(container.Provide(handler.NewModelHandlerWithUsage))
 	must(container.Provide(handler.NewSandboxConfigHandler))
 	must(container.Provide(func(
 		s *service.TenantSkillService, streams interfaces.StreamManager,

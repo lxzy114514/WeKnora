@@ -1,0 +1,32 @@
+{
+  "id": "baseline-v1",
+  "version": "1",
+  "description": "WeKnora 课题三可复现评测基线数据集",
+  "files": {
+    "queries": {
+      "path": "samples/queries.parquet",
+      "size": 1677,
+      "sha256": "4e727c93692ed7676fcad97c91ac284a527f1e7e5a8bf41216c5e23facbadc56"
+    },
+    "corpus": {
+      "path": "samples/corpus.parquet",
+      "size": 3902,
+      "sha256": "7cddf67a5ed45d4191aa1408e86353293d31aa71986226d97ee228a7607ec15e"
+    },
+    "answers": {
+      "path": "samples/answers.parquet",
+      "size": 1949,
+      "sha256": "ff052131209af612274b19534d7a9a4ec8a40c48aeef72b2f8ce046e7517255e"
+    },
+    "qrels": {
+      "path": "samples/qrels.parquet",
+      "size": 2067,
+      "sha256": "72ec24350f5298b4e1ba854ddf1d9d88e421265e61ef7a711c7debaa88c324f3"
+    },
+    "qas": {
+      "path": "samples/qas.parquet",
+      "size": 1585,
+      "sha256": "fd4b49ed769f758e14b807e4f6c4b6581b163e68b13af8b1d3d4cf1bdac88f78"
+    }
+  }
+}
