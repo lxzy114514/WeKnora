@@ -21,6 +21,7 @@
 - [运行手册](RUNBOOK.md)：一条命令评测、门禁演示、CI 和故障恢复。
 - [实验报告](EXPERIMENT_REPORT.md)：可重复的缓存与门禁证据，以及真实模型实验边界。
 - [测试报告](TEST_REPORT.md)：已执行检查、结果和仓库原有环境问题。
+- [实现重难点与参考资料](IMPLEMENTATION_CHALLENGES_AND_REFERENCES.md)：逐项解释为什么难、如何实现、参考依据、项目自有设计与已知边界。
 - [已知限制](LIMITATIONS.md)：仍需部署环境或管理员完成的事项。
 - [提交清单](submission.yaml)：机器可读的交付索引。
 
