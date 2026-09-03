@@ -9,6 +9,14 @@
 3. 在模型编辑器的“价格”区域填写厂商账单价格。单位已固定显示为 USD/1M token 或 USD/1K 文档。
 4. 准备租户 API Key 或登录令牌。
 
+从本地源码重新构建后端镜像时，应显式注入当前提交号，保证评测报告的 `code_version` 可追溯：
+
+```powershell
+$commit = git rev-parse --short HEAD
+docker compose build --build-arg COMMIT_ID_ARG=$commit app
+docker compose up -d --no-build app
+```
+
 成功标志：模型列表可用，健康检查正常，新迁移中存在 `evaluation_runs`、`evaluation_cases`、`model_calls`、`embedding_cache`。
 
 ## 2. 一条命令运行固定评测
@@ -105,4 +113,5 @@ Evaluation Regression / Live RAG quality gate
 - 任务在重启前中断：服务启动会把遗留运行标为失败；重新创建新任务，不复用原任务 ID。
 - 成本为零：检查模型价格是否配置，以及提供商是否返回 token usage；调用次数仍应存在。
 - 缓存未命中：核对租户、模型 ID、有效模型配置或向量维度是否变化。变化后不命中是正确行为。
+- `code_version` 为 `unknown`：镜像构建时未注入提交号；按“准备服务”中的命令重新构建后端镜像。
 - CI 外部服务超时：先区分基础设施故障和质量退化；只有 `REGRESSION <metric>` 才是阈值回归。

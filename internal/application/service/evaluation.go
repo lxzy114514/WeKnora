@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"runtime"
 	"runtime/debug"
+	"strings"
 	"sync"
 	"time"
 
@@ -20,6 +21,11 @@ import (
 )
 
 const evaluationMaxWorkers = 4
+
+// EvaluationCommitID is injected by production builds. Container build
+// contexts intentionally omit .git, so runtime/debug cannot always recover a
+// VCS revision from the compiled binary on its own.
+var EvaluationCommitID = "unknown"
 
 /*
 corpus: pid -> content
@@ -674,9 +680,18 @@ func (e *EvaluationService) EvalDataset(ctx context.Context, detail *types.Evalu
 
 func evaluationCodeVersion() string {
 	if info, ok := debug.ReadBuildInfo(); ok {
-		return formatEvaluationCodeVersion(info.Settings, info.Main.Version)
+		return selectEvaluationCodeVersion(EvaluationCommitID, info.Settings, info.Main.Version)
 	}
-	return "unknown"
+	return selectEvaluationCodeVersion(EvaluationCommitID, nil, "")
+}
+
+func selectEvaluationCodeVersion(
+	injectedCommit string, settings []debug.BuildSetting, mainVersion string,
+) string {
+	if injectedCommit = strings.TrimSpace(injectedCommit); injectedCommit != "" && injectedCommit != "unknown" {
+		return injectedCommit
+	}
+	return formatEvaluationCodeVersion(settings, mainVersion)
 }
 
 func formatEvaluationCodeVersion(settings []debug.BuildSetting, mainVersion string) string {

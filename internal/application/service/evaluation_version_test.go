@@ -7,12 +7,22 @@ import (
 	"github.com/Tencent/WeKnora/internal/types"
 )
 
-func TestFormatEvaluationCodeVersionMarksDirtyBuilds(t *testing.T) {
+func TestEvaluationCodeVersionPrefersInjectedCommit(t *testing.T) {
+	previous := EvaluationCommitID
+	EvaluationCommitID = "injected-commit"
+	t.Cleanup(func() { EvaluationCommitID = previous })
+
+	if got := evaluationCodeVersion(); got != "injected-commit" {
+		t.Fatalf("code version = %q, want injected-commit", got)
+	}
+}
+
+func TestSelectEvaluationCodeVersionFallsBackToDirtyVCSRevision(t *testing.T) {
 	settings := []debug.BuildSetting{
 		{Key: "vcs.revision", Value: "abc123"},
 		{Key: "vcs.modified", Value: "true"},
 	}
-	if got := formatEvaluationCodeVersion(settings, "(devel)"); got != "abc123+dirty" {
+	if got := selectEvaluationCodeVersion("unknown", settings, "(devel)"); got != "abc123+dirty" {
 		t.Fatalf("code version = %q, want abc123+dirty", got)
 	}
 }
