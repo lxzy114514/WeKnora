@@ -1,0 +1,4 @@
+command=go vet -p 2 ./...
+go version go1.26.8 linux/amd64
+x86_64
+exit_code=0

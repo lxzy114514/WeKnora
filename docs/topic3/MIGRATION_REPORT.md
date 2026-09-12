@@ -32,7 +32,7 @@ Wiki 场景也完成两轮真实运行。`wiki_*` 调用的 cache-read tokens �
 
 ## 证据入口
 
-- E1 审核：`docs/topic3/audit/E1_4edbde49_ROUND2_REVIEW_RECEIPT.md`
+- E1 审核：`docs/topic3/audit/E1_b43beccd_CROSS_PLATFORM_REAPPROVAL_RECEIPT.md`
 - 解析器报告：`artifacts/parser-benchmark-report.json`、`artifacts/parser-benchmark-report.md`
 - 缓存确定性证据：`artifacts/migration-cache-deterministic-evidence.json`
 - 真实冷/热状态：`artifacts/migration-cache-live-status.json`
@@ -50,5 +50,12 @@ Wiki 场景也完成两轮真实运行。`wiki_*` 调用的 cache-read tokens �
 - `db7ca387`：保存迁移测试证据和交付状态。
 - `cd94c57d`：保存真实 RAG 冷/暖缓存证据。
 - `e0174424`：补齐 Wiki 真实证据、parser 安全/失败语义、成本门禁资格与最终双轴审查修复。
+- `c88047bf`：修复 parser 跨 Go/OS 字节漂移与 CRLF 测试辅助函数，保存三轮 Linux 全仓测试和新的 E1 独立复审证据。
 
 最终提交号以 `git rev-parse HEAD` 为准；本文不把迁移过程中的中间提交冒充最终版本。
+
+## 最终交付验证
+
+Linux amd64、Go 1.26 环境的 `go test -p 2 ./...` 已全仓通过；`go vet -p 2 ./...`、关键路径 `-race` 测试和当前代码生成的 4 项确定性质量门禁均通过。生产镜像 `sha256:aa53e1d16c3554b5f06f2dff9ce07fff0cc158601f496daa2267da4a32f22267` 已运行，嵌入提交号为 `c88047bf0285a1ded72f06ff038f3c1679b2ef2d`，app 容器 healthy，后端与前端 HTTP 检查均返回 200；PostgreSQL migration version 为 90、`dirty=false`，四张课题表均存在。
+
+语料编码修复后重新执行 parser 矩阵，状态仍为 `partial`、ready 引擎 `1/8`、计分单元 `2/37`，但报告现在绑定独立复审通过的新语料哈希。RAG/Wiki 的真实运行结论没有被测试成功覆盖：其严格状态仍分别保留为 `partial / not_comparable`，成本仍为 `unknown`。

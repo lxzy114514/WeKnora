@@ -1,12 +1,13 @@
 {
-  "schema_version": 2,
-  "generated_at": "2026-09-12T05:58:53.7878330Z",
+  "schema_version": 3,
+  "generated_at": "2026-09-12T11:57:42.3502520Z",
   "branch": "feat/topic3-evaluation-cost-cache-20260828",
   "migration_start_commit": "0d505c8b25c9fefe9e2208a2f8bc3bb8c00277d3",
-  "tested_code_commit": "e017442414e313b4ed33d836d749f6f4d0d8d677",
-  "status": "passed_with_repository_environment_failures_and_live_partial_evidence",
+  "tested_code_commit": "c88047bf0285a1ded72f06ff038f3c1679b2ef2d",
+  "status": "passed_with_live_partial_evidence",
   "focused_validation": {
     "status": "passed",
+    "tested_commit": "e017442414e313b4ed33d836d749f6f4d0d8d677",
     "race_enabled": true,
     "log": "artifacts/migration-final-focused-tests.txt",
     "log_sha256": "755cda6b7794eca7b0fd98b4ad2a2f61c2c5ac959eacea1b5d7c2ae7789d9244",
@@ -19,15 +20,88 @@
       "git diff --check, changed JSON, submission YAML and changed Markdown relative links"
     ]
   },
+  "current_targeted_validation": {
+    "status": "passed",
+    "tested_commit": "c88047bf0285a1ded72f06ff038f3c1679b2ef2d",
+    "checks": [
+      "parser committed-corpus deterministic rebuild on Windows and Linux",
+      "fixed-Huffman DEFLATE boundary, ZIP metadata, CRC and complete-member tests",
+      "capability-key parser LF, CRLF and malformed-quote tests on Windows and Linux",
+      "go test -race for internal/evaluation and internal/handler",
+      "go vet -p 2 ./..."
+    ]
+  },
+  "linux_full_repository_test": {
+    "status": "passed",
+    "tested_commit": "c88047bf0285a1ded72f06ff038f3c1679b2ef2d",
+    "command": "go test -p 2 ./...",
+    "environment": "Linux amd64, Go 1.26 builder image",
+    "exit_code": 0,
+    "log": "artifacts/migration-linux-go-test-all.txt",
+    "log_sha256": "bec3d300f7b66571b6a7d7ae6be9b3c0de7dc8be63ddaa05e3cb394f23e10bbd",
+    "failed_rounds": [
+      {
+        "log": "artifacts/migration-linux-go-test-all-round1.txt",
+        "log_sha256": "8fba3aeb8ba8a2e91acb447493067c051e092d96a6bf905490e77eb0c0fd65bf",
+        "failures": [
+          "parser corpus bytes varied across the Go/OS compression implementation",
+          "the initial test container did not include the repository frontend directory required by the capability-key test"
+        ]
+      },
+      {
+        "log": "artifacts/migration-linux-go-test-all-round2.txt",
+        "log_sha256": "05492de4d79fe1d5a6db246c2645b44315eedb5dc4e9243ba76b6bc24e85d8f7",
+        "failure": "frontend capability test helper parsed CRLF TypeScript array lines incorrectly"
+      }
+    ],
+    "repair": "Both code defects were reproduced, fixed and regression-tested; the incomplete repository bind mount was corrected before the passing final round."
+  },
+  "linux_full_repository_vet": {
+    "status": "passed",
+    "tested_commit": "c88047bf0285a1ded72f06ff038f3c1679b2ef2d",
+    "command": "go vet -p 2 ./...",
+    "environment": "Linux amd64, Go 1.26.8, build-essential and libsqlite3-dev",
+    "exit_code": 0,
+    "log": "artifacts/migration-linux-go-vet-all.txt",
+    "log_sha256": "71098118f7052d01af5fcff937f91a6a8b19aa392c823cd14669b4faeabc70c5"
+  },
+  "windows_full_repository_test": {
+    "status": "environment_limited",
+    "tested_commit": "8622e4559a9b158f0dba9a1dd9155f76ca639c44",
+    "command": "go test ./...",
+    "exit_code": 1,
+    "log": "artifacts/migration-go-test-all.txt.gz",
+    "log_sha256": "74858537cbc4b3e99f8fcc68615f037337d05eecd4b3d85cd4f65f5a5efe4139",
+    "uncompressed_log_sha256": "ff309a63c82ac3d2c9802125861f08b75a148d4cf4915c1a39b4c11a46c81a7e",
+    "note": "Windows-native failures remain recorded; Linux is the authoritative CI and delivery environment."
+  },
   "docker_validation": {
     "status": "passed",
-    "image_id": "sha256:1fed47104b69ba89ef224add9d17cc6a0dbda1c4796ccdaa037d9f24b1e208dc",
-    "embedded_commit": "e01744242e6f",
+    "image_id": "sha256:aa53e1d16c3554b5f06f2dff9ce07fff0cc158601f496daa2267da4a32f22267",
+    "repo_digest": "wechatopenai/weknora-app@sha256:aa53e1d16c3554b5f06f2dff9ce07fff0cc158601f496daa2267da4a32f22267",
+    "embedded_commit": "c88047bf0285a1ded72f06ff038f3c1679b2ef2d",
     "container": "WeKnora-app",
     "health_status": "healthy",
     "health_endpoint_response": {
       "status": "ok"
+    },
+    "frontend_http_status": 200,
+    "database_migration": {
+      "version": 90,
+      "dirty": false,
+      "verified_tables": [
+        "embedding_cache",
+        "evaluation_cases",
+        "evaluation_runs",
+        "model_calls"
+      ]
     }
+  },
+  "deterministic_quality_gate": {
+    "status": "passed",
+    "checks": 4,
+    "benchmark": "artifacts/deterministic-report.json",
+    "gate_result": "artifacts/gate.json"
   },
   "live_evidence": {
     "rag": {
@@ -48,8 +122,10 @@
       "status": "partial",
       "ready_engines": 1,
       "total_engines": 8,
+      "corpus_manifest_sha256": "1189575f4f3b71a565225b0fd3610627038fe4c733dde67bacc3b6065dbfb246",
+      "e1_receipt": "docs/topic3/audit/E1_b43beccd_CROSS_PLATFORM_REAPPROVAL_RECEIPT.md",
       "artifact": "artifacts/parser-benchmark-report.json",
-      "artifact_sha256": "4acfe0433cf6cf00b1ce1d59f08586246e203c48b1e86d6986be334c48bde679"
+      "artifact_sha256": "d504fb837889379a9b23111a4e24d784a77ba39b4d309c6cceb7a04df0f3eec4"
     }
   },
   "code_review": {
@@ -57,35 +133,11 @@
     "spec": "passed_with_no_remaining_findings",
     "record": "docs/topic3/MIGRATION_CODE_REVIEW.md"
   },
-  "full_repository_test": {
-    "tested_commit": "8622e4559a9b158f0dba9a1dd9155f76ca639c44",
-    "command": "go test ./...",
-    "exit_code": 1,
-    "log": "artifacts/migration-go-test-all.txt.gz",
-    "log_sha256": "74858537cbc4b3e99f8fcc68615f037337d05eecd4b3d85cd4f65f5a5efe4139",
-    "uncompressed_log_sha256": "ff309a63c82ac3d2c9802125861f08b75a148d4cf4915c1a39b4c11a46c81a7e",
-    "migration_related_failures": 0,
-    "failure_categories": [
-      "Windows path-separator expectation in internal/agent/skills",
-      "DuckDB static-library linker mismatch in internal/agent/tools and internal/container",
-      "Windows SQLite temporary-file handles in internal/application/service",
-      "Docker npipe scheme assumptions in sandbox service tests",
-      "Windows unreadable-file permission semantics in a skill verifier test",
-      "logger output-format assumption in the Feishu wiki connector test",
-      "frontend capability-key parser assumption in internal/handler"
-    ]
-  },
-  "full_repository_build": {
-    "command": "go build ./...",
-    "exit_code": 1,
-    "failure_category": "pre-existing Windows DuckDB static-library and MinGW __emutls linker mismatch",
-    "delivery_build_replacement": "The Linux production Docker image for tested_code_commit built successfully and is healthy."
-  },
   "secret_scan": {
     "scope": "changed and newly tracked migration files",
     "reviewed_non_secret_matches": 4,
     "remaining_secret_matches": 0,
-    "note": "The four heuristic matches were documentation placeholders and explicit test-only fake values."
+    "note": "The heuristic matches were documentation placeholders and explicit test-only fake values."
   },
-  "scope_note": "No file involved in the recorded full-repository failures was changed by the selective migration from 0d505c8b. Later parser and cost-gate hardening passed focused race tests, vet, two-axis review and a Linux production image build."
+  "scope_note": "The final Linux full suite, focused race tests, vet, deterministic gate, production image build, container health check and two-axis review all pass. Live RAG, Wiki and parser claims remain limited to the evidence actually available."
 }

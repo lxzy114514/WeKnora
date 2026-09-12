@@ -8,6 +8,6 @@
 6. 阶段耗时取自同步评测流水线的实际事件边界；普通在线流式回答的生成事件会先启动后台流，因此其完整生成时长应以 `model_calls.duration_ms` 为准。课题三固定评测使用同步生成，不受此差异影响。
 7. 真实模型存在随机性。固定配置保证“条件相同且可比较”，不承诺两次报告字节级相同。
 8. 文档解析器八引擎横向比较已实现为选做扩展，但本机只有 `simple` 可用，实际报告为 `1/8` ready 的 `partial` 结果。其余引擎依赖 DocReader、外部服务或凭据，不能把当前结果表述为完整八引擎基线。
-9. Windows 上仓库现有部分全量测试受 SQLite 文件句柄、Docker `npipe` 与 DuckDB/MinGW 链接影响；课题三目标测试和 Linux CI 不依赖这些失败路径。
+9. Windows 原生全量测试仍受 SQLite 文件句柄、Docker `npipe` 与 DuckDB/MinGW 链接影响；Linux amd64、Go 1.26 交付环境已经执行 `go test -p 2 ./...` 并全仓通过。两种环境的原始证据均保留。
 10. Docker 恢复后已完成当前提交的真实冷/热缓存运行，Embedding 与 Prompt Cache 的命中变化得到证明；但暖跑仍有 113 个 Chat cache-miss tokens，按严格规则为 `not_comparable`。模型价格未配置，无法证明金额节省；原始 gate 对 estimated zero 的数值通过只能解释为 `inconclusive`。单次热运行还因远端生成波动触发时延门禁，不能据此建立稳定性能结论。
 11. Wiki 冷/暖运行证明生产 `wiki_*` 调用读取了缓存，但异步链路没有 correlation ID，只能由受控时间窗和 knowledge ID 绑定。第二轮调用形状随 Wiki 状态变化且仍有 12,078 个 cache-miss tokens，故不能宣称端到端成本或时延改善。

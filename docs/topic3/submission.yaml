@@ -25,6 +25,10 @@ reports:
 evidence:
   final_validation: artifacts/migration-validation-summary.json
   final_focused_tests: artifacts/migration-final-focused-tests.txt
+  linux_full_repository_tests: artifacts/migration-linux-go-test-all.txt
+  linux_full_repository_tests_round1: artifacts/migration-linux-go-test-all-round1.txt
+  linux_full_repository_tests_round2: artifacts/migration-linux-go-test-all-round2.txt
+  linux_full_repository_vet: artifacts/migration-linux-go-vet-all.txt
   cache_contract: artifacts/migration-cache-deterministic-evidence.json
   cache_live_status: artifacts/migration-cache-live-status.json
   cache_live_comparison: artifacts/migration-live-cold-warm-comparison.json
@@ -33,7 +37,7 @@ evidence:
   cache_live_gate: artifacts/migration-live-cold-warm-gate.json
   wiki_cache_live: artifacts/migration-wiki-cold-warm-evidence.json
   parser_report: artifacts/parser-benchmark-report.json
-  parser_ground_truth_approval: docs/topic3/audit/E1_4edbde49_ROUND2_REVIEW_RECEIPT.md
+  parser_ground_truth_approval: docs/topic3/audit/E1_b43beccd_CROSS_PLATFORM_REAPPROVAL_RECEIPT.md
 security:
   raw_prompts_persisted: false
   secrets_committed: false

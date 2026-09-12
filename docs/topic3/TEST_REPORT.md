@@ -30,10 +30,10 @@
 - Docker 主机使用 `npipe` 时，若测试路径只接受 Unix scheme 会失败。
 - `internal/container` 测试在当前 MinGW 与 DuckDB 静态库组合下链接失败（`__emutls` 符号）。
 - Windows 原生 `go build ./...` 也会在 `cmd/download/duckdb`、`cmd/desktop` 和 `cmd/server` 触发同一个 DuckDB/MinGW `__emutls` 链接错误；Linux 生产 Docker 镜像构建通过。
-- 一个既有前后端 capability key 测试把 TypeScript 单引号和逗号误解析进键名。
+- 前端 capability key 测试辅助函数最初无法正确解析 CRLF 和引号不匹配；该测试缺陷已经修复，并增加 LF、CRLF 与畸形输入回归用例。
 - Windows 文件权限语义下，一个既有“不可读 Python 脚本”测试无法制造与 Unix 相同的不可读状态。
 
-这些失败未发生在课题三修改的断言中，因此最终验收使用明确覆盖本课题变更的目标测试，并保留上述环境事实，不把全仓失败伪装成通过。
+仍存在的 Windows 原生失败未发生在课题三修改的断言中。最终验收同时保留 Windows 环境事实，并以 Linux CI/交付环境的全仓测试作为完整套件结论。
 
 ## 最终复核
 
@@ -57,7 +57,7 @@
 
 另外，Embedding 批量复用/并发合并、缓存隔离、普通 RAG/Wiki 稳定前缀和 DeepSeek cache usage 解析共 12 项聚焦测试在 `-race` 下通过。原始日志 SHA-256 为 `3c839a9f31abd5063e38ee3afc4191c0b04ba9b92d4097c73b4106152a4785ea`。
 
-本轮也重新执行了 `go test ./...`。它以状态 1 结束，但没有迁移相关包失败；原始日志 SHA-256 为 `ff309a63c82ac3d2c9802125861f08b75a148d4cf4915c1a39b4c11a46c81a7e`。失败项来自仓库既有的 Windows 路径分隔符断言、DuckDB/MinGW 链接、SQLite 临时文件句柄、Docker `npipe`、Windows 文件权限语义、日志输出格式断言和前端 capability key 解析断言。选择性迁移从 `0d505c8b` 起没有修改这些失败涉及的文件。
+较早一轮 Windows 原生 `go test ./...` 以状态 1 结束；原始日志 SHA-256 为 `ff309a63c82ac3d2c9802125861f08b75a148d4cf4915c1a39b4c11a46c81a7e`。其中 Windows 路径、DuckDB/MinGW、SQLite 文件句柄、Docker `npipe`、文件权限和日志格式问题继续作为环境证据保留；capability key 测试辅助函数的问题已在后续 Linux 全仓复核中修复。
 
 机器可读摘要与 gzip 压缩的完整日志分别位于 `artifacts/migration-validation-summary.json` 和 `artifacts/migration-go-test-all.txt.gz`。Docker 恢复后已补做真实冷/热模型实验：缓存命中证据通过，但完整门禁因生成时延失败且价格未配置，整体记为 `partial`。它与确定性测试互为补充，不能互相替代。
 
@@ -67,6 +67,18 @@
 
 最终标准复核进一步要求拒绝矛盾的资格元数据。门禁现在校验覆盖率为有限的 `[0,1]` 数值，并要求 `eligible=true` 时覆盖率精确为 1；零覆盖、负数、大于 1 和 NaN 均有回归测试。最终聚焦验证还包含 Evaluation Service 的版本、模型快照与阶段耗时测试，日志 SHA-256 为 `755cda6b7794eca7b0fd98b4ad2a2f61c2c5ac959eacea1b5d7c2ae7789d9244`。
 
-提交 `e0174424` 又完成 Linux 生产镜像构建与容器替换。运行中镜像 ID 为 `sha256:1fed47104b69ba89ef224add9d17cc6a0dbda1c4796ccdaa037d9f24b1e208dc`，二进制嵌入提交号 `e01744242e6f`，容器健康状态为 `healthy`，`/health` 返回 `{"status":"ok"}`。
+提交 `c88047bf` 完成最终 Linux 生产镜像构建与容器替换。运行中镜像 ID 为 `sha256:aa53e1d16c3554b5f06f2dff9ce07fff0cc158601f496daa2267da4a32f22267`，二进制嵌入完整提交号 `c88047bf0285a1ded72f06ff038f3c1679b2ef2d`，容器状态为 `healthy`；后端 `/health` 返回 `{"status":"ok"}`，前端根路径返回 HTTP 200。运行数据库的 migration version 为 90、`dirty=false`，四张课题表均存在。
 
 Wiki 冷/暖真实运行均完成且异步队列归零。逐调用数据库事实证明 cache-read tokens 与读取比例上升；因为调用形状变化、暖跑仍产生 provider 计算且价格未知，验收状态保留为 `partial / not_comparable`。临时知识库、用户、个人租户和租户成员关系已清理。
+
+## Linux 全仓闭环（2026-09-12）
+
+在 Linux amd64、Go 1.26 构建环境中执行 `go test -p 2 ./...`。第一轮发现 parser 语料依赖标准库压缩启发式而跨 Go/OS 产生不同字节，同时初始测试容器没有挂载 capability 测试所需的 `frontend` 目录；补入完整仓库后，第二轮暴露该测试辅助函数错误解析 CRLF TypeScript 数组。两个代码问题均已修复，测试环境也已纠正；最终全仓测试退出码为 0，日志见：
+
+- `artifacts/migration-linux-go-test-all-round1.txt`，SHA-256 `8fba3aeb8ba8a2e91acb447493067c051e092d96a6bf905490e77eb0c0fd65bf`；
+- `artifacts/migration-linux-go-test-all-round2.txt`，SHA-256 `05492de4d79fe1d5a6db246c2645b44315eedb5dc4e9243ba76b6bc24e85d8f7`；
+- `artifacts/migration-linux-go-test-all.txt`，SHA-256 `bec3d300f7b66571b6a7d7ae6be9b3c0de7dc8be63ddaa05e3cb394f23e10bbd`。
+
+parser 生成器现在使用项目自有的确定性 PNG、fixed-Huffman DEFLATE 和 ZIP Store 编码，并对所有 ZIP 成员做 CRC/完整读取测试；Windows 与 Linux 均能重建同一语料哈希。重新渲染后五份页面逐页检查通过，独立 E1 复审收据为 `docs/topic3/audit/E1_b43beccd_CROSS_PLATFORM_REAPPROVAL_RECEIPT.md`。当前 parser 报告已重跑并绑定新 manifest 哈希 `1189575f4f3b71a565225b0fd3610627038fe4c733dde67bacc3b6065dbfb246`。
+
+同一最终代码还通过 `go test -race`（evaluation 与 handler 定向并发测试）、`go vet -p 2 ./...`，以及由当前代码重新生成报告后的确定性质量门禁，门禁结果为 4/4 通过。全仓 vet 原始日志为 `artifacts/migration-linux-go-vet-all.txt`，记录 Go 1.26.8、Linux amd64 与退出码 0，SHA-256 为 `71098118f7052d01af5fcff937f91a6a8b19aa392c823cd14669b4faeabc70c5`。

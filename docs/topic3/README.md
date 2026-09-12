@@ -55,3 +55,5 @@ go run ./cmd/topic3-parser-benchmark -repository-root . -run-id parser-local
 ```
 
 命令始终生成 56 单元矩阵。缺少外部解析服务或凭据时，对应单元会明确记为 `unavailable`；本机已执行结果为 `partial`、可用引擎 `1/8`，见 `artifacts/parser-benchmark-report.md`。这不能被表述为完整八引擎实测。
+
+最终工程验证基于提交 `c88047bf0285a1ded72f06ff038f3c1679b2ef2d`：Linux 全仓测试、全仓 `go vet`、关键路径竞态测试与确定性质量门禁均通过。生产镜像已替换本地 app 容器并通过前后端 HTTP 检查；完整命令、哈希与两次失败后修复的原始日志见 `artifacts/migration-validation-summary.json` 和 `TEST_REPORT.md`。

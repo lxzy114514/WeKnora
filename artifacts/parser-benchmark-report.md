@@ -1,10 +1,10 @@
 # Parser benchmark parser-local-20260912
 
 - Status: `partial`
-- Generated at: `2026-09-12T04:08:32Z`
+- Generated at: `2026-09-12T11:57:19Z`
 - Ready engines: `1/8`
 - Cells: `56` total, `2` scored, `35` unavailable, `19` unsupported, `0` not attempted, `0` failed
-- Corpus manifest SHA-256: `c2a62b5d689436d7de47d74fc9233d8fc24de85857c437f8a2babf63a5d6ec78`
+- Corpus manifest SHA-256: `1189575f4f3b71a565225b0fd3610627038fe4c733dde67bacc3b6065dbfb246`
 - Ground-truth payload SHA-256: `62b6748d92fc51e63da5a62999006ac0938e57102766d7e71aef7b496e180703`
 
 | Requested engine | Available | Supported | Attempted | Scored | Failed |
