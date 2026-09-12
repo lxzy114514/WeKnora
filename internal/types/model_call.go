@@ -125,19 +125,61 @@ func EstimateModelCallCost(call *ModelCallRecord) float64 {
 	if call == nil {
 		return 0
 	}
+	total := 0.0
+	for _, component := range modelCallCostComponents(call) {
+		total += component.units * component.rate
+	}
+	return total
+}
+
+// ModelCallCostHasPriceCoverage reports whether every billable component used
+// by the call has a configured positive rate. A fully cached Embedding call is
+// a known zero-cost provider call and needs no rate. The pricing schema cannot
+// distinguish an intentional zero rate from an omitted one, so all other used
+// zero rates are treated conservatively as unknown.
+func ModelCallCostHasPriceCoverage(call *ModelCallRecord) bool {
+	if call == nil {
+		return false
+	}
+	if call.ModelType == ModelTypeEmbedding && call.ItemCount > 0 &&
+		call.CacheHitItems >= call.ItemCount && call.CacheMissItems == 0 && call.InputUnits == 0 {
+		return true
+	}
+	components := modelCallCostComponents(call)
+	hasBillableUsage := false
+	for _, component := range components {
+		if component.units <= 0 {
+			continue
+		}
+		hasBillableUsage = true
+		if component.rate <= 0 {
+			return false
+		}
+	}
+	return hasBillableUsage
+}
+
+type modelCallCostComponent struct {
+	units float64
+	rate  float64
+}
+
+func modelCallCostComponents(call *ModelCallRecord) []modelCallCostComponent {
 	switch call.ModelType {
 	case ModelTypeEmbedding:
-		return float64(call.InputUnits) * call.Pricing.EmbeddingPerMillion / 1_000_000
+		return []modelCallCostComponent{{float64(call.InputUnits) / 1_000_000, call.Pricing.EmbeddingPerMillion}}
 	case ModelTypeRerank:
-		return float64(call.InputUnits) * call.Pricing.RerankPerThousand / 1_000
+		return []modelCallCostComponent{{float64(call.InputUnits) / 1_000, call.Pricing.RerankPerThousand}}
 	default:
 		missTokens := call.CacheMissTokens
 		if missTokens == 0 {
 			missTokens = max(0, call.PromptTokens-call.CacheReadTokens-call.CacheWriteTokens)
 		}
-		return float64(missTokens)*call.Pricing.InputPerMillion/1_000_000 +
-			float64(call.CompletionTokens)*call.Pricing.OutputPerMillion/1_000_000 +
-			float64(call.CacheReadTokens)*call.Pricing.CacheReadPerMillion/1_000_000 +
-			float64(call.CacheWriteTokens)*call.Pricing.CacheWritePerMillion/1_000_000
+		return []modelCallCostComponent{
+			{float64(missTokens) / 1_000_000, call.Pricing.InputPerMillion},
+			{float64(call.CompletionTokens) / 1_000_000, call.Pricing.OutputPerMillion},
+			{float64(call.CacheReadTokens) / 1_000_000, call.Pricing.CacheReadPerMillion},
+			{float64(call.CacheWriteTokens) / 1_000_000, call.Pricing.CacheWritePerMillion},
+		}
 	}
 }

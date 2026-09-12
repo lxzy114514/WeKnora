@@ -64,3 +64,44 @@ func TestEstimateModelCallCostSeparatesCacheReadWriteAndMissTokens(t *testing.T)
 	assert.InDelta(t, want, EstimateModelCallCost(call), 1e-12,
 		"fallback must not charge cache-write tokens again as uncached input")
 }
+
+func TestModelCallCostHasPriceCoverageUsesTheSharedCostComponents(t *testing.T) {
+	chat := &ModelCallRecord{
+		ModelType: ModelTypeKnowledgeQA, CacheMissTokens: 100, CompletionTokens: 20,
+		Pricing: ModelPricing{InputPerMillion: 1, OutputPerMillion: 2},
+	}
+	require.True(t, ModelCallCostHasPriceCoverage(chat))
+	chat.Pricing.OutputPerMillion = 0
+	require.False(t, ModelCallCostHasPriceCoverage(chat))
+
+	chat = &ModelCallRecord{
+		ModelType: ModelTypeKnowledgeQA, PromptTokens: 100, CompletionTokens: 20,
+		CacheReadTokens: 60, CacheWriteTokens: 10,
+		Pricing: ModelPricing{
+			InputPerMillion: 1, OutputPerMillion: 2,
+			CacheReadPerMillion: 0.1, CacheWritePerMillion: 0.2,
+		},
+	}
+	require.True(t, ModelCallCostHasPriceCoverage(chat), "legacy cache-miss fallback and both cache rates must be covered")
+	chat.Pricing.CacheWritePerMillion = 0
+	require.False(t, ModelCallCostHasPriceCoverage(chat))
+
+	embedding := &ModelCallRecord{
+		ModelType: ModelTypeEmbedding, InputUnits: 50,
+		Pricing: ModelPricing{EmbeddingPerMillion: 0.5},
+	}
+	require.True(t, ModelCallCostHasPriceCoverage(embedding))
+	embedding.InputUnits = 0
+	embedding.ItemCount = 5
+	embedding.CacheHitItems = 5
+	embedding.CacheMissItems = 0
+	require.True(t, ModelCallCostHasPriceCoverage(embedding), "a full application-cache hit is a known provider zero")
+
+	rerank := &ModelCallRecord{
+		ModelType: ModelTypeRerank, InputUnits: 8,
+		Pricing: ModelPricing{RerankPerThousand: 0.7},
+	}
+	require.True(t, ModelCallCostHasPriceCoverage(rerank))
+	rerank.Pricing.RerankPerThousand = 0
+	require.False(t, ModelCallCostHasPriceCoverage(rerank))
+}

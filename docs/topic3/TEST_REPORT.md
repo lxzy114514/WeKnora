@@ -1,6 +1,6 @@
 # 测试报告
 
-更新日期：2026-08-29
+更新日期：2026-09-12
 
 ## 已通过
 
@@ -59,3 +59,11 @@
 本轮也重新执行了 `go test ./...`。它以状态 1 结束，但没有迁移相关包失败；原始日志 SHA-256 为 `ff309a63c82ac3d2c9802125861f08b75a148d4cf4915c1a39b4c11a46c81a7e`。失败项来自仓库既有的 Windows 路径分隔符断言、DuckDB/MinGW 链接、SQLite 临时文件句柄、Docker `npipe`、Windows 文件权限语义、日志输出格式断言和前端 capability key 解析断言。选择性迁移从 `0d505c8b` 起没有修改这些失败涉及的文件。
 
 机器可读摘要与 gzip 压缩的完整日志分别位于 `artifacts/migration-validation-summary.json` 和 `artifacts/migration-go-test-all.txt.gz`。Docker 恢复后已补做真实冷/热模型实验：缓存命中证据通过，但完整门禁因生成时延失败且价格未配置，整体记为 `partial`。它与确定性测试互为补充，不能互相替代。
+
+最终代码双轴审查额外发现并修复三类 parser 问题：authoring ID 可构造目录逃逸、整体 deadline 在首个单元前触发时 ready 引擎会被汇总为 unavailable、DOCX ZIP/PNG 生成错误被吞掉。新增恶意 ID/路径逃逸和 deadline-before-first-attempt 测试后，`go test -race ./internal/evaluation/...` 通过，三个修改文件的 Serena Go 诊断为空。
+
+同一轮复审还发现 estimated zero 会被普通数值门禁误判为成本通过。现在评测成本报告计算 `priced_call_count` 与 `cost_coverage_ratio`，`evalctl` 为每个成本指标写入显式 `metric_eligibility`，`evalgate` 对缺失或不合格的成本元数据均 fail closed。测试覆盖 Chat 的 input/output/cache-read/cache-write、Embedding provider 调用与全量应用缓存命中、Rerank，以及 legacy estimated-zero 报告拒绝路径；历史 portable JSON 仍可用于不涉及成本的诊断。
+
+最终标准复核进一步要求拒绝矛盾的资格元数据。门禁现在校验覆盖率为有限的 `[0,1]` 数值，并要求 `eligible=true` 时覆盖率精确为 1；零覆盖、负数、大于 1 和 NaN 均有回归测试。最终聚焦验证日志 SHA-256 为 `977bfd22c5112e3e7c08167638111d0dbbd0ecbc3ee784e010f9684007b603a8`。
+
+Wiki 冷/暖真实运行均完成且异步队列归零。逐调用数据库事实证明 cache-read tokens 与读取比例上升；因为调用形状变化、暖跑仍产生 provider 计算且价格未知，验收状态保留为 `partial / not_comparable`。临时知识库、用户、个人租户和租户成员关系已清理。

@@ -6,8 +6,8 @@
   "evidence_kind": "live_cold_warm_cache_run",
   "status": "partial",
   "runs_created": 2,
-  "reason_code": "cache_effect_proven_cost_and_latency_incomplete",
-  "reason": "The cache effects are proven by current-commit database facts, while configured prices are absent and the full gate failed on generation latency variance.",
+  "reason_code": "cache_effect_proven_strict_comparison_not_comparable",
+  "reason": "Cache behavior is proven, but the warm run still had 113 provider cache-miss tokens, the latency gate failed, and configured prices were absent.",
   "observations": [
     "Docker recovered and the branch image built successfully in Linux",
     "the healthy service reported commit db7ca387210c and database migration version 90",
@@ -16,7 +16,9 @@
     "Chat cache-read tokens increased from 0 to 1024 while cache-miss tokens fell from 1137 to 113",
     "retrieval metrics were unchanged and ROUGE-L changed by -0.0060415022",
     "the full evaluation gate failed because average case latency increased by 13917 ms",
-    "pricing snapshots were empty, so zero estimated cost is not billing evidence"
+    "pricing snapshots were empty, so zero estimated cost is not billing evidence",
+    "strict cold/warm comparability was not met because the warm Chat call still recorded 113 cache-miss tokens",
+    "the generated numeric cost check reported pass on estimated zero, but its effective result is inconclusive and ineligible"
   ],
   "safe_recovery": [
     "configure reviewed model prices before making a currency savings claim",
@@ -27,11 +29,14 @@
     "cold_detail": "artifacts/migration-live-cold-detail.json",
     "warm_detail": "artifacts/migration-live-warm-detail.json",
     "gate": "artifacts/migration-live-cold-warm-gate.json",
-    "deterministic_contract": "artifacts/migration-cache-deterministic-evidence.json"
+    "deterministic_contract": "artifacts/migration-cache-deterministic-evidence.json",
+    "wiki_cold_warm": "artifacts/migration-wiki-cold-warm-evidence.json"
   },
   "limitations": [
     "configured prices were absent, so actual provider cost remains unknown",
     "one cold/warm pair is evidence of cache behavior, not a stable latency benchmark",
-    "the full gate remains failed on latency and must not be reported as passing"
+    "the full gate remains failed on latency and must not be reported as passing",
+    "the pair is not_comparable under the strict zero-new-provider-compute rule",
+    "the raw numeric cost check must not be interpreted as passing because price coverage was absent"
   ]
 }

@@ -11,4 +11,4 @@ Docker recovered, the current branch image built successfully, and the healthy s
 
 Retrieval metrics were unchanged and ROUGE-L changed by about -0.006, within the configured quality tolerance. The complete evaluation gate still failed because average case latency increased by 13,917 ms as the remote generation call took longer. Model pricing was not configured, so both cost totals are estimated zero and do not prove a currency saving.
 
-The result is therefore `partial`: live cache behavior is proven, while currency savings are unknown and the full latency gate is failed. See `migration-live-cold-warm-comparison.json` and the cold/warm detail reports for the exact evidence.
+The result is therefore `partial / not_comparable`: live cache behavior is proven, while the warm Chat call still had 113 cache-miss tokens, currency savings are unknown, and the full latency gate is failed. The generated numeric gate's cost check used estimated zero and is effectively `inconclusive`, not a valid pass. See `migration-live-cold-warm-comparison.json` and the cold/warm detail reports for the exact evidence.

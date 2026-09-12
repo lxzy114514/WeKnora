@@ -733,6 +733,9 @@ func (e *EvaluationService) populateEvaluationReports(ctx context.Context, detai
 		} else {
 			for _, call := range calls {
 				cost.CallCount++
+				if types.ModelCallCostHasPriceCoverage(call) {
+					cost.PricedCallCount++
+				}
 				cost.Total += call.Cost
 				duration.ModelCallMS += call.DurationMS
 				switch call.ModelType {
@@ -743,6 +746,10 @@ func (e *EvaluationService) populateEvaluationReports(ctx context.Context, detai
 				default:
 					cost.Chat += call.Cost
 				}
+			}
+			if cost.CallCount > 0 {
+				cost.CostCoverageRatio = float64(cost.PricedCallCount) / float64(cost.CallCount)
+				cost.CostGateEligible = cost.PricedCallCount == cost.CallCount
 			}
 		}
 	}

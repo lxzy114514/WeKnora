@@ -113,13 +113,16 @@ func (c EvaluationConfigSnapshot) Fingerprint() (string, error) {
 }
 
 type EvaluationCostReport struct {
-	Currency  string  `json:"currency"`
-	Total     float64 `json:"total"`
-	Chat      float64 `json:"chat"`
-	Embedding float64 `json:"embedding"`
-	Rerank    float64 `json:"rerank"`
-	CallCount int64   `json:"call_count"`
-	Estimated bool    `json:"estimated"`
+	Currency          string  `json:"currency"`
+	Total             float64 `json:"total"`
+	Chat              float64 `json:"chat"`
+	Embedding         float64 `json:"embedding"`
+	Rerank            float64 `json:"rerank"`
+	CallCount         int64   `json:"call_count"`
+	PricedCallCount   int64   `json:"priced_call_count"`
+	CostCoverageRatio float64 `json:"cost_coverage_ratio"`
+	CostGateEligible  bool    `json:"cost_gate_eligible"`
+	Estimated         bool    `json:"estimated"`
 }
 
 type EvaluationDurationReport struct {

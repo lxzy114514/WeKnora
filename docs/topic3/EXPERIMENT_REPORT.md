@@ -63,8 +63,14 @@ Wiki 路径原有测试同时验证用途和稳定前缀元数据会传到模型
 
 围绕 Embedding、普通 RAG 稳定前缀、Wiki 缓存布局和供应商 Prompt Cache usage 解析，已在竞态检测下执行 12 项聚焦测试并全部通过。完整命令输出保存于 `artifacts/migration-cache-deterministic-tests.txt`，摘要保存于 `artifacts/migration-cache-deterministic-evidence.json`。这组证据是 hermetic 的代码契约证明，不等同于真实供应商账单实验。
 
-Docker 恢复后已用当前提交镜像完成一次冷运行和一次热运行，两者配置哈希相同，服务报告 `code_version=db7ca387210c`。Embedding 从冷运行 0/5 命中、5 个未命中变为热运行 5/5 命中、0 个未命中；Chat cache-read tokens 从 0 增至 1024，cache-miss tokens 从 1137 降至 113。检索指标保持不变，ROUGE-L 变化约 -0.006；这证明应用缓存与供应商提示词缓存均在实际链路生效。
+Docker 恢复后已用当前提交镜像完成一次冷运行和一次热运行，两者配置哈希相同，服务报告 `code_version=db7ca387210c`。Embedding 从冷运行 0/5 命中、5 个未命中变为热运行 5/5 命中、0 个未命中；Chat cache-read tokens 从 0 增至 1024，cache-miss tokens 从 1137 降至 113。检索指标保持不变，ROUGE-L 变化约 -0.006；这证明应用缓存与供应商提示词缓存均在实际链路生效，但暖跑 provider 新计算不为零，严格可比结论为 `not_comparable`。
 
-完整门禁没有通过：热运行的远端生成更慢，使 average case latency 增加 13,917 ms。两类模型的价格快照为空，报告中的零费用均标记 estimated，不能解释为真实免费或金额节省。因此本轮总状态为 `partial`，精确事实见 `artifacts/migration-live-cold-warm-comparison.json`；历史 `code_version=unknown` 报告没有被冒充为当前提交证据。
+完整门禁没有通过：热运行的远端生成更慢，使 average case latency 增加 13,917 ms。两类模型的价格快照为空，报告中的零费用均标记 estimated，不能解释为真实免费或金额节省；生成的原始 gate 虽把数值零判为 passed，复核后的有效成本结果是 `inconclusive`。因此本轮总状态为 `partial`，精确事实见 `artifacts/migration-live-cold-warm-comparison.json`；历史 `code_version=unknown` 报告没有被冒充为当前提交证据。
+
+### Wiki 真实冷/暖链路
+
+在独立临时 Wiki 知识库中先后导入内容相同、标题不同的两份手工 Markdown，并等待解析、摘要和 Wiki pipeline 全部结束。生产异步 Wiki 调用没有写入 correlation ID，因此证据使用两个 knowledge ID 与互不重叠的受控时间窗圈定，并在 JSON 中保存全部 `purpose LIKE 'wiki_%'` 行。
+
+冷跑 9 次 Wiki 模型调用，cache-read/cache-miss tokens 为 2,560/11,027；暖跑 11 次，为 6,784/12,078，读取比例从 0.188415 升至 0.359665。真实 Wiki 路径的缓存使用得到证明。由于第二轮触发了 deduplication、多一次 page modification，调用形状不同，暖跑仍有新计算，且所有价格快照不完整，所以结论为 `partial / not_comparable`，费用为 `unknown`。临时知识库和测试身份在取证后已清理；逐调用证据保存于 `artifacts/migration-wiki-cold-warm-evidence.json`。
 
 可选解析器基准使用独立审核的七文档语料运行了固定 56 单元矩阵。本机只有 `simple` 引擎可用，最终为 `partial`、`1/8` ready、2 个单元计分、0 个失败、35 个 unavailable、19 个 unsupported。两份已计分 Markdown 单元在适用分量上均为 1；该结果只证明实际可用集合，不能声称完成了八个引擎的实测比较。

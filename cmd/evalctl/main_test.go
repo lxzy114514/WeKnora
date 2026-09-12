@@ -54,7 +54,7 @@ func TestPortableReportIncludesQualityCostAndLatency(t *testing.T) {
 			RetrievalMetrics:  types.RetrievalMetrics{Recall: 0.8, MRR: 0.7},
 			GenerationMetrics: types.GenerationMetrics{ROUGEL: 0.6},
 		},
-		Cost:     &types.EvaluationCostReport{Total: 0.12},
+		Cost:     &types.EvaluationCostReport{Total: 0.12, CallCount: 1, PricedCallCount: 1, CostCoverageRatio: 1, CostGateEligible: true},
 		Duration: &types.EvaluationDurationReport{TotalMS: 1234, AverageCaseMS: 321, RetrievalMS: 222},
 	}
 
@@ -67,6 +67,29 @@ func TestPortableReportIncludesQualityCostAndLatency(t *testing.T) {
 	assert.Equal(t, 0.12, report.Metrics["cost.total_usd"])
 	assert.Equal(t, float64(1234), report.Metrics["latency.total_ms"])
 	assert.Equal(t, float64(222), report.Metrics["latency.retrieval_ms"])
+}
+
+func TestPortableReportMarksUnknownCostIneligibleForTheGate(t *testing.T) {
+	report := portableReport(&types.EvaluationDetail{
+		Task: &types.EvaluationTask{ID: "run-unknown-cost"},
+		Cost: &types.EvaluationCostReport{Total: 0, CallCount: 2, PricedCallCount: 0, CostCoverageRatio: 0},
+	})
+
+	assert.Equal(t, 0.0, report.Metrics["cost.total_usd"])
+	assert.False(t, report.MetricEligibility["cost.total_usd"].Eligible)
+	assert.Contains(t, report.MetricEligibility["cost.total_usd"].Reason, "price coverage incomplete")
+}
+
+func TestWriteMarkdownRendersIneligibleCostAsUnknown(t *testing.T) {
+	detail := &types.EvaluationDetail{
+		Task: &types.EvaluationTask{ID: "run-unknown-cost", StartTime: time.Unix(100, 0)},
+		Cost: &types.EvaluationCostReport{Total: 0, CallCount: 1, CostCoverageRatio: 0},
+	}
+	path := filepath.Join(t.TempDir(), "report.md")
+	require.NoError(t, writeMarkdown(path, detail))
+	data, err := os.ReadFile(path)
+	require.NoError(t, err)
+	assert.Contains(t, string(data), "| cost.total_usd | unknown (price coverage incomplete (0.000000)) |")
 }
 
 func TestWriteMarkdownIncludesConfigurationMetricsAndCaseEvidence(t *testing.T) {

@@ -7,44 +7,99 @@
   "status": "partial",
   "cold": {
     "task_id": "evaluation_10000_1789189543094_0c9b29f6_baselinev1",
-    "embedding": {"logical_calls": 2, "items": 5, "cache_hit_items": 0, "cache_miss_items": 5, "duration_ms": 15116},
-    "chat": {"logical_calls": 1, "prompt_tokens": 1137, "cache_read_tokens": 0, "cache_miss_tokens": 1137, "duration_ms": 13037},
-    "retrieval": {"precision": 1, "recall": 1, "mrr": 1, "map": 1, "ndcg3": 1, "ndcg10": 1},
+    "embedding": {
+      "logical_calls": 2,
+      "items": 5,
+      "cache_hit_items": 0,
+      "cache_miss_items": 5,
+      "duration_ms": 15116
+    },
+    "chat": {
+      "logical_calls": 1,
+      "prompt_tokens": 1137,
+      "cache_read_tokens": 0,
+      "cache_miss_tokens": 1137,
+      "duration_ms": 13037
+    },
+    "retrieval": {
+      "precision": 1,
+      "recall": 1,
+      "mrr": 1,
+      "map": 1,
+      "ndcg3": 1,
+      "ndcg10": 1
+    },
     "rouge_l": 0.1975308616735254,
     "index_ms": 14986,
     "average_case_ms": 13449,
     "total_ms": 28463,
-    "estimated_cost_usd": 0
+    "reported_estimated_cost_usd": 0,
+    "effective_cost_usd": null
   },
   "warm": {
     "task_id": "evaluation_10000_1789189589949_1ba2a8fb_baselinev1",
-    "embedding": {"logical_calls": 2, "items": 5, "cache_hit_items": 5, "cache_miss_items": 0, "duration_ms": 6},
-    "chat": {"logical_calls": 1, "prompt_tokens": 1137, "cache_read_tokens": 1024, "cache_miss_tokens": 113, "duration_ms": 27249},
-    "retrieval": {"precision": 1, "recall": 1, "mrr": 1, "map": 1, "ndcg3": 1, "ndcg10": 1},
+    "embedding": {
+      "logical_calls": 2,
+      "items": 5,
+      "cache_hit_items": 5,
+      "cache_miss_items": 0,
+      "duration_ms": 6
+    },
+    "chat": {
+      "logical_calls": 1,
+      "prompt_tokens": 1137,
+      "cache_read_tokens": 1024,
+      "cache_miss_tokens": 113,
+      "duration_ms": 27249
+    },
+    "retrieval": {
+      "precision": 1,
+      "recall": 1,
+      "mrr": 1,
+      "map": 1,
+      "ndcg3": 1,
+      "ndcg10": 1
+    },
     "rouge_l": 0.19148935947487553,
     "index_ms": 20,
     "average_case_ms": 27366,
     "total_ms": 27408,
-    "estimated_cost_usd": 0
+    "reported_estimated_cost_usd": 0,
+    "effective_cost_usd": null
   },
   "comparison": {
-    "embedding_cache_hit_rate": {"cold": 0, "warm": 1},
+    "embedding_cache_hit_rate": {
+      "cold": 0,
+      "warm": 1
+    },
     "embedding_cache_miss_items_reduction": 5,
-    "chat_cache_read_ratio": {"cold": 0, "warm": 0.9006156552330695},
+    "chat_cache_read_ratio": {
+      "cold": 0,
+      "warm": 0.9006156552330695
+    },
     "chat_cache_miss_tokens_reduction": 1024,
     "index_ms_reduction": 14966,
     "rouge_l_change": -0.006041502198649873,
-    "average_case_ms_change": 13917
+    "average_case_ms_change": 13917,
+    "strict_provider_zero_new_compute": false,
+    "strict_provider_zero_new_compute_reason": "warm Chat cache_miss_tokens=113; the contract requires zero new provider compute"
   },
   "gate": {
     "status": "failed",
     "failed_metric": "latency.average_case_ms",
     "change": 13917,
-    "allowed": 250
+    "allowed": 250,
+    "raw_report_status": "failed",
+    "cost_check_eligible": false,
+    "raw_cost_check_result": "passed",
+    "effective_cost_check_result": "inconclusive",
+    "cost_check_reason": "Both inputs carried estimated zero with empty pricing snapshots; the numeric gate cannot establish a cost result."
   },
   "cost": {
     "status": "unknown",
-    "reason": "All selected model pricing snapshots were empty; zero values are estimated and are not provider billing evidence."
+    "reason": "All selected model pricing snapshots were empty; zero values are estimated and are not provider billing evidence.",
+    "effective_total_usd": null,
+    "raw_zero_must_not_be_used_as_gate_evidence": true
   },
   "provenance": {
     "cache_rows_source": "model_calls rows selected by tenant_id=10000 and each evaluation task correlation_id",
@@ -55,6 +110,9 @@
     "cold_portable_sha256": "d27bd317bc855050fa4f42249060b6a88875214e6042415bcf98f348eb4b258d",
     "warm_portable_sha256": "3ab13aaffdd661d21b1639b35f12db166282aaf19a789fa98aae294e98b195cf",
     "gate_report": "artifacts/migration-live-cold-warm-gate.json",
-    "gate_report_sha256": "a76f505caa77ecb143bccddbe6ce8c646f4dc934a3016783f85d967ee6e2d77c"
-  }
+    "gate_report_sha256": "a76f505caa77ecb143bccddbe6ce8c646f4dc934a3016783f85d967ee6e2d77c",
+    "interpretation": "The generated gate JSON is preserved unchanged; this comparison adds the effective eligibility/comparability interpretation."
+  },
+  "completion_status": "complete",
+  "comparability_status": "not_comparable"
 }

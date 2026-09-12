@@ -132,6 +132,7 @@ go run ./cmd/topic3-parser-benchmark -repository-root . -run-id parser-local
 
 - 12 项缓存契约竞态测试已通过，原始日志和摘要位于 `artifacts/migration-cache-deterministic-*`。
 - 当前解析器运行得到 `partial`、`1/8` ready、2/37 支持单元已计分、0 个失败；其余是明确的 unavailable/unsupported。
-- 当前提交的真实冷/热 RAG 运行是 `partial`：Embedding 命中由 0/5 升至 5/5，Chat cache-read tokens 由 0 升至 1024；完整门禁因远端生成时延增加而失败，模型未配置价格，因此金额仍为 unknown。运行事实见 `artifacts/migration-cache-live-status.md`。
+- 当前提交的真实冷/热 RAG 运行是 `partial / not_comparable`：Embedding 命中由 0/5 升至 5/5，Chat cache-read tokens 由 0 升至 1024，但暖跑仍有 113 个 cache-miss tokens；完整门禁因远端生成时延增加而失败，模型未配置价格，因此成本检查无资格、金额仍为 unknown。运行事实见 `artifacts/migration-cache-live-status.md`。
+- Wiki 真实冷/暖运行同样是 `partial / not_comparable`：生产链路的 cache-read tokens 与比例上升，但调用形状变化且价格未知。逐调用事实见 `artifacts/migration-wiki-cold-warm-evidence.json`。
 
 这些状态不能互相替代：确定性测试证明代码契约，解析器报告证明本机实际可用集合，真实冷/热运行才可证明供应商调用和费用变化。

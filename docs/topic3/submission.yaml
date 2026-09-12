@@ -20,6 +20,7 @@ reports:
   tests: docs/topic3/TEST_REPORT.md
   limitations: docs/topic3/LIMITATIONS.md
   migration: docs/topic3/MIGRATION_REPORT.md
+  traceability: docs/topic3/REQUIREMENT_TRACEABILITY.md
 evidence:
   cache_contract: artifacts/migration-cache-deterministic-evidence.json
   cache_live_status: artifacts/migration-cache-live-status.json
@@ -27,12 +28,17 @@ evidence:
   cache_live_cold_detail: artifacts/migration-live-cold-detail.json
   cache_live_warm_detail: artifacts/migration-live-warm-detail.json
   cache_live_gate: artifacts/migration-live-cold-warm-gate.json
+  wiki_cache_live: artifacts/migration-wiki-cold-warm-evidence.json
   parser_report: artifacts/parser-benchmark-report.json
   parser_ground_truth_approval: docs/topic3/audit/E1_4edbde49_ROUND2_REVIEW_RECEIPT.md
 security:
   raw_prompts_persisted: false
   secrets_committed: false
   embedding_cache_tenant_scoped: true
+contracts:
+  metric_contract_version: 1
+  live_reference_status: not_promoted
+  live_reference_reason: strict cold-warm comparability and known-cost coverage were not met
 optional_parser_comparison:
   status: partial
   ready_engines: 1

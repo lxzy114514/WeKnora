@@ -45,18 +45,26 @@
 - 新增评测运行列表接口，查询始终受当前租户约束。
 - 逐题证据通过带 `limit`/`offset` 的独立接口分页读取；状态轮询不携带答案正文，避免长任务重复传输形成平方级开销。
 - 新增 `GET /api/v1/models/usage`，支持 `model_id`、`start_time`、`end_time`、`purpose` 筛选。
-- 模型价格属于模型参数，所有价格均明确为“每百万 token”或“每千条文档”的配置值；未配置价格时调用量仍记录，成本为零并标记为估算值。
+- 模型价格属于模型参数，所有价格均明确为“每百万 token”或“每千条文档”的配置值。未配置价格时调用量仍记录；底层兼容字段可以保存 `0 + estimated`，但报告、门禁和结论必须解释为 `unknown`，不得把该零值当作免费或成本门禁通过。
 
 ## 报告口径
 
 - 检索报告沿用已有 Recall、MRR、NDCG、MAP 等指标。
 - 回答质量沿用已有 BLEU、ROUGE、METEOR、Exact Match、F1 等指标。
-- 成本报告来自评测关联 ID 下的模型调用记录，按模型类型和模型 ID 汇总。
+- 成本报告来自评测关联 ID 下的模型调用记录，按模型类型和模型 ID 汇总，并提供 `priced_call_count`、`cost_coverage_ratio` 与 `cost_gate_eligible`。任一已使用的计费量缺少对应费率时，金额仍可作为 estimated 展示，但 portable report 的 `metric_eligibility` 必须把金额指标标为不合格，门禁必须拒绝给出数值通过。全量命中且没有 provider 输入的 Embedding 调用属于可证明的已知零成本，不要求虚构费率。
 - 耗时报告包含索引、检索、重排、生成、评测总耗时、平均逐题耗时及模型调用耗时。
+
+## 核心指标合同与 reference bundle
+
+核心 RAG 指标合同固定为 `metric_contract_version=1`，包含注册表中的 12 个指标：检索 Precision、Recall、NDCG@3、NDCG@10、MRR、MAP，以及回答 BLEU-1/2/4、ROUGE-1/2/L。在线评测与确定性基准必须共同使用 `internal/application/service/metric/registry.go`；任何公式、分词/文本预处理或字段映射的语义变化都必须提升合同版本，并重新生成 deterministic baseline 与 live pilot，禁止在版本号不变时静默改变算法。
+
+检索结果先按 chunk 的 `source_passage_index` 映射到冻结语料的 passage ID；旧数据缺少该元数据时，才在整个冻结 corpus 中按内容包含关系回退匹配。映射保持检索顺序、去重，且不得只搜索 ground-truth passage，否则会漏掉误命中并虚高 Precision。回答指标的中英文分句、jieba/英文 token 化及大小写处理以当前版本的 `internal/application/service/metric` 实现为准。
+
+reference bundle 是经过复核后才允许进入回归门禁的冻结组合：数据集/文件哈希、去密钥配置快照与非空 `config_hash`、审批记录中绑定的 `metric_contract_version`、代码版本、便携报告、逐题证据和门禁阈值。为保持旧便携报告可诊断读取，本次不把指标版本升级为 JSON schema 的强制字段；版本由 bundle 审批记录和本规格绑定。`testdata/evaluation/deterministic-baseline.json` 是确定性 bundle 的基线；真实 RAG 报告只有在同配置重复运行、逐题证据复核、价格覆盖口径明确且审批完成后，才能放入 `testdata/evaluation/live-baselines/`。`partial`、`not_comparable`、旧 `code_version=unknown` 或成本覆盖未知的报告只能作为诊断证据，不能晋升为正式 reference。
 
 ## 回归门禁
 
-门禁输入为两个 JSON 报告和阈值配置。两个报告都必须携带相同的非空配置哈希，策略至少包含一个指标且不能重复；缺少这些条件时直接失败，不能静默放行。默认方向：质量指标越高越好，成本与耗时越低越好。失败输出必须包含指标名、基线值、当前值、变化量和允许阈值，并以非零状态退出。
+门禁输入为两个 JSON 报告和阈值配置。两个报告都必须携带相同的非空配置哈希，策略至少包含一个指标且不能重复；缺少这些条件时直接失败，不能静默放行。每个被策略引用的 `cost.*` 指标都必须在 `metric_eligibility` 中显式声明资格；字段缺失或 `eligible=false` 时均返回输入错误，旧报告仍可参加不涉及成本的质量诊断。默认方向：质量指标越高越好，成本与耗时越低越好。失败输出必须包含指标名、基线值、当前值、变化量和允许阈值，并以非零状态退出。
 
 CI 提供 `pull_request`、定时和手动触发。仓库工作流能生成报告并运行门禁；是否真正阻止合并还需要仓库管理员把该检查设置为受保护分支的必需检查。
 
@@ -68,6 +76,8 @@ CI 提供 `pull_request`、定时和手动触发。仓库工作流能生成报�
 4. 模型用量接口按模型和时间过滤，返回调用次数、缓存 token/条目和数据库估算成本。
 5. 同一租户对相同文本连续 Embedding 时第二次命中；换模型、有效模型配置、维度或租户时不命中。
 6. Wiki/普通问答的稳定提示词指纹不因动态上下文变化而变化，且日志与数据库均不出现原始提示词。
+7. 冷/暖实测只有在配置相同、冷跑确有新增输入、暖跑 provider 新增计算量为零且费用覆盖已知时，才能形成可比较的性能/成本结论；否则分别写 `not_comparable` 或 `unknown`，仍保留缓存使用事实。
+8. Wiki 冷/暖证据按语义化 `wiki_*` purpose 汇总；异步调用缺少 correlation ID 时，必须保留互不重叠的受控时间窗与两个 knowledge ID，并把这一降级绑定方式写入报告。
 
 ## 可选文档解析器基准
 

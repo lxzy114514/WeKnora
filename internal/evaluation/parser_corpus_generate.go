@@ -26,6 +26,16 @@ type parserAuthoredDocumentV1 struct {
 	Tags               []string `json:"tags"`
 }
 
+var frozenParserAuthoringDocuments = map[string]string{
+	"docx-embedded-image":     "docx",
+	"docx-heading-list-table": "docx",
+	"md-code-link":            "md",
+	"md-heading-list-table":   "md",
+	"pdf-digital-multicolumn": "pdf",
+	"pdf-scanned-ocr":         "pdf",
+	"pdf-table-formula":       "pdf",
+}
+
 type parserRenderInputManifestV1 struct {
 	SchemaVersion int                           `json:"schema_version"`
 	CorpusVersion string                        `json:"corpus_version"`
@@ -84,7 +94,10 @@ func BuildParserCorpus(templateRoot, outputRoot string) error {
 	for _, authored := range authoring.Documents {
 		filename := authored.ID + "." + authored.Format
 		repositoryPath := ParserCorpusRepositoryPath + "/documents/" + filename
-		outputPath := filepath.Join(outputRoot, "documents", filename)
+		outputPath, err := parserCorpusOutputPath(outputRoot, "documents", filename)
+		if err != nil {
+			return err
+		}
 		var contents []byte
 		var generator ParserGeneratorIdentityV1
 		switch authored.ID {
@@ -108,14 +121,22 @@ func BuildParserCorpus(templateRoot, outputRoot string) error {
 			contents = buildTableFormulaPDF(authored)
 			generator = ParserGeneratorIdentityV1{Tool: "weknora-deterministic-pdf", Version: "1"}
 		case "docx-heading-list-table":
-			contents = buildHeadingListTableDOCX(authored)
+			contents, err = buildHeadingListTableDOCX(authored)
+			if err != nil {
+				return fmt.Errorf("generate parser document %s: %w", authored.ID, err)
+			}
 			generator = ParserGeneratorIdentityV1{Tool: "weknora-deterministic-docx", Version: "1"}
 		case "docx-embedded-image":
-			contents = buildEmbeddedImageDOCX(authored)
+			contents, err = buildEmbeddedImageDOCX(authored)
+			if err != nil {
+				return fmt.Errorf("generate parser document %s: %w", authored.ID, err)
+			}
 			generator = ParserGeneratorIdentityV1{Tool: "weknora-deterministic-docx", Version: "1"}
-		default:
+		case "md-code-link", "md-heading-list-table":
 			contents = []byte(normalizeParserSource(authored.Markdown))
 			generator = ParserGeneratorIdentityV1{Tool: "literal-utf8", Version: "1"}
+		default:
+			return fmt.Errorf("parser_authoring_document_unknown: %s", authored.ID)
 		}
 		if err := os.WriteFile(outputPath, contents, 0o644); err != nil {
 			return err
@@ -221,11 +242,39 @@ func validateParserAuthoring(authoring parserCorpusAuthoringV1) error {
 		if document.ID == "" || document.Title == "" || document.Markdown == "" || len(document.Anchors) < 3 {
 			return fmt.Errorf("parser_authoring_document_invalid")
 		}
+		wantFormat, known := frozenParserAuthoringDocuments[document.ID]
+		if !known || document.Format != wantFormat {
+			return fmt.Errorf("parser_authoring_document_unknown: %s", document.ID)
+		}
 	}
-	if !sort.StringsAreSorted(ids) || formats["pdf"] != 3 || formats["docx"] != 2 || formats["md"] != 2 {
+	if !sort.StringsAreSorted(ids) || len(uniqueStrings(ids)) != len(frozenParserAuthoringDocuments) || formats["pdf"] != 3 || formats["docx"] != 2 || formats["md"] != 2 {
 		return fmt.Errorf("parser_authoring_order_or_format_invalid")
 	}
 	return nil
+}
+
+func parserCorpusOutputPath(outputRoot string, elements ...string) (string, error) {
+	root, err := filepath.Abs(outputRoot)
+	if err != nil {
+		return "", fmt.Errorf("parser_corpus_output_root_invalid: %w", err)
+	}
+	candidate, err := filepath.Abs(filepath.Join(append([]string{root}, elements...)...))
+	if err != nil {
+		return "", fmt.Errorf("parser_corpus_output_path_invalid: %w", err)
+	}
+	relative, err := filepath.Rel(root, candidate)
+	if err != nil || relative == ".." || strings.HasPrefix(relative, ".."+string(filepath.Separator)) || filepath.IsAbs(relative) {
+		return "", fmt.Errorf("parser_corpus_output_path_escape")
+	}
+	return candidate, nil
+}
+
+func uniqueStrings(values []string) map[string]struct{} {
+	unique := make(map[string]struct{}, len(values))
+	for _, value := range values {
+		unique[value] = struct{}{}
+	}
+	return unique
 }
 
 func buildParserSupportMatrix(documents []ParserCorpusDocumentV1) []ParserSupportRowV1 {

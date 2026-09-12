@@ -177,15 +177,19 @@ func zlibBytes(contents []byte) []byte {
 	return output.Bytes()
 }
 
-func buildHeadingListTableDOCX(document parserAuthoredDocumentV1) []byte {
+func buildHeadingListTableDOCX(document parserAuthoredDocumentV1) ([]byte, error) {
 	return buildDOCX(parseAuthoredBlocks(document.Markdown), nil)
 }
 
-func buildEmbeddedImageDOCX(document parserAuthoredDocumentV1) []byte {
-	return buildDOCX(parseAuthoredBlocks(document.Markdown), buildDiagramPNG())
+func buildEmbeddedImageDOCX(document parserAuthoredDocumentV1) ([]byte, error) {
+	imagePNG, err := buildDiagramPNG()
+	if err != nil {
+		return nil, err
+	}
+	return buildDOCX(parseAuthoredBlocks(document.Markdown), imagePNG)
 }
 
-func buildDOCX(blocks []authoredBlock, imagePNG []byte) []byte {
+func buildDOCX(blocks []authoredBlock, imagePNG []byte) ([]byte, error) {
 	var body strings.Builder
 	paragraphIndex := 0
 	for _, block := range blocks {
@@ -224,7 +228,7 @@ func buildDOCX(blocks []authoredBlock, imagePNG []byte) []byte {
 	return deterministicZIP(parts)
 }
 
-func deterministicZIP(parts map[string][]byte) []byte {
+func deterministicZIP(parts map[string][]byte) ([]byte, error) {
 	names := make([]string, 0, len(parts))
 	for name := range parts {
 		names = append(names, name)
@@ -233,25 +237,35 @@ func deterministicZIP(parts map[string][]byte) []byte {
 	var output bytes.Buffer
 	archive := zip.NewWriter(&output)
 	for _, name := range names {
-		header := &zip.FileHeader{Name: name, Method: zip.Deflate}
-		header.SetModTime(time.Date(1980, 1, 1, 0, 0, 0, 0, time.UTC))
+		header := &zip.FileHeader{Name: name, Method: zip.Deflate, Modified: time.Date(1980, 1, 1, 0, 0, 0, 0, time.UTC)}
 		header.SetMode(0o644)
-		writer, _ := archive.CreateHeader(header)
-		_, _ = writer.Write(parts[name])
+		writer, err := archive.CreateHeader(header)
+		if err != nil {
+			_ = archive.Close()
+			return nil, fmt.Errorf("create docx zip entry %s: %w", name, err)
+		}
+		if _, err := writer.Write(parts[name]); err != nil {
+			_ = archive.Close()
+			return nil, fmt.Errorf("write docx zip entry %s: %w", name, err)
+		}
 	}
-	_ = archive.Close()
-	return output.Bytes()
+	if err := archive.Close(); err != nil {
+		return nil, fmt.Errorf("close docx zip: %w", err)
+	}
+	return output.Bytes(), nil
 }
 
-func buildDiagramPNG() []byte {
+func buildDiagramPNG() ([]byte, error) {
 	canvas := image.NewRGBA(image.Rect(0, 0, 640, 260))
 	draw.Draw(canvas, canvas.Bounds(), image.NewUniform(color.White), image.Point{}, draw.Src)
 	draw.Draw(canvas, image.Rect(0, 0, 640, 85), image.NewUniform(color.RGBA{82, 150, 76, 255}), image.Point{}, draw.Src)
 	draw.Draw(canvas, image.Rect(0, 175, 640, 260), image.NewUniform(color.RGBA{82, 150, 76, 255}), image.Point{}, draw.Src)
 	draw.Draw(canvas, image.Rect(0, 85, 640, 175), image.NewUniform(color.RGBA{65, 145, 220, 255}), image.Point{}, draw.Src)
 	var output bytes.Buffer
-	_ = png.Encode(&output, canvas)
-	return output.Bytes()
+	if err := png.Encode(&output, canvas); err != nil {
+		return nil, fmt.Errorf("encode docx diagram: %w", err)
+	}
+	return output.Bytes(), nil
 }
 
 func docxParagraph(value, style string) string {

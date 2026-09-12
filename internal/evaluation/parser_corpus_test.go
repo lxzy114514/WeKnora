@@ -169,3 +169,27 @@ func TestParserCorpusStrictJSONRejectsTrailingValues(t *testing.T) {
 	}
 	require.Error(t, decodeStrictJSON([]byte(`{"schema_version":1}{"schema_version":2}`), &value))
 }
+
+func TestParserCorpusAuthoringRejectsUnknownIDsAndFormatChanges(t *testing.T) {
+	authoringBytes, err := os.ReadFile(filepath.Join(parserCorpusRepositoryRoot(t), "sources", "authoring.json"))
+	require.NoError(t, err)
+	var authoring parserCorpusAuthoringV1
+	require.NoError(t, decodeStrictJSON(authoringBytes, &authoring))
+
+	authoring.Documents[0].ID = "../outside"
+	require.ErrorContains(t, validateParserAuthoring(authoring), "parser_authoring_document_unknown")
+
+	require.NoError(t, decodeStrictJSON(authoringBytes, &authoring))
+	authoring.Documents[0].Format = "pdf"
+	require.ErrorContains(t, validateParserAuthoring(authoring), "parser_authoring_document_unknown")
+}
+
+func TestParserCorpusOutputPathRejectsDirectoryEscape(t *testing.T) {
+	root := t.TempDir()
+	_, err := parserCorpusOutputPath(root, "documents", "..", "..", "outside.pdf")
+	require.ErrorContains(t, err, "parser_corpus_output_path_escape")
+
+	inside, err := parserCorpusOutputPath(root, "documents", "known.pdf")
+	require.NoError(t, err)
+	require.Equal(t, filepath.Join(root, "documents", "known.pdf"), inside)
+}

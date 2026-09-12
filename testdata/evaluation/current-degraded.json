@@ -2,11 +2,17 @@
   "run_id": "intentional-recall-regression",
   "config_hash": "policy-demo-v1",
   "metrics": {
-    "retrieval.recall": 0.60,
+    "retrieval.recall": 0.6,
     "retrieval.mrr": 0.78,
     "retrieval.ndcg10": 0.79,
-    "answer.rougel": 0.60,
+    "answer.rougel": 0.6,
     "cost.total_usd": 0.43,
     "latency.average_case_ms": 1850
+  },
+  "metric_eligibility": {
+    "cost.total_usd": {
+      "eligible": true,
+      "coverage_ratio": 1
+    }
   }
 }

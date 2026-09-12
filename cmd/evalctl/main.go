@@ -227,6 +227,18 @@ func portableReport(detail *types.EvaluationDetail) gate.Report {
 		report.Metrics["cost.embedding_usd"] = detail.Cost.Embedding
 		report.Metrics["cost.rerank_usd"] = detail.Cost.Rerank
 		report.Metrics["cost.call_count"] = float64(detail.Cost.CallCount)
+		report.MetricEligibility = map[string]gate.MetricEligibility{
+			"cost.call_count": {Eligible: true, CoverageRatio: 1},
+		}
+		reason := ""
+		if !detail.Cost.CostGateEligible {
+			reason = fmt.Sprintf("price coverage incomplete (%.6f)", detail.Cost.CostCoverageRatio)
+		}
+		for _, metric := range []string{"cost.total_usd", "cost.chat_usd", "cost.embedding_usd", "cost.rerank_usd"} {
+			report.MetricEligibility[metric] = gate.MetricEligibility{
+				Eligible: detail.Cost.CostGateEligible, CoverageRatio: detail.Cost.CostCoverageRatio, Reason: reason,
+			}
+		}
 	}
 	if detail.Duration != nil {
 		report.Metrics["latency.total_ms"] = float64(detail.Duration.TotalMS)
@@ -276,6 +288,10 @@ func writeMarkdown(path string, detail *types.EvaluationDetail) error {
 	}
 	sort.Strings(keys)
 	for _, key := range keys {
+		if eligibility, exists := report.MetricEligibility[key]; exists && !eligibility.Eligible {
+			fmt.Fprintf(&out, "| %s | unknown (%s) |\n", markdownCell(key), markdownCell(eligibility.Reason))
+			continue
+		}
 		fmt.Fprintf(&out, "| %s | %.6f |\n", markdownCell(key), report.Metrics[key])
 	}
 	out.WriteString("\n## Per-question evidence\n\n| QID | Retrieved | Reranked | Duration (ms) | Answer | Error |\n|---:|---|---|---:|---|---|\n")

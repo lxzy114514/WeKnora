@@ -26,7 +26,9 @@
 - [实现重难点与参考资料](IMPLEMENTATION_CHALLENGES_AND_REFERENCES.md)：逐项解释为什么难、如何实现、参考依据、项目自有设计与已知边界。
 - [已知限制](LIMITATIONS.md)：仍需部署环境或管理员完成的事项。
 - [提交清单](submission.yaml)：机器可读的交付索引。
-- [迁移报告](MIGRATION_REPORT.md)：说明从第二套实现选择性迁入的范围、验证证据和未完成的真实环境实验。
+- [迁移报告](MIGRATION_REPORT.md)：说明从第二套实现选择性迁入的范围、真实验证证据和如实保留的限制。
+- [迁移代码审查](MIGRATION_CODE_REVIEW.md)：记录双轴审查、修复项与最终结论。
+- [需求追溯](REQUIREMENT_TRACEABILITY.md)：把 T3-A1～A4、T3-S1 与实现、测试和真实证据逐项对应。
 
 ## 最短验收路径
 
@@ -40,9 +42,11 @@ go run ./cmd/evalctl -dataset baseline-v1 -chat-model "<chat-id>" -embedding-mod
 
 结束后会生成 `artifacts/evaluation-report.json`、`artifacts/evaluation-detail.json` 和人类可读的 `artifacts/evaluation-report.md`。详细报告包含数据集、模型、分块参数、代码版本、检索/回答指标、成本、分阶段耗时和逐题可复算证据。
 
-> 本分支没有提交任何密钥，也没有伪造真实模型实验数字。没有可用于当前分支服务的评测凭据时，交付报告只记录确定性自动化结果。
+> 本分支没有提交任何密钥，也没有伪造真实模型实验数字。确定性测试、真实运行和不可比结论分别记录，不能互相替代。
 
-当前提交已完成一组同配置冷/热实跑：Embedding 命中从 0/5 升至 5/5，Chat cache-read tokens 从 0 升至 1024。完整门禁因远端生成时延波动失败，且模型未配置价格，所以总状态为 `partial`；详见 `artifacts/migration-live-cold-warm-comparison.json`。
+当前提交已完成一组同配置冷/热实跑：Embedding 命中从 0/5 升至 5/5，Chat cache-read tokens 从 0 升至 1024。暖跑仍有 113 个 Chat cache-miss tokens，因此按严格规则为 `not_comparable`；完整门禁还因远端生成时延波动失败，且模型未配置价格，所以总状态为 `partial`。原始门禁中的零成本检查没有价格覆盖，实际解释为 `inconclusive`，详见 `artifacts/migration-live-cold-warm-comparison.json`。
+
+Wiki 真实冷/暖运行也已完成：`wiki_*` 调用的 cache-read tokens 从 2,560 增至 6,784、读取比例从 0.188415 增至 0.359665。由于 Wiki 状态演进使调用形状变化，暖跑仍有 12,078 个 cache-miss tokens，且价格缺失，这组结果同样是 `partial / not_comparable`；它证明缓存被真实链路使用，不证明端到端费用或时延改善。精确逐调用事实见 `artifacts/migration-wiki-cold-warm-evidence.json`。
 
 可选解析器基准不需要启动 WeKnora 服务：
 

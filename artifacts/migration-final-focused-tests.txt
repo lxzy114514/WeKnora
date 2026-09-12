@@ -1,0 +1,19 @@
+COMMAND go test -race ./internal/evaluation/... ./internal/types ./cmd/evalctl ./cmd/evalgate ./cmd/topic3-parser-corpus ./cmd/topic3-parser-benchmark ./internal/models/embedding ./internal/application/repository ./internal/application/service/chat_pipeline ./internal/agent ./internal/models/chat
+ok  	github.com/Tencent/WeKnora/internal/evaluation	(cached)
+ok  	github.com/Tencent/WeKnora/internal/evaluation/gate	(cached)
+ok  	github.com/Tencent/WeKnora/internal/types	(cached)
+ok  	github.com/Tencent/WeKnora/cmd/evalctl	(cached)
+ok  	github.com/Tencent/WeKnora/cmd/evalgate	(cached)
+?   	github.com/Tencent/WeKnora/cmd/topic3-parser-corpus	[no test files]
+?   	github.com/Tencent/WeKnora/cmd/topic3-parser-benchmark	[no test files]
+ok  	github.com/Tencent/WeKnora/internal/models/embedding	(cached)
+ok  	github.com/Tencent/WeKnora/internal/application/repository	(cached)
+ok  	github.com/Tencent/WeKnora/internal/application/service/chat_pipeline	(cached)
+ok  	github.com/Tencent/WeKnora/internal/agent	(cached)
+ok  	github.com/Tencent/WeKnora/internal/models/chat	(cached)
+COMMAND go test -race ./internal/application/service -run selected-wiki-tests -count=1
+ok  	github.com/Tencent/WeKnora/internal/application/service	2.006s
+COMMAND go run ./cmd/evalgate -baseline testdata/evaluation/baseline.json -current testdata/evaluation/current-smoke.json -thresholds config/evaluation-gate.json
+evaluation gate passed (6 checks)
+COMMAND go vet focused packages
+RESULT all focused checks passed

@@ -50,7 +50,7 @@ func TestRunParserBenchmarkProducesTheFrozenMatrixAndFactualOutcomes(t *testing.
 		},
 	})
 	require.NoError(t, err)
-	require.Equal(t, "partial", report.Status)
+	require.Equal(t, ParserBenchmarkStatusPartial, report.Status)
 	require.Equal(t, 56, report.CellCount)
 	require.Equal(t, 19, report.UnsupportedCellCount)
 	require.Equal(t, 3, report.UnavailableCellCount)
@@ -65,25 +65,25 @@ func TestRunParserBenchmarkProducesTheFrozenMatrixAndFactualOutcomes(t *testing.
 	require.Equal(t, "docx-embedded-image", report.Cells[0].DocumentID)
 
 	fallback := requireParserCell(t, report, "anydoc", "pdf-scanned-ocr")
-	require.Equal(t, "fallback_succeeded", fallback.Outcome)
+	require.Equal(t, ParserBenchmarkOutcomeFallbackSucceeded, fallback.Outcome)
 	require.Equal(t, "builtin", fallback.ExecutedEngine)
 	require.Equal(t, "scanned_pdf", fallback.FallbackReason)
-	require.Equal(t, "unknown", fallback.BillingStatus)
+	require.Equal(t, ParserBenchmarkBillingUnknown, fallback.BillingStatus)
 	require.NotEmpty(t, fallback.OutputSHA256)
 	require.NotNil(t, fallback.Metrics)
 
 	failed := requireParserCell(t, report, "builtin", "pdf-scanned-ocr")
-	require.Equal(t, "read_failed", failed.Outcome)
+	require.Equal(t, ParserBenchmarkOutcomeReadFailed, failed.Outcome)
 	require.Equal(t, "parser_read_failed", failed.ErrorCode)
-	require.Equal(t, "unknown", failed.BillingStatus)
+	require.Equal(t, ParserBenchmarkBillingUnknown, failed.BillingStatus)
 
 	unavailable := requireParserCell(t, report, "paddleocr_vl_cloud", "pdf-scanned-ocr")
-	require.Equal(t, "unavailable", unavailable.Outcome)
-	require.Equal(t, "not_billable", unavailable.BillingStatus)
+	require.Equal(t, ParserBenchmarkOutcomeUnavailable, unavailable.Outcome)
+	require.Equal(t, ParserBenchmarkBillingNotBillable, unavailable.BillingStatus)
 
 	unsupported := requireParserCell(t, report, "simple", "pdf-scanned-ocr")
-	require.Equal(t, "unsupported", unsupported.Outcome)
-	require.Equal(t, "not_billable", unsupported.BillingStatus)
+	require.Equal(t, ParserBenchmarkOutcomeUnsupported, unsupported.Outcome)
+	require.Equal(t, ParserBenchmarkBillingNotBillable, unsupported.BillingStatus)
 
 	encoded, err := json.Marshal(report)
 	require.NoError(t, err)
@@ -115,9 +115,43 @@ func TestRunParserBenchmarkClassifiesContextDeadlineAsParseTimeout(t *testing.T)
 	require.NoError(t, err)
 
 	cell := requireParserCell(t, report, "builtin", "pdf-scanned-ocr")
-	require.Equal(t, "parse_timeout", cell.Outcome)
+	require.Equal(t, ParserBenchmarkOutcomeParseTimeout, cell.Outcome)
 	require.Equal(t, "parser_timeout", cell.ErrorCode)
-	require.Equal(t, "unknown", cell.BillingStatus)
+	require.Equal(t, ParserBenchmarkBillingUnknown, cell.BillingStatus)
+}
+
+func TestRunParserBenchmarkKeepsReadyEngineAvailableWhenDeadlinePreventsFirstAttempt(t *testing.T) {
+	corpusRoot := parserCorpusRepositoryRoot(t)
+	corpus, err := LoadParserCorpusDirectory(corpusRoot, false)
+	require.NoError(t, err)
+	engines := benchmarkTestEngines(corpus)
+	for index := range engines {
+		engines[index].Available = engines[index].Name == "builtin"
+	}
+
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+	report, err := RunParserBenchmark(ctx, corpus, ParserBenchmarkOptions{
+		CorpusRoot: corpusRoot, RunID: "parser-cancelled-before-first-attempt",
+		GeneratedAt: time.Date(2026, 9, 12, 3, 4, 5, 0, time.UTC), PerCellTimeout: time.Second,
+		Engines: engines,
+		NewReader: func(context.Context, string, string) (interfaces.DocReader, error) {
+			require.FailNow(t, "reader must not be created after the overall deadline")
+			return nil, nil
+		},
+	})
+	require.NoError(t, err)
+	require.Equal(t, 1, report.ReadyEngineCount)
+	require.Equal(t, []string{"builtin"}, report.AvailableEngines)
+	for _, engine := range report.Engines {
+		if engine.RequestedEngine == "builtin" {
+			require.True(t, engine.Available)
+			require.Zero(t, engine.AttemptedCellCount)
+			require.Equal(t, engine.SupportedCellCount, engine.NotAttemptedCellCount)
+			return
+		}
+	}
+	require.FailNow(t, "builtin summary not found")
 }
 
 type parserBenchmarkReaderFunc func(context.Context, *types.ReadRequest) (*types.ReadResult, error)
@@ -157,7 +191,7 @@ func TestWriteParserBenchmarkReportsCreatesJSONAndMarkdown(t *testing.T) {
 		RunID:         "run-1",
 		RunKind:       "parser_benchmark",
 		GeneratedAt:   "2026-09-12T03:04:05Z",
-		Status:        "partial",
+		Status:        ParserBenchmarkStatusPartial,
 		EngineCount:   8,
 		CellCount:     56,
 		Cells:         []ParserBenchmarkCellV1{},

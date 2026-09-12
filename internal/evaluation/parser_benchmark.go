@@ -18,6 +18,29 @@ import (
 
 const ParserBenchmarkReportSchemaVersion = 1
 
+type ParserBenchmarkOutcome string
+type ParserBenchmarkStatus string
+type ParserBenchmarkBillingStatus string
+
+const (
+	ParserBenchmarkOutcomeUnsupported       ParserBenchmarkOutcome = "unsupported"
+	ParserBenchmarkOutcomeUnavailable       ParserBenchmarkOutcome = "unavailable"
+	ParserBenchmarkOutcomeNotAttempted      ParserBenchmarkOutcome = "not_attempted"
+	ParserBenchmarkOutcomeParseTimeout      ParserBenchmarkOutcome = "parse_timeout"
+	ParserBenchmarkOutcomeReadFailed        ParserBenchmarkOutcome = "read_failed"
+	ParserBenchmarkOutcomeParseError        ParserBenchmarkOutcome = "parse_error"
+	ParserBenchmarkOutcomeParseEmpty        ParserBenchmarkOutcome = "parse_empty"
+	ParserBenchmarkOutcomeMetricError       ParserBenchmarkOutcome = "metric_error"
+	ParserBenchmarkOutcomeSucceeded         ParserBenchmarkOutcome = "succeeded"
+	ParserBenchmarkOutcomeFallbackSucceeded ParserBenchmarkOutcome = "fallback_succeeded"
+
+	ParserBenchmarkStatusComplete ParserBenchmarkStatus = "complete"
+	ParserBenchmarkStatusPartial  ParserBenchmarkStatus = "partial"
+
+	ParserBenchmarkBillingNotBillable ParserBenchmarkBillingStatus = "not_billable"
+	ParserBenchmarkBillingUnknown     ParserBenchmarkBillingStatus = "unknown"
+)
+
 type ParserBenchmarkReaderFactory func(context.Context, string, string) (interfaces.DocReader, error)
 
 type ParserBenchmarkOptions struct {
@@ -30,20 +53,20 @@ type ParserBenchmarkOptions struct {
 }
 
 type ParserBenchmarkCellV1 struct {
-	SampleID        string             `json:"sample_id"`
-	RequestedEngine string             `json:"requested_engine"`
-	ExecutedEngine  string             `json:"executed_engine,omitempty"`
-	FallbackReason  string             `json:"fallback_reason,omitempty"`
-	DocumentID      string             `json:"document_id"`
-	DocumentPath    string             `json:"document_path"`
-	Extension       string             `json:"extension"`
-	Supported       bool               `json:"supported"`
-	Outcome         string             `json:"outcome"`
-	ErrorCode       string             `json:"error_code,omitempty"`
-	DurationMillis  int64              `json:"duration_ms,omitempty"`
-	OutputSHA256    string             `json:"output_sha256,omitempty"`
-	BillingStatus   string             `json:"billing_status"`
-	Metrics         *ParserMetricSetV1 `json:"metrics,omitempty"`
+	SampleID        string                       `json:"sample_id"`
+	RequestedEngine string                       `json:"requested_engine"`
+	ExecutedEngine  string                       `json:"executed_engine,omitempty"`
+	FallbackReason  string                       `json:"fallback_reason,omitempty"`
+	DocumentID      string                       `json:"document_id"`
+	DocumentPath    string                       `json:"document_path"`
+	Extension       string                       `json:"extension"`
+	Supported       bool                         `json:"supported"`
+	Outcome         ParserBenchmarkOutcome       `json:"outcome"`
+	ErrorCode       string                       `json:"error_code,omitempty"`
+	DurationMillis  int64                        `json:"duration_ms,omitempty"`
+	OutputSHA256    string                       `json:"output_sha256,omitempty"`
+	BillingStatus   ParserBenchmarkBillingStatus `json:"billing_status"`
+	Metrics         *ParserMetricSetV1           `json:"metrics,omitempty"`
 }
 
 type ParserMetricMeanV1 struct {
@@ -77,7 +100,7 @@ type ParserBenchmarkReportV1 struct {
 	RunID                    string                           `json:"run_id"`
 	RunKind                  string                           `json:"run_kind"`
 	GeneratedAt              string                           `json:"generated_at"`
-	Status                   string                           `json:"status"`
+	Status                   ParserBenchmarkStatus            `json:"status"`
 	CorpusVersion            string                           `json:"corpus_version"`
 	CorpusManifestSHA256     string                           `json:"corpus_manifest_sha256"`
 	GroundTruthPayloadSHA256 string                           `json:"ground_truth_payload_sha256"`
@@ -132,7 +155,7 @@ func RunParserBenchmark(ctx context.Context, corpus *LoadedParserCorpus, options
 	report := &ParserBenchmarkReportV1{
 		SchemaVersion: ParserBenchmarkReportSchemaVersion,
 		RunID:         strings.TrimSpace(options.RunID), RunKind: "parser_benchmark",
-		GeneratedAt: options.GeneratedAt.UTC().Format(time.RFC3339), Status: "complete",
+		GeneratedAt: options.GeneratedAt.UTC().Format(time.RFC3339), Status: ParserBenchmarkStatusComplete,
 		CorpusVersion:            corpus.Manifest.Version,
 		CorpusManifestSHA256:     corpus.CorpusManifestFileSHA256,
 		GroundTruthPayloadSHA256: corpus.GroundTruthPayloadSHA256,
@@ -165,35 +188,35 @@ func RunParserBenchmark(ctx context.Context, corpus *LoadedParserCorpus, options
 				SampleID:        "parser:" + row.Engine + ":" + document.ID,
 				RequestedEngine: row.Engine,
 				DocumentID:      document.ID, DocumentPath: document.Path, Extension: document.Extension,
-				Supported: support.Supported, BillingStatus: "not_billable",
+				Supported: support.Supported, BillingStatus: ParserBenchmarkBillingNotBillable,
 			}
 			report.CellCount++
 			if !support.Supported {
-				cell.Outcome = "unsupported"
+				cell.Outcome = ParserBenchmarkOutcomeUnsupported
 				report.UnsupportedCellCount++
 				report.Cells = append(report.Cells, cell)
 				continue
 			}
 			report.SupportedCellCount++
 			if !available {
-				cell.Outcome = "unavailable"
+				cell.Outcome = ParserBenchmarkOutcomeUnavailable
 				cell.ErrorCode = "parser_engine_unavailable"
 				report.UnavailableCellCount++
-				report.Status = "partial"
+				report.Status = ParserBenchmarkStatusPartial
 				report.Cells = append(report.Cells, cell)
 				continue
 			}
 			if ctx.Err() != nil {
-				cell.Outcome = "not_attempted"
+				cell.Outcome = ParserBenchmarkOutcomeNotAttempted
 				cell.ErrorCode = "parser_benchmark_deadline"
 				report.NotAttemptedCellCount++
-				report.Status = "partial"
+				report.Status = ParserBenchmarkStatusPartial
 				report.Cells = append(report.Cells, cell)
 				continue
 			}
 
 			report.AttemptedCellCount++
-			cell.BillingStatus = "unknown"
+			cell.BillingStatus = ParserBenchmarkBillingUnknown
 			contents, err := readParserRelativeFile(options.CorpusRoot, document.Path)
 			if err != nil {
 				return nil, fmt.Errorf("parser_benchmark_read_document: %w", err)
@@ -220,10 +243,10 @@ func RunParserBenchmark(ctx context.Context, corpus *LoadedParserCorpus, options
 			cancel()
 			if err != nil {
 				if deadline {
-					cell.Outcome = "parse_timeout"
+					cell.Outcome = ParserBenchmarkOutcomeParseTimeout
 					cell.ErrorCode = "parser_timeout"
 				} else {
-					cell.Outcome = "read_failed"
+					cell.Outcome = ParserBenchmarkOutcomeReadFailed
 					cell.ErrorCode = "parser_read_failed"
 				}
 			}
@@ -231,7 +254,7 @@ func RunParserBenchmark(ctx context.Context, corpus *LoadedParserCorpus, options
 				report.ScoredCellCount++
 			} else {
 				report.FailedCellCount++
-				report.Status = "partial"
+				report.Status = ParserBenchmarkStatusPartial
 			}
 			report.Cells = append(report.Cells, cell)
 		}
@@ -242,7 +265,7 @@ func RunParserBenchmark(ctx context.Context, corpus *LoadedParserCorpus, options
 
 func completeParserBenchmarkCell(cell *ParserBenchmarkCellV1, result *types.ReadResult, truth ParserGroundTruthDocumentV1) {
 	if result == nil {
-		cell.Outcome = "parse_error"
+		cell.Outcome = ParserBenchmarkOutcomeParseError
 		cell.ErrorCode = "parser_empty_result"
 		return
 	}
@@ -257,12 +280,12 @@ func completeParserBenchmarkCell(cell *ParserBenchmarkCellV1, result *types.Read
 		}
 	}
 	if strings.TrimSpace(result.Error) != "" {
-		cell.Outcome = "parse_error"
+		cell.Outcome = ParserBenchmarkOutcomeParseError
 		cell.ErrorCode = "parser_result_error"
 		return
 	}
 	if strings.TrimSpace(result.MarkdownContent) == "" {
-		cell.Outcome = "parse_empty"
+		cell.Outcome = ParserBenchmarkOutcomeParseEmpty
 		cell.ErrorCode = "parser_empty_output"
 		return
 	}
@@ -272,23 +295,27 @@ func completeParserBenchmarkCell(cell *ParserBenchmarkCellV1, result *types.Read
 	}
 	prediction, err := ExtractParserComponents(result.MarkdownContent, anchors)
 	if err != nil {
-		cell.Outcome = "metric_error"
+		cell.Outcome = ParserBenchmarkOutcomeMetricError
 		cell.ErrorCode = "parser_metric_failed"
 		return
 	}
 	metrics := ScoreParserComponents(truth.Components, prediction)
 	cell.Metrics = &metrics
 	cell.OutputSHA256 = sha256Hex([]byte(result.MarkdownContent))
-	cell.Outcome = "succeeded"
+	cell.Outcome = ParserBenchmarkOutcomeSucceeded
 	if cell.ExecutedEngine != cell.RequestedEngine {
-		cell.Outcome = "fallback_succeeded"
+		cell.Outcome = ParserBenchmarkOutcomeFallbackSucceeded
 	}
 }
 
 func summarizeParserBenchmarkEngines(report *ParserBenchmarkReportV1) []ParserBenchmarkEngineSummaryV1 {
 	result := make([]ParserBenchmarkEngineSummaryV1, 0, report.EngineCount)
+	available := make(map[string]bool, len(report.AvailableEngines))
+	for _, engine := range report.AvailableEngines {
+		available[engine] = true
+	}
 	for _, engine := range FrozenParserEngineOrder {
-		summary := ParserBenchmarkEngineSummaryV1{RequestedEngine: engine, ExecutedEngines: []string{}}
+		summary := ParserBenchmarkEngineSummaryV1{RequestedEngine: engine, Available: available[engine], ExecutedEngines: []string{}}
 		executed := map[string]bool{}
 		metrics := make([]ParserMetricSetV1, 0)
 		for _, cell := range report.Cells {
@@ -299,14 +326,14 @@ func summarizeParserBenchmarkEngines(report *ParserBenchmarkReportV1) []ParserBe
 				summary.SupportedCellCount++
 			}
 			switch cell.Outcome {
-			case "unavailable":
+			case ParserBenchmarkOutcomeUnavailable:
 				summary.UnavailableCellCount++
-			case "succeeded", "fallback_succeeded":
+			case ParserBenchmarkOutcomeSucceeded, ParserBenchmarkOutcomeFallbackSucceeded:
 				summary.AttemptedCellCount++
 				summary.ScoredCellCount++
 				metrics = append(metrics, *cell.Metrics)
-			case "unsupported":
-			case "not_attempted":
+			case ParserBenchmarkOutcomeUnsupported:
+			case ParserBenchmarkOutcomeNotAttempted:
 				summary.NotAttemptedCellCount++
 			default:
 				summary.AttemptedCellCount++
@@ -316,7 +343,6 @@ func summarizeParserBenchmarkEngines(report *ParserBenchmarkReportV1) []ParserBe
 				executed[cell.ExecutedEngine] = true
 			}
 		}
-		summary.Available = summary.AttemptedCellCount > 0
 		for name := range executed {
 			summary.ExecutedEngines = append(summary.ExecutedEngines, name)
 		}
