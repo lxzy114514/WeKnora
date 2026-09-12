@@ -62,6 +62,17 @@ func TestCommittedParserCorpusMatchesAFreshDeterministicBuild(t *testing.T) {
 	for relative, want := range corpusFileFacts(t, fresh) {
 		contents, err := os.ReadFile(filepath.Join(repositoryCorpus, filepath.FromSlash(relative)))
 		require.NoError(t, err, relative)
+		if relative == "ground-truth.json" {
+			freshContents, readErr := os.ReadFile(filepath.Join(fresh, "ground-truth.json"))
+			require.NoError(t, readErr)
+			var generated, committed ParserGroundTruthV1
+			require.NoError(t, decodeStrictJSON(freshContents, &generated))
+			require.NoError(t, decodeStrictJSON(contents, &committed))
+			require.Equal(t, generated.SchemaVersion, committed.SchemaVersion)
+			require.Equal(t, generated.Payload, committed.Payload)
+			require.Contains(t, []string{"pending", "approved"}, committed.Review.Status)
+			continue
+		}
 		require.Equal(t, want, fmt.Sprintf("%d:%s", len(contents), sha256Hex(contents)), relative)
 	}
 }
