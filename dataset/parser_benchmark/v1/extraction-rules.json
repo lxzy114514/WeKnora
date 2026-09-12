@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "parser_normalization_version": 1,
+  "parser_metric_contract_version": 1,
+  "normalization": [
+    "line_endings_to_lf",
+    "utf8_required",
+    "unicode_nfkc",
+    "remove_zero_width_format_characters",
+    "unicode_whitespace_to_space"
+  ],
+  "markdown_parser": "github.com/yuin/goldmark@v1.8.2+GFM",
+  "html_table_parser": "golang.org/x/net/html",
+  "formula_delimiters": ["$$...$$", "\\[...\\]", "\\(...\\)", "$...$ when mathematical"],
+  "metrics": [
+    "text_similarity",
+    "structure_f1",
+    "table_cell_f1",
+    "formula_similarity",
+    "reading_order_accuracy"
+  ],
+  "aggregate": "per-document then equal-weight macro mean by engine, format, and metric",
+  "prohibitions": ["composite_score", "authoritative_ranking", "regex_only_markdown", "empty_component_full_credit"]
+}

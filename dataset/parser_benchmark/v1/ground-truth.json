@@ -1,0 +1,397 @@
+{
+  "schema_version": 1,
+  "payload": {
+    "corpus_version": "v1",
+    "parser_normalization_version": 1,
+    "parser_metric_contract_version": 1,
+    "documents": [
+      {
+        "id": "docx-embedded-image",
+        "components": {
+          "text": "Embedded Image Field Note\nNORTH PINE marks the opening observation.\nThe embedded diagram shows a blue river between two green banks.\nCENTER RIVER confirms the image position.\nSOUTH STONE closes the field note.",
+          "headings": [
+            {
+              "level": 1,
+              "text": "Embedded Image Field Note"
+            }
+          ],
+          "list_items": [],
+          "table_cells": [],
+          "formulas": [],
+          "anchor_matches": [
+            {
+              "text": "NORTH PINE",
+              "count": 1,
+              "rune_offset": 26
+            },
+            {
+              "text": "CENTER RIVER",
+              "count": 1,
+              "rune_offset": 133
+            },
+            {
+              "text": "SOUTH STONE",
+              "count": 1,
+              "rune_offset": 175
+            }
+          ],
+          "image_count": 0
+        },
+        "expected_embedded_image_count": 1
+      },
+      {
+        "id": "docx-heading-list-table",
+        "components": {
+          "text": "Campus Garden Checklist\nNORTH GATE begins the inspection.\nCheck the soil\nCount the seedlings\nRecord the east bed\nCENTER BED confirms the table location.\nSOUTH BENCH ends the inspection.",
+          "headings": [
+            {
+              "level": 1,
+              "text": "Campus Garden Checklist"
+            }
+          ],
+          "list_items": [
+            {
+              "depth": 1,
+              "ordered": false,
+              "text": "Check the soil"
+            },
+            {
+              "depth": 1,
+              "ordered": false,
+              "text": "Count the seedlings"
+            },
+            {
+              "depth": 2,
+              "ordered": true,
+              "text": "Record the east bed"
+            }
+          ],
+          "table_cells": [
+            {
+              "table": 0,
+              "row": 0,
+              "column": 0,
+              "text": "Plot"
+            },
+            {
+              "table": 0,
+              "row": 0,
+              "column": 1,
+              "text": "Seedlings"
+            },
+            {
+              "table": 0,
+              "row": 1,
+              "column": 0,
+              "text": "East"
+            },
+            {
+              "table": 0,
+              "row": 1,
+              "column": 1,
+              "text": "12"
+            },
+            {
+              "table": 0,
+              "row": 2,
+              "column": 0,
+              "text": "West"
+            },
+            {
+              "table": 0,
+              "row": 2,
+              "column": 1,
+              "text": "9"
+            }
+          ],
+          "formulas": [],
+          "anchor_matches": [
+            {
+              "text": "NORTH GATE",
+              "count": 1,
+              "rune_offset": 24
+            },
+            {
+              "text": "CENTER BED",
+              "count": 1,
+              "rune_offset": 113
+            },
+            {
+              "text": "SOUTH BENCH",
+              "count": 1,
+              "rune_offset": 153
+            }
+          ],
+          "image_count": 0
+        },
+        "expected_embedded_image_count": 0
+      },
+      {
+        "id": "md-code-link",
+        "components": {
+          "text": "Link and Code Route\nNORTH LAMP opens the route.\nRead the visible route guide .\nroute := \"CENTER ARCH\"\nfmt.Println(route)\nSOUTH CLOCK closes the route.",
+          "headings": [
+            {
+              "level": 1,
+              "text": "Link and Code Route"
+            }
+          ],
+          "list_items": [],
+          "table_cells": [],
+          "formulas": [],
+          "anchor_matches": [
+            {
+              "text": "NORTH LAMP",
+              "count": 1,
+              "rune_offset": 20
+            },
+            {
+              "text": "CENTER ARCH",
+              "count": 1,
+              "rune_offset": 89
+            },
+            {
+              "text": "SOUTH CLOCK",
+              "count": 1,
+              "rune_offset": 121
+            }
+          ],
+          "image_count": 0
+        },
+        "expected_embedded_image_count": 0
+      },
+      {
+        "id": "md-heading-list-table",
+        "components": {
+          "text": "Workshop Inventory\nNORTH SHELF starts the count.\nHammer\nWrench\nSmall wrench\nCENTER DRAWER follows the table.\nSOUTH DOOR ends the count.",
+          "headings": [
+            {
+              "level": 1,
+              "text": "Workshop Inventory"
+            }
+          ],
+          "list_items": [
+            {
+              "depth": 1,
+              "ordered": false,
+              "text": "Hammer"
+            },
+            {
+              "depth": 1,
+              "ordered": false,
+              "text": "Wrench"
+            },
+            {
+              "depth": 2,
+              "ordered": true,
+              "text": "Small wrench"
+            }
+          ],
+          "table_cells": [
+            {
+              "table": 0,
+              "row": 0,
+              "column": 0,
+              "text": "Tool"
+            },
+            {
+              "table": 0,
+              "row": 0,
+              "column": 1,
+              "text": "Count"
+            },
+            {
+              "table": 0,
+              "row": 1,
+              "column": 0,
+              "text": "Hammer"
+            },
+            {
+              "table": 0,
+              "row": 1,
+              "column": 1,
+              "text": "2"
+            },
+            {
+              "table": 0,
+              "row": 2,
+              "column": 0,
+              "text": "Wrench"
+            },
+            {
+              "table": 0,
+              "row": 2,
+              "column": 1,
+              "text": "3"
+            }
+          ],
+          "formulas": [],
+          "anchor_matches": [
+            {
+              "text": "NORTH SHELF",
+              "count": 1,
+              "rune_offset": 19
+            },
+            {
+              "text": "CENTER DRAWER",
+              "count": 1,
+              "rune_offset": 76
+            },
+            {
+              "text": "SOUTH DOOR",
+              "count": 1,
+              "rune_offset": 109
+            }
+          ],
+          "image_count": 0
+        },
+        "expected_embedded_image_count": 0
+      },
+      {
+        "id": "pdf-digital-multicolumn",
+        "components": {
+          "text": "Two Column Reading Order\nNORTH STAR starts the left column.\nLeft note one comes before left note two.\nCENTER BRIDGE ends the left column.\nRight note one starts the second column.\nSOUTH HARBOR ends the right column.",
+          "headings": [
+            {
+              "level": 1,
+              "text": "Two Column Reading Order"
+            }
+          ],
+          "list_items": [],
+          "table_cells": [],
+          "formulas": [],
+          "anchor_matches": [
+            {
+              "text": "NORTH STAR",
+              "count": 1,
+              "rune_offset": 25
+            },
+            {
+              "text": "CENTER BRIDGE",
+              "count": 1,
+              "rune_offset": 102
+            },
+            {
+              "text": "SOUTH HARBOR",
+              "count": 1,
+              "rune_offset": 179
+            }
+          ],
+          "image_count": 0
+        },
+        "expected_embedded_image_count": 0
+      },
+      {
+        "id": "pdf-scanned-ocr",
+        "components": {
+          "text": "Scanned Orchard Note\nNORTH APPLE begins the scanned page.\nThe orchard row contains seven young trees.\nCENTER PEAR marks the middle observation.\nSOUTH PLUM completes the scanned page.",
+          "headings": [
+            {
+              "level": 1,
+              "text": "Scanned Orchard Note"
+            }
+          ],
+          "list_items": [],
+          "table_cells": [],
+          "formulas": [],
+          "anchor_matches": [
+            {
+              "text": "NORTH APPLE",
+              "count": 1,
+              "rune_offset": 21
+            },
+            {
+              "text": "CENTER PEAR",
+              "count": 1,
+              "rune_offset": 102
+            },
+            {
+              "text": "SOUTH PLUM",
+              "count": 1,
+              "rune_offset": 144
+            }
+          ],
+          "image_count": 0
+        },
+        "expected_embedded_image_count": 0
+      },
+      {
+        "id": "pdf-table-formula",
+        "components": {
+          "text": "Bridge Load Worksheet\nNORTH CABLE starts the worksheet.\nCENTER PIER precedes the formula.\nSOUTH DECK closes the worksheet.",
+          "headings": [
+            {
+              "level": 1,
+              "text": "Bridge Load Worksheet"
+            }
+          ],
+          "list_items": [],
+          "table_cells": [
+            {
+              "table": 0,
+              "row": 0,
+              "column": 0,
+              "text": "Span"
+            },
+            {
+              "table": 0,
+              "row": 0,
+              "column": 1,
+              "text": "Load"
+            },
+            {
+              "table": 0,
+              "row": 1,
+              "column": 0,
+              "text": "A"
+            },
+            {
+              "table": 0,
+              "row": 1,
+              "column": 1,
+              "text": "12 kN"
+            },
+            {
+              "table": 0,
+              "row": 2,
+              "column": 0,
+              "text": "B"
+            },
+            {
+              "table": 0,
+              "row": 2,
+              "column": 1,
+              "text": "18 kN"
+            }
+          ],
+          "formulas": [
+            "F=m*a"
+          ],
+          "anchor_matches": [
+            {
+              "text": "NORTH CABLE",
+              "count": 1,
+              "rune_offset": 22
+            },
+            {
+              "text": "CENTER PIER",
+              "count": 1,
+              "rune_offset": 56
+            },
+            {
+              "text": "SOUTH DECK",
+              "count": 1,
+              "rune_offset": 90
+            }
+          ],
+          "image_count": 0
+        },
+        "expected_embedded_image_count": 0
+      }
+    ]
+  },
+  "review": {
+    "status": "pending",
+    "reason": "not_reviewed"
+  }
+}

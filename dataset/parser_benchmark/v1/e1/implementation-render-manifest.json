@@ -1,0 +1,196 @@
+{
+  "schema_version": 1,
+  "corpus_version": "v1",
+  "provenance": {
+    "role": "implementation_self_check",
+    "created_at": "2026-09-12T04:58:42+08:00",
+    "tools": [
+      {
+        "name": "documents-skill",
+        "path": "C:\\Users\\21169\\.codex\\plugins\\cache\\openai-primary-runtime\\documents\\26.905.11957\\skills\\documents\\SKILL.md",
+        "sha256": "8ab26c226c6e4919989185934c44091d89dd67c9e86c1b960c3fd8f08dd90ed2",
+        "version": "26.905.11957"
+      },
+      {
+        "name": "render_docx.py",
+        "path": "C:\\Users\\21169\\.codex\\plugins\\cache\\openai-primary-runtime\\documents\\26.905.11957\\skills\\documents\\render_docx.py",
+        "sha256": "8b48b8f05f30cc6c7b5a7bd8e18e7ea93a61aec1ea601026a3358b2105f0903a",
+        "version": "26.905.11957"
+      },
+      {
+        "name": "pdf-skill",
+        "path": "C:\\Users\\21169\\.codex\\plugins\\cache\\openai-primary-runtime\\pdf\\26.905.11957\\skills\\pdf\\SKILL.md",
+        "sha256": "9e429bfc5ada20ccf25a531484e3dcc5da59811d936a7cc5dfd23dbf2dfadd31",
+        "version": "26.905.11957"
+      },
+      {
+        "name": "managed-python",
+        "path": "C:\\Users\\21169\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+        "sha256": "b7a12c3af0b4db44191eec14ea095eba731b7328917f570806183093d19ddca2",
+        "version": "3.12.14"
+      },
+      {
+        "name": "libreoffice",
+        "path": "D:\\APP\\LibreOffice\\program\\soffice.exe",
+        "sha256": "a2823391857db1dd8ebbd8234267f9ec58ec7e5b5fc434665c0ecec4671cb988",
+        "version": "26.8.0.3"
+      },
+      {
+        "name": "pdftoppm",
+        "path": "C:\\Users\\21169\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\poppler\\Library\\bin\\pdftoppm.exe",
+        "sha256": "50e3c5e703e4f9d21b935a40d278becd888cec4bb867e8188afb4651c638a423",
+        "version": "26.07.0"
+      }
+    ],
+    "commands": [
+      "Copy-Item \u003cfrozen-input\u003e \u003cASCII-only-temp-copy\u003e; Get-FileHash -Algorithm SHA256 on both paths",
+      "managed-python render_docx.py \u003ccopied.docx\u003e --output_dir \u003cASCII-only-temp-output\u003e --dpi 150 --emit_pdf --verbose",
+      "pdftoppm.exe -png -r 150 \u003ccopied.pdf\u003e \u003cASCII-only-temp-prefix\u003e",
+      "view_image \u003cpage-001.png\u003e detail=original; compare visible heading, components, and anchors with ground truth",
+      "Get-Content -Raw \u003cmarkdown-source\u003e; compare heading, components, and anchors with ground truth"
+    ]
+  },
+  "documents": [
+    {
+      "id": "docx-embedded-image",
+      "input_sha256": "c10ea759ee914973db0af1f58fc58227bc69d25380af6e101bf6260d04a9cca7",
+      "inspection_mode": "paged_render",
+      "pages": [
+        {
+          "page": 1,
+          "kind": "png",
+          "relative_path": "docx-embedded-image/page-001.png",
+          "artifact": {
+            "path": "dataset/parser_benchmark/v1/e1/implementation-render/docx-embedded-image/page-001.png",
+            "bytes": 43785,
+            "sha256": "c1f5339e1363bb7ec7300facd9964301028439114d5b75849d5617b36a52a08a"
+          }
+        }
+      ],
+      "intermediate_artifacts": [
+        {
+          "path": "dataset/parser_benchmark/v1/e1/implementation-render/docx-embedded-image/intermediate.pdf",
+          "bytes": 40341,
+          "sha256": "9b353a7ebccd0cd6e80862097208bdcf3c287671ca25770910a46140550b290d"
+        }
+      ],
+      "page_manifest_sha256": "85d07f9f260649f4b069c41cfedb955c3280d92a6b7f360ea0261c330f772be5"
+    },
+    {
+      "id": "docx-heading-list-table",
+      "input_sha256": "8e647295dda9004d99da7f5ad34e36b8474adb15529d53afc27c5ee62a7122ad",
+      "inspection_mode": "paged_render",
+      "pages": [
+        {
+          "page": 1,
+          "kind": "png",
+          "relative_path": "docx-heading-list-table/page-001.png",
+          "artifact": {
+            "path": "dataset/parser_benchmark/v1/e1/implementation-render/docx-heading-list-table/page-001.png",
+            "bytes": 54192,
+            "sha256": "2ef7e7e51322c808f8782843e678b4d1ddbbb2fcc1f29e5cae6483c5d7512a45"
+          }
+        }
+      ],
+      "intermediate_artifacts": [
+        {
+          "path": "dataset/parser_benchmark/v1/e1/implementation-render/docx-heading-list-table/intermediate.pdf",
+          "bytes": 46430,
+          "sha256": "d28fad8a3f6f567d867a807586deee5850ec56478a9939c193c7945b6543e0b9"
+        }
+      ],
+      "page_manifest_sha256": "e303c3f74ceed05b4919d6d49ac7eb5e9d9d3fdcff048a86751c608aaad7e1ff"
+    },
+    {
+      "id": "md-code-link",
+      "input_sha256": "99a72656f1ba2dfb71aa2f7ebfdbd43104cd7c46145ae159cd01f668faa8650e",
+      "inspection_mode": "source_text",
+      "pages": [
+        {
+          "page": 1,
+          "kind": "source_text",
+          "relative_path": "md-code-link/source.md",
+          "artifact": {
+            "path": "dataset/parser_benchmark/v1/documents/md-code-link.md",
+            "bytes": 199,
+            "sha256": "99a72656f1ba2dfb71aa2f7ebfdbd43104cd7c46145ae159cd01f668faa8650e"
+          }
+        }
+      ],
+      "page_manifest_sha256": "5b267cd80ae748f64cad478d940fd99d014efd0d499955cdc949b77965032ba1"
+    },
+    {
+      "id": "md-heading-list-table",
+      "input_sha256": "ee390711259dc4aa236569268b83e9b69f4afa383eaa26a037c285e3d3cdde79",
+      "inspection_mode": "source_text",
+      "pages": [
+        {
+          "page": 1,
+          "kind": "source_text",
+          "relative_path": "md-heading-list-table/source.md",
+          "artifact": {
+            "path": "dataset/parser_benchmark/v1/documents/md-heading-list-table.md",
+            "bytes": 213,
+            "sha256": "ee390711259dc4aa236569268b83e9b69f4afa383eaa26a037c285e3d3cdde79"
+          }
+        }
+      ],
+      "page_manifest_sha256": "a258ab1c3444e4005c1176da5b1d321f307885f3c314eb42e750acaa83366b82"
+    },
+    {
+      "id": "pdf-digital-multicolumn",
+      "input_sha256": "46508a494a23c8a865d3f936d21b08bee2eb0f24e34651c12d8f32c229e7d1ee",
+      "inspection_mode": "paged_render",
+      "pages": [
+        {
+          "page": 1,
+          "kind": "png",
+          "relative_path": "pdf-digital-multicolumn/page-001.png",
+          "artifact": {
+            "path": "dataset/parser_benchmark/v1/e1/implementation-render/pdf-digital-multicolumn/page-001.png",
+            "bytes": 43168,
+            "sha256": "16a3bedf8eb61f68f68b160edd6e8a921a24add57fb11419d20a3b6513a3461e"
+          }
+        }
+      ],
+      "page_manifest_sha256": "d715a5b5f8d3dcf392f37b09824f3f832704a5986b00767efa07a2f48daf978c"
+    },
+    {
+      "id": "pdf-scanned-ocr",
+      "input_sha256": "fa54e8a41a497372dd2525c888dbffb496c1d01e8b02040d6a0767957815e3e3",
+      "inspection_mode": "paged_render",
+      "pages": [
+        {
+          "page": 1,
+          "kind": "png",
+          "relative_path": "pdf-scanned-ocr/page-001.png",
+          "artifact": {
+            "path": "dataset/parser_benchmark/v1/e1/implementation-render/pdf-scanned-ocr/page-001.png",
+            "bytes": 11601,
+            "sha256": "6df489874d6fa631dd106fd12765b9c759197d7e08fa6b3801508cc979d40445"
+          }
+        }
+      ],
+      "page_manifest_sha256": "2658bc2427efd18d925c6dc38442b7ba5bae58acc0ad9527c74225a8467badb9"
+    },
+    {
+      "id": "pdf-table-formula",
+      "input_sha256": "0ea5582803709f50b6f99a7010f9f19f593d20da38167315ba0686c8f543a2ef",
+      "inspection_mode": "paged_render",
+      "pages": [
+        {
+          "page": 1,
+          "kind": "png",
+          "relative_path": "pdf-table-formula/page-001.png",
+          "artifact": {
+            "path": "dataset/parser_benchmark/v1/e1/implementation-render/pdf-table-formula/page-001.png",
+            "bytes": 41164,
+            "sha256": "acc683d1eff2c11792b84d18fad6bc8abaaa274a6299244240d6d57737f864ba"
+          }
+        }
+      ],
+      "page_manifest_sha256": "674a0861d746abd24609a4de1f7d85fe6a126b3790ad816ac0abe60e55870d3d"
+    }
+  ],
+  "aggregate_sha256": "5d00f74e34e3fbc645b8a0b5dc1b85117527f69f4efe84f5e5466a07b8853c28"
+}

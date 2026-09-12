@@ -1,0 +1,192 @@
+{
+  "schema_version": 1,
+  "gate": "E1",
+  "status": "pending_independent_audit",
+  "hashes": {
+    "corpus_manifest_sha256": "c2a62b5d689436d7de47d74fc9233d8fc24de85857c437f8a2babf63a5d6ec78",
+    "render_manifest_sha256": "5d00f74e34e3fbc645b8a0b5dc1b85117527f69f4efe84f5e5466a07b8853c28",
+    "ground_truth_payload_sha256": "62b6748d92fc51e63da5a62999006ac0938e57102766d7e71aef7b496e180703",
+    "extraction_rules_sha256": "ee9df07b09be9dcee23196911640f6b10ddb9767f81ccc3c5909b84a8501dc0b"
+  },
+  "render_manifest_file": {
+    "path": "dataset/parser_benchmark/v1/e1/implementation-render-manifest.json",
+    "bytes": 8020,
+    "sha256": "7c61b16e2812a35275d159de0f39967d5dce5bc351a1ea78d2370e76d897ef38"
+  },
+  "ground_truth_file": {
+    "path": "dataset/parser_benchmark/v1/ground-truth.json",
+    "bytes": 10448,
+    "sha256": "db5c5cb0dcf8fe056b2c2f2055e32c10d3e0fed70ce4f92bdcd8f65ca2c55680"
+  },
+  "render_input": {
+    "path": "dataset/parser_benchmark/v1/e1/render-input-manifest.json",
+    "bytes": 2950,
+    "sha256": "016edaef218fcce123e74a001e6303133237b8c8350704988372bdeb0799a64e"
+  },
+  "sources": [
+    {
+      "path": "dataset/parser_benchmark/v1/sources/authoring.json",
+      "bytes": 3569,
+      "sha256": "9643e764d47c310ef17d9190fd13646e15af402751b39bb843ad25db792dbf9d"
+    },
+    {
+      "path": "dataset/parser_benchmark/v1/sources/pdf-scanned-ocr-page-1.png",
+      "bytes": 39534,
+      "sha256": "bfe83d0b1e5723ebe0e179572a6723c0d44835881c5efeb7a329f19b0c1cb5b9"
+    }
+  ],
+  "documents": [
+    {
+      "id": "docx-embedded-image",
+      "path": "dataset/parser_benchmark/v1/documents/docx-embedded-image.docx",
+      "extension": "docx",
+      "bytes": 4266,
+      "sha256": "c10ea759ee914973db0af1f58fc58227bc69d25380af6e101bf6260d04a9cca7",
+      "attributes": [
+        "embedded-image",
+        "heading",
+        "reading-order"
+      ],
+      "sources": [
+        "dataset/parser_benchmark/v1/sources/authoring.json"
+      ],
+      "generator": {
+        "tool": "weknora-deterministic-docx",
+        "version": "1"
+      }
+    },
+    {
+      "id": "docx-heading-list-table",
+      "path": "dataset/parser_benchmark/v1/documents/docx-heading-list-table.docx",
+      "extension": "docx",
+      "bytes": 3610,
+      "sha256": "8e647295dda9004d99da7f5ad34e36b8474adb15529d53afc27c5ee62a7122ad",
+      "attributes": [
+        "heading",
+        "list",
+        "reading-order",
+        "table"
+      ],
+      "sources": [
+        "dataset/parser_benchmark/v1/sources/authoring.json"
+      ],
+      "generator": {
+        "tool": "weknora-deterministic-docx",
+        "version": "1"
+      }
+    },
+    {
+      "id": "md-code-link",
+      "path": "dataset/parser_benchmark/v1/documents/md-code-link.md",
+      "extension": "md",
+      "bytes": 199,
+      "sha256": "99a72656f1ba2dfb71aa2f7ebfdbd43104cd7c46145ae159cd01f668faa8650e",
+      "attributes": [
+        "code",
+        "heading",
+        "link",
+        "reading-order"
+      ],
+      "sources": [
+        "dataset/parser_benchmark/v1/sources/authoring.json"
+      ],
+      "generator": {
+        "tool": "literal-utf8",
+        "version": "1"
+      }
+    },
+    {
+      "id": "md-heading-list-table",
+      "path": "dataset/parser_benchmark/v1/documents/md-heading-list-table.md",
+      "extension": "md",
+      "bytes": 213,
+      "sha256": "ee390711259dc4aa236569268b83e9b69f4afa383eaa26a037c285e3d3cdde79",
+      "attributes": [
+        "heading",
+        "list",
+        "reading-order",
+        "table"
+      ],
+      "sources": [
+        "dataset/parser_benchmark/v1/sources/authoring.json"
+      ],
+      "generator": {
+        "tool": "literal-utf8",
+        "version": "1"
+      }
+    },
+    {
+      "id": "pdf-digital-multicolumn",
+      "path": "dataset/parser_benchmark/v1/documents/pdf-digital-multicolumn.pdf",
+      "extension": "pdf",
+      "bytes": 1093,
+      "sha256": "46508a494a23c8a865d3f936d21b08bee2eb0f24e34651c12d8f32c229e7d1ee",
+      "attributes": [
+        "digital-text",
+        "heading",
+        "multi-column",
+        "reading-order"
+      ],
+      "sources": [
+        "dataset/parser_benchmark/v1/sources/authoring.json"
+      ],
+      "generator": {
+        "tool": "weknora-deterministic-pdf",
+        "version": "1"
+      }
+    },
+    {
+      "id": "pdf-scanned-ocr",
+      "path": "dataset/parser_benchmark/v1/documents/pdf-scanned-ocr.pdf",
+      "extension": "pdf",
+      "bytes": 10487,
+      "sha256": "fa54e8a41a497372dd2525c888dbffb496c1d01e8b02040d6a0767957815e3e3",
+      "attributes": [
+        "heading",
+        "raster-only",
+        "reading-order",
+        "scanned-ocr"
+      ],
+      "sources": [
+        "dataset/parser_benchmark/v1/sources/authoring.json"
+      ],
+      "generator": {
+        "tool": "weknora-deterministic-raster-pdf",
+        "version": "1"
+      }
+    },
+    {
+      "id": "pdf-table-formula",
+      "path": "dataset/parser_benchmark/v1/documents/pdf-table-formula.pdf",
+      "extension": "pdf",
+      "bytes": 1357,
+      "sha256": "0ea5582803709f50b6f99a7010f9f19f593d20da38167315ba0686c8f543a2ef",
+      "attributes": [
+        "digital-text",
+        "formula",
+        "heading",
+        "reading-order",
+        "table"
+      ],
+      "sources": [
+        "dataset/parser_benchmark/v1/sources/authoring.json"
+      ],
+      "generator": {
+        "tool": "weknora-deterministic-pdf",
+        "version": "1"
+      }
+    }
+  ],
+  "visual_checklist": {
+    "path": "dataset/parser_benchmark/v1/e1/visual-checklist.md",
+    "bytes": 4165,
+    "sha256": "6a64a74ab12d1dffce041a8ef77bcad30f115b5b5bee80647100b4de6d9b0a93"
+  },
+  "implementation_visual_review": {
+    "path": "dataset/parser_benchmark/v1/e1/implementation-visual-review.md",
+    "bytes": 1713,
+    "sha256": "b7befa0bea02ff12f67531d4da0df3606e1c196fdf030a60d5de64ae6d2ab252"
+  },
+  "auditor_task_id": "01a0906d-6717-73c1-a530-6947632b8c4b",
+  "non_circular_contract": "corpus hash covers corpus-manifest.json bytes; render hash covers only the sorted rendered-page rows in implementation-render-manifest.json; DOCX intermediate PDF identities are single-run provenance excluded from the render hash; render-manifest file bytes have a separate identity; ground-truth hash covers only ground-truth.payload canonical JSON; extraction-rules hash covers extraction-rules.json bytes; review metadata and receipt are excluded from the ground-truth payload hash"
+}

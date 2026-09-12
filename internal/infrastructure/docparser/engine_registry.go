@@ -45,9 +45,31 @@ type ReaderDeps struct {
 // order — which is also the order the engine list is shown in.
 var localEngines []EngineRegistration
 
+// RegisteredEngineFileTypes is a no-I/O snapshot of the local parser catalog.
+// It deliberately avoids availability probes and remote service discovery so
+// versioned benchmark manifests can be rebuilt deterministically.
+type RegisteredEngineFileTypes struct {
+	Name      string
+	FileTypes []string
+}
+
 // RegisterEngine adds an engine to the local registry. Called from init().
 func RegisterEngine(e EngineRegistration) {
 	localEngines = append(localEngines, e)
+}
+
+// RegisteredEngineFileTypesSnapshot returns registrations in their stable UI
+// order. The returned slices are copies and can be safely sorted or modified by
+// callers without mutating the process-wide registry.
+func RegisteredEngineFileTypesSnapshot(docreaderConnected bool) []RegisteredEngineFileTypes {
+	result := make([]RegisteredEngineFileTypes, 0, len(localEngines))
+	for _, engine := range localEngines {
+		result = append(result, RegisteredEngineFileTypes{
+			Name:      engine.Name(),
+			FileTypes: append([]string(nil), engine.FileTypes(docreaderConnected)...),
+		})
+	}
+	return result
 }
 
 // lookupEngine returns the locally registered engine with this name.

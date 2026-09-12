@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "corpus_version": "v1",
+  "documents": [
+    {
+      "id": "docx-embedded-image",
+      "input": {
+        "path": "dataset/parser_benchmark/v1/documents/docx-embedded-image.docx",
+        "bytes": 4266,
+        "sha256": "c10ea759ee914973db0af1f58fc58227bc69d25380af6e101bf6260d04a9cca7"
+      },
+      "expected_pages": 1,
+      "inspection_mode": "paged_render"
+    },
+    {
+      "id": "docx-heading-list-table",
+      "input": {
+        "path": "dataset/parser_benchmark/v1/documents/docx-heading-list-table.docx",
+        "bytes": 3610,
+        "sha256": "8e647295dda9004d99da7f5ad34e36b8474adb15529d53afc27c5ee62a7122ad"
+      },
+      "expected_pages": 1,
+      "inspection_mode": "paged_render"
+    },
+    {
+      "id": "md-code-link",
+      "input": {
+        "path": "dataset/parser_benchmark/v1/documents/md-code-link.md",
+        "bytes": 199,
+        "sha256": "99a72656f1ba2dfb71aa2f7ebfdbd43104cd7c46145ae159cd01f668faa8650e"
+      },
+      "expected_pages": 1,
+      "inspection_mode": "source_text"
+    },
+    {
+      "id": "md-heading-list-table",
+      "input": {
+        "path": "dataset/parser_benchmark/v1/documents/md-heading-list-table.md",
+        "bytes": 213,
+        "sha256": "ee390711259dc4aa236569268b83e9b69f4afa383eaa26a037c285e3d3cdde79"
+      },
+      "expected_pages": 1,
+      "inspection_mode": "source_text"
+    },
+    {
+      "id": "pdf-digital-multicolumn",
+      "input": {
+        "path": "dataset/parser_benchmark/v1/documents/pdf-digital-multicolumn.pdf",
+        "bytes": 1093,
+        "sha256": "46508a494a23c8a865d3f936d21b08bee2eb0f24e34651c12d8f32c229e7d1ee"
+      },
+      "expected_pages": 1,
+      "inspection_mode": "paged_render"
+    },
+    {
+      "id": "pdf-scanned-ocr",
+      "input": {
+        "path": "dataset/parser_benchmark/v1/documents/pdf-scanned-ocr.pdf",
+        "bytes": 10487,
+        "sha256": "fa54e8a41a497372dd2525c888dbffb496c1d01e8b02040d6a0767957815e3e3"
+      },
+      "expected_pages": 1,
+      "inspection_mode": "paged_render",
+      "original_page_image": {
+        "path": "dataset/parser_benchmark/v1/sources/pdf-scanned-ocr-page-1.png",
+        "bytes": 39534,
+        "sha256": "bfe83d0b1e5723ebe0e179572a6723c0d44835881c5efeb7a329f19b0c1cb5b9"
+      }
+    },
+    {
+      "id": "pdf-table-formula",
+      "input": {
+        "path": "dataset/parser_benchmark/v1/documents/pdf-table-formula.pdf",
+        "bytes": 1357,
+        "sha256": "0ea5582803709f50b6f99a7010f9f19f593d20da38167315ba0686c8f543a2ef"
+      },
+      "expected_pages": 1,
+      "inspection_mode": "paged_render"
+    }
+  ],
+  "contract": {
+    "pdf": "pdftoppm -png -r 150",
+    "docx": "documents skill render_docx.py --emit_pdf, then pdftoppm at 150 DPI",
+    "markdown": "inspect frozen UTF-8 source directly",
+    "digest": "sha256 of UTF-8 TSV rows sorted by document ID then page number: relative_path\u003cTAB\u003ebytes\u003cTAB\u003esha256\u003cLF\u003e"
+  }
+}

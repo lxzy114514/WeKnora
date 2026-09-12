@@ -1,0 +1,440 @@
+{
+  "schema_version": 1,
+  "name": "topic3-parser-benchmark",
+  "version": "v1",
+  "generator_version": "topic3-parser-corpus-go-v1",
+  "sample_id_rule": "parser:\u003ccorpus_document_id\u003e",
+  "sort_rule": "document_id_ascending",
+  "sources": [
+    {
+      "path": "dataset/parser_benchmark/v1/sources/authoring.json",
+      "bytes": 3569,
+      "sha256": "9643e764d47c310ef17d9190fd13646e15af402751b39bb843ad25db792dbf9d"
+    },
+    {
+      "path": "dataset/parser_benchmark/v1/sources/pdf-scanned-ocr-page-1.png",
+      "bytes": 39534,
+      "sha256": "bfe83d0b1e5723ebe0e179572a6723c0d44835881c5efeb7a329f19b0c1cb5b9"
+    }
+  ],
+  "documents": [
+    {
+      "id": "docx-embedded-image",
+      "path": "dataset/parser_benchmark/v1/documents/docx-embedded-image.docx",
+      "extension": "docx",
+      "bytes": 4266,
+      "sha256": "c10ea759ee914973db0af1f58fc58227bc69d25380af6e101bf6260d04a9cca7",
+      "attributes": [
+        "embedded-image",
+        "heading",
+        "reading-order"
+      ],
+      "sources": [
+        "dataset/parser_benchmark/v1/sources/authoring.json"
+      ],
+      "generator": {
+        "tool": "weknora-deterministic-docx",
+        "version": "1"
+      }
+    },
+    {
+      "id": "docx-heading-list-table",
+      "path": "dataset/parser_benchmark/v1/documents/docx-heading-list-table.docx",
+      "extension": "docx",
+      "bytes": 3610,
+      "sha256": "8e647295dda9004d99da7f5ad34e36b8474adb15529d53afc27c5ee62a7122ad",
+      "attributes": [
+        "heading",
+        "list",
+        "reading-order",
+        "table"
+      ],
+      "sources": [
+        "dataset/parser_benchmark/v1/sources/authoring.json"
+      ],
+      "generator": {
+        "tool": "weknora-deterministic-docx",
+        "version": "1"
+      }
+    },
+    {
+      "id": "md-code-link",
+      "path": "dataset/parser_benchmark/v1/documents/md-code-link.md",
+      "extension": "md",
+      "bytes": 199,
+      "sha256": "99a72656f1ba2dfb71aa2f7ebfdbd43104cd7c46145ae159cd01f668faa8650e",
+      "attributes": [
+        "code",
+        "heading",
+        "link",
+        "reading-order"
+      ],
+      "sources": [
+        "dataset/parser_benchmark/v1/sources/authoring.json"
+      ],
+      "generator": {
+        "tool": "literal-utf8",
+        "version": "1"
+      }
+    },
+    {
+      "id": "md-heading-list-table",
+      "path": "dataset/parser_benchmark/v1/documents/md-heading-list-table.md",
+      "extension": "md",
+      "bytes": 213,
+      "sha256": "ee390711259dc4aa236569268b83e9b69f4afa383eaa26a037c285e3d3cdde79",
+      "attributes": [
+        "heading",
+        "list",
+        "reading-order",
+        "table"
+      ],
+      "sources": [
+        "dataset/parser_benchmark/v1/sources/authoring.json"
+      ],
+      "generator": {
+        "tool": "literal-utf8",
+        "version": "1"
+      }
+    },
+    {
+      "id": "pdf-digital-multicolumn",
+      "path": "dataset/parser_benchmark/v1/documents/pdf-digital-multicolumn.pdf",
+      "extension": "pdf",
+      "bytes": 1093,
+      "sha256": "46508a494a23c8a865d3f936d21b08bee2eb0f24e34651c12d8f32c229e7d1ee",
+      "attributes": [
+        "digital-text",
+        "heading",
+        "multi-column",
+        "reading-order"
+      ],
+      "sources": [
+        "dataset/parser_benchmark/v1/sources/authoring.json"
+      ],
+      "generator": {
+        "tool": "weknora-deterministic-pdf",
+        "version": "1"
+      }
+    },
+    {
+      "id": "pdf-scanned-ocr",
+      "path": "dataset/parser_benchmark/v1/documents/pdf-scanned-ocr.pdf",
+      "extension": "pdf",
+      "bytes": 10487,
+      "sha256": "fa54e8a41a497372dd2525c888dbffb496c1d01e8b02040d6a0767957815e3e3",
+      "attributes": [
+        "heading",
+        "raster-only",
+        "reading-order",
+        "scanned-ocr"
+      ],
+      "sources": [
+        "dataset/parser_benchmark/v1/sources/authoring.json"
+      ],
+      "generator": {
+        "tool": "weknora-deterministic-raster-pdf",
+        "version": "1"
+      }
+    },
+    {
+      "id": "pdf-table-formula",
+      "path": "dataset/parser_benchmark/v1/documents/pdf-table-formula.pdf",
+      "extension": "pdf",
+      "bytes": 1357,
+      "sha256": "0ea5582803709f50b6f99a7010f9f19f593d20da38167315ba0686c8f543a2ef",
+      "attributes": [
+        "digital-text",
+        "formula",
+        "heading",
+        "reading-order",
+        "table"
+      ],
+      "sources": [
+        "dataset/parser_benchmark/v1/sources/authoring.json"
+      ],
+      "generator": {
+        "tool": "weknora-deterministic-pdf",
+        "version": "1"
+      }
+    }
+  ],
+  "ground_truth_path": "dataset/parser_benchmark/v1/ground-truth.json",
+  "ground_truth_payload_sha256": "62b6748d92fc51e63da5a62999006ac0938e57102766d7e71aef7b496e180703",
+  "extraction_rules": {
+    "path": "dataset/parser_benchmark/v1/extraction-rules.json",
+    "bytes": 817,
+    "sha256": "ee9df07b09be9dcee23196911640f6b10ddb9767f81ccc3c5909b84a8501dc0b"
+  },
+  "render_input_manifest": {
+    "path": "dataset/parser_benchmark/v1/e1/render-input-manifest.json",
+    "bytes": 2950,
+    "sha256": "016edaef218fcce123e74a001e6303133237b8c8350704988372bdeb0799a64e"
+  },
+  "support_matrix": [
+    {
+      "engine": "builtin",
+      "documents": [
+        {
+          "document_id": "docx-embedded-image",
+          "supported": true
+        },
+        {
+          "document_id": "docx-heading-list-table",
+          "supported": true
+        },
+        {
+          "document_id": "md-code-link",
+          "supported": true
+        },
+        {
+          "document_id": "md-heading-list-table",
+          "supported": true
+        },
+        {
+          "document_id": "pdf-digital-multicolumn",
+          "supported": true
+        },
+        {
+          "document_id": "pdf-scanned-ocr",
+          "supported": true
+        },
+        {
+          "document_id": "pdf-table-formula",
+          "supported": true
+        }
+      ]
+    },
+    {
+      "engine": "simple",
+      "documents": [
+        {
+          "document_id": "docx-embedded-image",
+          "supported": false
+        },
+        {
+          "document_id": "docx-heading-list-table",
+          "supported": false
+        },
+        {
+          "document_id": "md-code-link",
+          "supported": true
+        },
+        {
+          "document_id": "md-heading-list-table",
+          "supported": true
+        },
+        {
+          "document_id": "pdf-digital-multicolumn",
+          "supported": false
+        },
+        {
+          "document_id": "pdf-scanned-ocr",
+          "supported": false
+        },
+        {
+          "document_id": "pdf-table-formula",
+          "supported": false
+        }
+      ]
+    },
+    {
+      "engine": "anydoc",
+      "documents": [
+        {
+          "document_id": "docx-embedded-image",
+          "supported": true
+        },
+        {
+          "document_id": "docx-heading-list-table",
+          "supported": true
+        },
+        {
+          "document_id": "md-code-link",
+          "supported": false
+        },
+        {
+          "document_id": "md-heading-list-table",
+          "supported": false
+        },
+        {
+          "document_id": "pdf-digital-multicolumn",
+          "supported": true
+        },
+        {
+          "document_id": "pdf-scanned-ocr",
+          "supported": true
+        },
+        {
+          "document_id": "pdf-table-formula",
+          "supported": true
+        }
+      ]
+    },
+    {
+      "engine": "weknoracloud",
+      "documents": [
+        {
+          "document_id": "docx-embedded-image",
+          "supported": true
+        },
+        {
+          "document_id": "docx-heading-list-table",
+          "supported": true
+        },
+        {
+          "document_id": "md-code-link",
+          "supported": true
+        },
+        {
+          "document_id": "md-heading-list-table",
+          "supported": true
+        },
+        {
+          "document_id": "pdf-digital-multicolumn",
+          "supported": true
+        },
+        {
+          "document_id": "pdf-scanned-ocr",
+          "supported": true
+        },
+        {
+          "document_id": "pdf-table-formula",
+          "supported": true
+        }
+      ]
+    },
+    {
+      "engine": "mineru",
+      "documents": [
+        {
+          "document_id": "docx-embedded-image",
+          "supported": true
+        },
+        {
+          "document_id": "docx-heading-list-table",
+          "supported": true
+        },
+        {
+          "document_id": "md-code-link",
+          "supported": false
+        },
+        {
+          "document_id": "md-heading-list-table",
+          "supported": false
+        },
+        {
+          "document_id": "pdf-digital-multicolumn",
+          "supported": true
+        },
+        {
+          "document_id": "pdf-scanned-ocr",
+          "supported": true
+        },
+        {
+          "document_id": "pdf-table-formula",
+          "supported": true
+        }
+      ]
+    },
+    {
+      "engine": "mineru_cloud",
+      "documents": [
+        {
+          "document_id": "docx-embedded-image",
+          "supported": true
+        },
+        {
+          "document_id": "docx-heading-list-table",
+          "supported": true
+        },
+        {
+          "document_id": "md-code-link",
+          "supported": false
+        },
+        {
+          "document_id": "md-heading-list-table",
+          "supported": false
+        },
+        {
+          "document_id": "pdf-digital-multicolumn",
+          "supported": true
+        },
+        {
+          "document_id": "pdf-scanned-ocr",
+          "supported": true
+        },
+        {
+          "document_id": "pdf-table-formula",
+          "supported": true
+        }
+      ]
+    },
+    {
+      "engine": "paddleocr_vl",
+      "documents": [
+        {
+          "document_id": "docx-embedded-image",
+          "supported": false
+        },
+        {
+          "document_id": "docx-heading-list-table",
+          "supported": false
+        },
+        {
+          "document_id": "md-code-link",
+          "supported": false
+        },
+        {
+          "document_id": "md-heading-list-table",
+          "supported": false
+        },
+        {
+          "document_id": "pdf-digital-multicolumn",
+          "supported": true
+        },
+        {
+          "document_id": "pdf-scanned-ocr",
+          "supported": true
+        },
+        {
+          "document_id": "pdf-table-formula",
+          "supported": true
+        }
+      ]
+    },
+    {
+      "engine": "paddleocr_vl_cloud",
+      "documents": [
+        {
+          "document_id": "docx-embedded-image",
+          "supported": false
+        },
+        {
+          "document_id": "docx-heading-list-table",
+          "supported": false
+        },
+        {
+          "document_id": "md-code-link",
+          "supported": false
+        },
+        {
+          "document_id": "md-heading-list-table",
+          "supported": false
+        },
+        {
+          "document_id": "pdf-digital-multicolumn",
+          "supported": true
+        },
+        {
+          "document_id": "pdf-scanned-ocr",
+          "supported": true
+        },
+        {
+          "document_id": "pdf-table-formula",
+          "supported": true
+        }
+      ]
+    }
+  ]
+}

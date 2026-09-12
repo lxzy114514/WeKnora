@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "generator_version": "topic3-parser-corpus-go-v1",
+  "documents": [
+    {
+      "id": "docx-embedded-image",
+      "format": "docx",
+      "title": "Embedded Image Field Note",
+      "anchors": ["NORTH PINE", "CENTER RIVER", "SOUTH STONE"],
+      "embedded_image_count": 1,
+      "markdown": "# Embedded Image Field Note\n\nNORTH PINE marks the opening observation.\n\nThe embedded diagram shows a blue river between two green banks.\n\nCENTER RIVER confirms the image position.\n\nSOUTH STONE closes the field note.\n",
+      "tags": ["heading", "embedded-image", "reading-order"]
+    },
+    {
+      "id": "docx-heading-list-table",
+      "format": "docx",
+      "title": "Campus Garden Checklist",
+      "anchors": ["NORTH GATE", "CENTER BED", "SOUTH BENCH"],
+      "markdown": "# Campus Garden Checklist\n\nNORTH GATE begins the inspection.\n\n- Check the soil\n- Count the seedlings\n  1. Record the east bed\n\n| Plot | Seedlings |\n| --- | --- |\n| East | 12 |\n| West | 9 |\n\nCENTER BED confirms the table location.\n\nSOUTH BENCH ends the inspection.\n",
+      "tags": ["heading", "list", "table", "reading-order"]
+    },
+    {
+      "id": "md-code-link",
+      "format": "md",
+      "title": "Link and Code Route",
+      "anchors": ["NORTH LAMP", "CENTER ARCH", "SOUTH CLOCK"],
+      "markdown": "# Link and Code Route\n\nNORTH LAMP opens the route.\n\nRead the [visible route guide](https://example.invalid/route).\n\n```go\nroute := \"CENTER ARCH\"\nfmt.Println(route)\n```\n\nSOUTH CLOCK closes the route.\n",
+      "tags": ["heading", "code", "link", "reading-order"]
+    },
+    {
+      "id": "md-heading-list-table",
+      "format": "md",
+      "title": "Workshop Inventory",
+      "anchors": ["NORTH SHELF", "CENTER DRAWER", "SOUTH DOOR"],
+      "markdown": "# Workshop Inventory\n\nNORTH SHELF starts the count.\n\n- Hammer\n- Wrench\n  1. Small wrench\n\n| Tool | Count |\n| --- | --- |\n| Hammer | 2 |\n| Wrench | 3 |\n\nCENTER DRAWER follows the table.\n\nSOUTH DOOR ends the count.\n",
+      "tags": ["heading", "list", "table", "reading-order"]
+    },
+    {
+      "id": "pdf-digital-multicolumn",
+      "format": "pdf",
+      "title": "Two Column Reading Order",
+      "anchors": ["NORTH STAR", "CENTER BRIDGE", "SOUTH HARBOR"],
+      "markdown": "# Two Column Reading Order\n\nNORTH STAR starts the left column.\n\nLeft note one comes before left note two.\n\nCENTER BRIDGE ends the left column.\n\nRight note one starts the second column.\n\nSOUTH HARBOR ends the right column.\n",
+      "tags": ["digital-text", "multi-column", "heading", "reading-order"]
+    },
+    {
+      "id": "pdf-scanned-ocr",
+      "format": "pdf",
+      "title": "Scanned Orchard Note",
+      "anchors": ["NORTH APPLE", "CENTER PEAR", "SOUTH PLUM"],
+      "markdown": "# Scanned Orchard Note\n\nNORTH APPLE begins the scanned page.\n\nThe orchard row contains seven young trees.\n\nCENTER PEAR marks the middle observation.\n\nSOUTH PLUM completes the scanned page.\n",
+      "tags": ["scanned-ocr", "raster-only", "heading", "reading-order"]
+    },
+    {
+      "id": "pdf-table-formula",
+      "format": "pdf",
+      "title": "Bridge Load Worksheet",
+      "anchors": ["NORTH CABLE", "CENTER PIER", "SOUTH DECK"],
+      "markdown": "# Bridge Load Worksheet\n\nNORTH CABLE starts the worksheet.\n\n| Span | Load |\n| --- | --- |\n| A | 12 kN |\n| B | 18 kN |\n\nCENTER PIER precedes the formula.\n\n$F = m * a$\n\nSOUTH DECK closes the worksheet.\n",
+      "tags": ["digital-text", "table", "formula", "heading", "reading-order"]
+    }
+  ]
+}

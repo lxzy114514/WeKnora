@@ -1,0 +1,49 @@
+{
+  "role": "implementation_self_check",
+  "created_at": "2026-09-12T04:58:42+08:00",
+  "tools": [
+    {
+      "name": "documents-skill",
+      "path": "C:\\Users\\21169\\.codex\\plugins\\cache\\openai-primary-runtime\\documents\\26.905.11957\\skills\\documents\\SKILL.md",
+      "sha256": "8ab26c226c6e4919989185934c44091d89dd67c9e86c1b960c3fd8f08dd90ed2",
+      "version": "26.905.11957"
+    },
+    {
+      "name": "render_docx.py",
+      "path": "C:\\Users\\21169\\.codex\\plugins\\cache\\openai-primary-runtime\\documents\\26.905.11957\\skills\\documents\\render_docx.py",
+      "sha256": "8b48b8f05f30cc6c7b5a7bd8e18e7ea93a61aec1ea601026a3358b2105f0903a",
+      "version": "26.905.11957"
+    },
+    {
+      "name": "pdf-skill",
+      "path": "C:\\Users\\21169\\.codex\\plugins\\cache\\openai-primary-runtime\\pdf\\26.905.11957\\skills\\pdf\\SKILL.md",
+      "sha256": "9e429bfc5ada20ccf25a531484e3dcc5da59811d936a7cc5dfd23dbf2dfadd31",
+      "version": "26.905.11957"
+    },
+    {
+      "name": "managed-python",
+      "path": "C:\\Users\\21169\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+      "sha256": "b7a12c3af0b4db44191eec14ea095eba731b7328917f570806183093d19ddca2",
+      "version": "3.12.14"
+    },
+    {
+      "name": "libreoffice",
+      "path": "D:\\APP\\LibreOffice\\program\\soffice.exe",
+      "sha256": "a2823391857db1dd8ebbd8234267f9ec58ec7e5b5fc434665c0ecec4671cb988",
+      "version": "26.8.0.3"
+    },
+    {
+      "name": "pdftoppm",
+      "path": "C:\\Users\\21169\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\poppler\\Library\\bin\\pdftoppm.exe",
+      "sha256": "50e3c5e703e4f9d21b935a40d278becd888cec4bb867e8188afb4651c638a423",
+      "version": "26.07.0"
+    }
+  ],
+  "commands": [
+    "Copy-Item <frozen-input> <ASCII-only-temp-copy>; Get-FileHash -Algorithm SHA256 on both paths",
+    "managed-python render_docx.py <copied.docx> --output_dir <ASCII-only-temp-output> --dpi 150 --emit_pdf --verbose",
+    "pdftoppm.exe -png -r 150 <copied.pdf> <ASCII-only-temp-prefix>",
+    "view_image <page-001.png> detail=original; compare visible heading, components, and anchors with ground truth",
+    "Get-Content -Raw <markdown-source>; compare heading, components, and anchors with ground truth"
+  ]
+}
