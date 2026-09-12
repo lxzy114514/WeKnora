@@ -36,6 +36,11 @@ evidence:
   cache_live_warm_detail: artifacts/migration-live-warm-detail.json
   cache_live_gate: artifacts/migration-live-cold-warm-gate.json
   wiki_cache_live: artifacts/migration-wiki-cold-warm-evidence.json
+  pricing_source_snapshot: artifacts/pricing-snapshot-20260912.md
+  pricing_currency_evidence: artifacts/pricing-currency-evidence-20260912.json
+  pricing_live_report: artifacts/pricing-live-evaluation-report.json
+  pricing_live_detail: artifacts/pricing-live-evaluation-detail.json
+  pricing_live_markdown: artifacts/pricing-live-evaluation-report.md
   parser_report: artifacts/parser-benchmark-report.json
   parser_ground_truth_approval: docs/topic3/audit/E1_b43beccd_CROSS_PLATFORM_REAPPROVAL_RECEIPT.md
 security:
@@ -46,6 +51,12 @@ contracts:
   metric_contract_version: 1
   live_reference_status: not_promoted
   live_reference_reason: strict cold-warm comparability and known-cost coverage were not met
+  currency_evidence_status: deepseek_chat_proven_partial_model_coverage
+  currency_evidence_summary_total_usd: 0.003405424
+  currency_evidence_evaluation_total_usd: 0.002908708
+  currency_evidence_evaluation_coverage_ratio: 1
+  local_embedding_pricing_status: unknown_on_provider_compute
+  pricing_config_restored_empty: true
 optional_parser_comparison:
   status: partial
   ready_engines: 1

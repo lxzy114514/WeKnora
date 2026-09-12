@@ -44,7 +44,9 @@ go run ./cmd/evalctl -dataset baseline-v1 -chat-model "<chat-id>" -embedding-mod
 
 > 本分支没有提交任何密钥，也没有伪造真实模型实验数字。确定性测试、真实运行和不可比结论分别记录，不能互相替代。
 
-当前提交已完成一组同配置冷/热实跑：Embedding 命中从 0/5 升至 5/5，Chat cache-read tokens 从 0 升至 1024。暖跑仍有 113 个 Chat cache-miss tokens，因此按严格规则为 `not_comparable`；完整门禁还因远端生成时延波动失败，且模型未配置价格，所以总状态为 `partial`。原始门禁中的零成本检查没有价格覆盖，实际解释为 `inconclusive`，详见 `artifacts/migration-live-cold-warm-comparison.json`。
+当前提交已完成一组同配置冷/热实跑：Embedding 命中从 0/5 升至 5/5，Chat cache-read tokens 从 0 升至 1024。暖跑仍有 113 个 Chat cache-miss tokens，因此按严格规则为 `not_comparable`；完整门禁还因远端生成时延波动失败，且该组运行发生时模型未配置价格，所以总状态为 `partial`。原始门禁中的零成本检查没有价格覆盖，实际解释为 `inconclusive`，详见 `artifacts/migration-live-cold-warm-comparison.json`。
+
+交付前另在 DeepSeek 官方谷价时段完成一次性货币层验证。模型调试和一轮 `baseline-v1` 小规模评测产生 3 条正金额 DeepSeek 调用，时间窗 Summary 为 USD 0.003405424；评测报告自身为 USD 0.002908708，价格覆盖率为 1。该次评测的两个 Embedding 调用全部命中应用缓存，属于可证明的 provider 零计算；本地 `bge-m3:latest` 在 cache miss 时仍无可靠价格，因此整个部署仍是部分价格覆盖。价格验证后已通过管理 API 恢复为空，历史调用没有回填。完整审计链见 `artifacts/pricing-currency-evidence-20260912.json`。
 
 Wiki 真实冷/暖运行也已完成：`wiki_*` 调用的 cache-read tokens 从 2,560 增至 6,784、读取比例从 0.188415 增至 0.359665。由于 Wiki 状态演进使调用形状变化，暖跑仍有 12,078 个 cache-miss tokens，且价格缺失，这组结果同样是 `partial / not_comparable`；它证明缓存被真实链路使用，不证明端到端费用或时延改善。精确逐调用事实见 `artifacts/migration-wiki-cold-warm-evidence.json`。
 

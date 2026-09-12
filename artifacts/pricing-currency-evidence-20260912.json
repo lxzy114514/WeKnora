@@ -1,0 +1,331 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-09-12T13:15:31.0631510Z",
+  "branch": "feat/topic3-evaluation-cost-cache-20260828",
+  "head": "42ce7321cb8f9aba186fb6a98acb814d22766a91",
+  "scope": "One-time DeepSeek chat currency evidence; local Ollama embedding remains unpriced.",
+  "price_source": {
+    "provider": "DeepSeek",
+    "model": "deepseek-v4-pro",
+    "url": "https://api-docs.deepseek.com/quick_start/pricing/",
+    "retrieved_at_utc": "2026-09-12T13:15:03.2227023Z",
+    "schedule_effective_from_utc": "2026-08-16T16:00:00Z",
+    "schedule": {
+      "peak_days_utc": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ],
+      "peak_utc": [
+        "01:00-04:00",
+        "06:00-10:00"
+      ],
+      "off_peak_rule": "All other UTC hours, including weekends.",
+      "off_peak": {
+        "cache_hit_per_million": 0.022,
+        "cache_miss_per_million": 0.66,
+        "output_per_million": 1.98
+      },
+      "peak": {
+        "cache_hit_per_million": 0.044,
+        "cache_miss_per_million": 1.32,
+        "output_per_million": 3.96
+      }
+    },
+    "applied_period": "off_peak",
+    "applied_model_pricing": {
+      "currency": "USD",
+      "input_per_million": 0.66,
+      "output_per_million": 1.98,
+      "cache_read_per_million": 0.022
+    }
+  },
+  "target_model": {
+    "id": "5a841a3e-bb23-4f23-a324-a20aaa7380fd",
+    "name": "deepseek-v4-pro",
+    "provider": "deepseek",
+    "type": "KnowledgeQA",
+    "source": "remote"
+  },
+  "configuration": {
+    "original_pricing_empty": true,
+    "applied_via": "PUT /api/v1/models/5a841a3e-bb23-4f23-a324-a20aaa7380fd",
+    "applied_readback_pricing": {
+      "currency": "USD",
+      "input_per_million": 0.66,
+      "output_per_million": 1.98,
+      "cache_read_per_million": 0.022
+    },
+    "restore_request_pricing": {},
+    "restored_at_utc": "2026-09-12T13:15:30.4697961Z",
+    "restored_readback_pricing": {}
+  },
+  "calls": {
+    "debug": {
+      "started_at_utc": "2026-09-12T13:15:04.8639924Z",
+      "ended_at_utc": "2026-09-12T13:15:06.6321197Z",
+      "ok": true,
+      "elapsed_ms": 1757,
+      "observations": {
+        "answer_characters": 2,
+        "reasoning_characters": 0,
+        "reasoning_returned": false,
+        "requested_thinking": false,
+        "stream": true,
+        "thinking_control": "thinking_type",
+        "thinking_parameter_sent": true
+      }
+    },
+    "evaluation": {
+      "run_id": "evaluation_10000_1789218907995_d55336e5_baselinev1",
+      "runtime_code_version": "c88047bf0285a1ded72f06ff038f3c1679b2ef2d",
+      "started_at_utc": "2026-09-12T13:15:06.6343218Z",
+      "ended_at_utc": "2026-09-12T13:15:30.1369547Z",
+      "status": 2,
+      "portable_report": "artifacts/pricing-live-evaluation-report.json",
+      "detail_report": "artifacts/pricing-live-evaluation-detail.json",
+      "markdown_report": "artifacts/pricing-live-evaluation-report.md",
+      "artifact_sha256": {
+        "portable_report": "5dfe06f098ea72585830b25493f57ca010c72de7b86339fdfcddc5de9582eb34",
+        "detail_report": "28a5e2e8f194358c2031b1b71d57cae05a45f2f896c3cf230962b964655d0695",
+        "markdown_report": "11513fee373cff267ee6243f2faef9a05f16d073893827dc7e41c1ba78e3ea21",
+        "price_snapshot": "aa272ea78cf3e2731472406eea7ce0c94d3fb400f729341edb9d3dca3d983304"
+      },
+      "reported_cost": {
+        "currency": "USD",
+        "total": 0.002908708,
+        "chat": 0.002908708,
+        "embedding": 0,
+        "rerank": 0,
+        "call_count": 3,
+        "priced_call_count": 3,
+        "cost_coverage_ratio": 1,
+        "cost_gate_eligible": true,
+        "estimated": true
+      },
+      "associated_model_calls": [
+        {
+          "id": "7760c96e-80da-49bd-985f-530a48aead7f",
+          "model_id": "846b8571-be8e-4a88-b622-6a2462b3230d",
+          "model_type": "Embedding",
+          "purpose": "embedding",
+          "correlation_id": "evaluation_10000_1789218907995_d55336e5_baselinev1",
+          "item_count": 4,
+          "cache_hit_items": 4,
+          "cache_miss_items": 0,
+          "input_units": 0,
+          "success": true,
+          "pricing": {
+            "currency": "USD"
+          },
+          "cost": 0,
+          "cost_estimated": true,
+          "created_at_utc": "2026-09-12T13:15:08.319974Z"
+        },
+        {
+          "id": "75a25ab1-a93e-4d08-a8ed-6a909a808baa",
+          "model_id": "846b8571-be8e-4a88-b622-6a2462b3230d",
+          "model_type": "Embedding",
+          "purpose": "embedding",
+          "correlation_id": "evaluation_10000_1789218907995_d55336e5_baselinev1",
+          "item_count": 1,
+          "cache_hit_items": 1,
+          "cache_miss_items": 0,
+          "input_units": 0,
+          "success": true,
+          "pricing": {
+            "currency": "USD"
+          },
+          "cost": 0,
+          "cost_estimated": true,
+          "created_at_utc": "2026-09-12T13:15:08.521103Z"
+        },
+        {
+          "id": "e79ca497-c193-4164-b63b-c8d2299286ae",
+          "model_id": "5a841a3e-bb23-4f23-a324-a20aaa7380fd",
+          "model_type": "KnowledgeQA",
+          "purpose": "knowledge_qa",
+          "correlation_id": "evaluation_10000_1789218907995_d55336e5_baselinev1",
+          "item_count": 0,
+          "cache_hit_items": 0,
+          "cache_miss_items": 0,
+          "input_units": 0,
+          "success": true,
+          "pricing": {
+            "currency": "USD",
+            "input_per_million": 0.66,
+            "output_per_million": 1.98,
+            "cache_read_per_million": 0.022
+          },
+          "cost": 0.002908708,
+          "cost_estimated": true,
+          "created_at_utc": "2026-09-12T13:15:28.572786Z"
+        }
+      ],
+      "coverage_recomputation": {
+        "selection": "model_calls.correlation_id equals run_id",
+        "known_cost_rule": "A call is known-cost when it has usable pricing for consumed provider units, or when an application embedding call has item_count = cache_hit_items > 0 and cache_miss_items = 0, which proves no provider input was sent.",
+        "known_cost_call_count": 3,
+        "eligible_call_count": 3,
+        "formula": "known_cost_call_count / eligible_call_count",
+        "result": 1
+      }
+    },
+    "deepseek_model_calls": [
+      {
+        "id": "720bed54-6aee-4c42-874d-de7700b7cd75",
+        "pricing": {
+          "currency": "USD",
+          "input_per_million": 0.66,
+          "output_per_million": 1.98,
+          "cache_read_per_million": 0.022
+        },
+        "purpose": "chat",
+        "success": true,
+        "cost_usd": 7.92E-06,
+        "prompt_tokens": 9,
+        "correlation_id": "78d7f9ff-335e-48cb-a96f-1b2f1d157f87",
+        "cost_estimated": true,
+        "created_at_utc": "2026-09-12T13:15:06.606913Z",
+        "cache_miss_tokens": 9,
+        "cache_read_tokens": 0,
+        "completion_tokens": 1
+      },
+      {
+        "id": "8ef9d66c-9eb0-4708-ad9e-626e5d5f9173",
+        "pricing": {
+          "currency": "USD",
+          "input_per_million": 0.66,
+          "output_per_million": 1.98,
+          "cache_read_per_million": 0.022
+        },
+        "purpose": "document_summary",
+        "success": true,
+        "cost_usd": 0.000488796,
+        "prompt_tokens": 796,
+        "correlation_id": "",
+        "cost_estimated": true,
+        "created_at_utc": "2026-09-12T13:15:12.507106Z",
+        "cache_miss_tokens": 28,
+        "cache_read_tokens": 768,
+        "completion_tokens": 229
+      },
+      {
+        "id": "e79ca497-c193-4164-b63b-c8d2299286ae",
+        "pricing": {
+          "currency": "USD",
+          "input_per_million": 0.66,
+          "output_per_million": 1.98,
+          "cache_read_per_million": 0.022
+        },
+        "purpose": "knowledge_qa",
+        "success": true,
+        "cost_usd": 0.002908708,
+        "prompt_tokens": 1137,
+        "correlation_id": "evaluation_10000_1789218907995_d55336e5_baselinev1",
+        "cost_estimated": true,
+        "created_at_utc": "2026-09-12T13:15:28.572786Z",
+        "cache_miss_tokens": 113,
+        "cache_read_tokens": 1024,
+        "completion_tokens": 1420
+      }
+    ],
+    "positive_estimated_call_count": 3
+  },
+  "usage_summary": {
+    "currency": "USD",
+    "call_count": 3,
+    "success_count": 3,
+    "prompt_tokens": 1942,
+    "completion_tokens": 1650,
+    "cache_read_tokens": 1792,
+    "cache_write_tokens": 0,
+    "cache_miss_tokens": 150,
+    "input_units": 0,
+    "cache_hit_items": 0,
+    "cache_miss_items": 0,
+    "duration_ms": 23566,
+    "total_cost": 0.003405424,
+    "by_model": [
+      {
+        "model_id": "5a841a3e-bb23-4f23-a324-a20aaa7380fd",
+        "model_type": "KnowledgeQA",
+        "call_count": 3,
+        "success_count": 3,
+        "prompt_tokens": 1942,
+        "completion_tokens": 1650,
+        "cache_read_tokens": 1792,
+        "cache_write_tokens": 0,
+        "cache_miss_tokens": 150,
+        "input_units": 0,
+        "cache_hit_items": 0,
+        "cache_miss_items": 0,
+        "duration_ms": 23566,
+        "total_cost": 0.003405424
+      }
+    ]
+  },
+  "historical_integrity": {
+    "boundary_utc": "2026-09-12T13:15:03.2227023Z",
+    "selection_predicate": "created_at < TIMESTAMPTZ '2026-09-12T13:15:03.2227023Z'",
+    "preexisting_call_count": 41,
+    "checksum_algorithm": {
+      "database": "PostgreSQL",
+      "row_projection": "concat_ws('|', id, pricing::text, cost::text, cost_estimated::text)",
+      "row_order": "id ASC",
+      "row_separator": "LF (E'\\n')",
+      "aggregate": "md5(COALESCE(string_agg(row_projection, E'\\n' ORDER BY id), ''))",
+      "purpose": "Detect changes to identity, price snapshot, stored cost, or estimation flag of every pre-boundary model_call. The separately recorded count detects row addition or deletion even if an aggregate edge case arose."
+    },
+    "checksum_before": "cf9416fde690fd3a09cc694a3cec6fdc",
+    "checksum_after": "cf9416fde690fd3a09cc694a3cec6fdc",
+    "unchanged": true
+  },
+  "cleanup": {
+    "temporary_api_identity": {
+      "database_id": 4,
+      "tenant_id": 10000,
+      "name": "topic3-pricing-evidence-20260912",
+      "scope_type": "tenant",
+      "full_access": false,
+      "capabilities": [
+        "manage_models",
+        "run_evaluations"
+      ],
+      "created_at_utc": "2026-09-12T13:15:03.692863Z",
+      "last_used_at_utc": "2026-09-12T13:15:03.998329Z",
+      "expires_at_utc": "2026-09-12T14:45:03.692863Z",
+      "revoked_at_utc": "2026-09-12T13:15:30.928068Z",
+      "key_hash_fingerprint": "6b670c8e9d8d...ac9261a63cb0",
+      "api_key_column_empty": true,
+      "raw_credential_persisted": false
+    },
+    "pre_revocation_success_evidence": {
+      "authenticated_at_utc": "2026-09-12T13:15:03.998329Z",
+      "authorized_operations": [
+        "GET /api/v1/models/:id",
+        "PUT /api/v1/models/:id",
+        "POST /api/v1/models/:id/debug",
+        "POST /api/v1/evaluation",
+        "GET /api/v1/evaluation?run_id=:run_id"
+      ],
+      "result": "The price write/readback, debug result, completed evaluation, and exported reports above were all returned successfully before revocation."
+    },
+    "post_revocation_probe": {
+      "method": "GET",
+      "path": "/api/v1/models/:id",
+      "http_status": 401,
+      "expected": 401
+    },
+    "model_pricing_restored_empty": true
+  },
+  "interpretation": {
+    "deepseek_chat_currency_evidence": "established for calls inside the recorded tariff period",
+    "local_embedding_currency_coverage": "unknown: local Ollama has no provider token tariff configured",
+    "whole_environment_coverage": "partial",
+    "historical_calls": "unchanged and remain unknown where pricing snapshots were empty",
+    "a4_cold_warm_currency_savings": "not claimed"
+  }
+}

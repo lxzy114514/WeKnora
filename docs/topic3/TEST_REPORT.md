@@ -82,3 +82,7 @@ Wiki 冷/暖真实运行均完成且异步队列归零。逐调用数据库事�
 parser 生成器现在使用项目自有的确定性 PNG、fixed-Huffman DEFLATE 和 ZIP Store 编码，并对所有 ZIP 成员做 CRC/完整读取测试；Windows 与 Linux 均能重建同一语料哈希。重新渲染后五份页面逐页检查通过，独立 E1 复审收据为 `docs/topic3/audit/E1_b43beccd_CROSS_PLATFORM_REAPPROVAL_RECEIPT.md`。当前 parser 报告已重跑并绑定新 manifest 哈希 `1189575f4f3b71a565225b0fd3610627038fe4c733dde67bacc3b6065dbfb246`。
 
 同一最终代码还通过 `go test -race`（evaluation 与 handler 定向并发测试）、`go vet -p 2 ./...`，以及由当前代码重新生成报告后的确定性质量门禁，门禁结果为 4/4 通过。全仓 vet 原始日志为 `artifacts/migration-linux-go-vet-all.txt`，记录 Go 1.26.8、Linux amd64 与退出码 0，SHA-256 为 `71098118f7052d01af5fcff937f91a6a8b19aa392c823cd14669b4faeabc70c5`。
+
+## 一次性价格链路验证（2026-09-12）
+
+通过管理 API 临时配置 DeepSeek 官方谷价费率后，模型调试和 `baseline-v1` 小规模评测均成功。新增 3 条 DeepSeek 调用全部满足正金额与 `cost_estimated=true`，时间窗 Summary 聚合为 USD 0.003405424；评测自身报告 USD 0.002908708、`priced_call_count=3/3`、`cost_coverage_ratio=1`。配置随后以显式空 `pricing` 恢复，回读为 `{}`；临时 API 身份撤销后的探测返回 HTTP 401。历史 41 条调用的价格/金额校验和保持不变。机器可读证据为 `artifacts/pricing-currency-evidence-20260912.json`。

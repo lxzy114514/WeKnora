@@ -48,7 +48,7 @@ Wiki 路径原有测试同时验证用途和稳定前缀元数据会传到模型
 
 ## 真实模型实验状态
 
-本地自动化没有使用或输出用户的 DeepSeek 密钥，也没有把当前正在运行的旧镜像结果冒充成此分支结果。因此这里不填写虚构的 BLEU、ROUGE、费用或厂商缓存 token。
+所有真实模型实验均使用当前分支构建的服务，自动化只调用已保存凭据且没有读取、输出或写入 DeepSeek 密钥。确定性测试、真实冷/暖运行和一次性货币层验证分别保存原始证据，不以旧镜像或虚构数字替代。
 
 真实前后对比应在构建并启动本分支服务后按 [运行手册](RUNBOOK.md) 执行两次：第一次记录冷缓存，第二次记录热缓存。将两份 `evaluation-detail.json` 放入评审制品，比较以下字段：
 
@@ -66,6 +66,14 @@ Wiki 路径原有测试同时验证用途和稳定前缀元数据会传到模型
 Docker 恢复后已用当前提交镜像完成一次冷运行和一次热运行，两者配置哈希相同，服务报告 `code_version=db7ca387210c`。Embedding 从冷运行 0/5 命中、5 个未命中变为热运行 5/5 命中、0 个未命中；Chat cache-read tokens 从 0 增至 1024，cache-miss tokens 从 1137 降至 113。检索指标保持不变，ROUGE-L 变化约 -0.006；这证明应用缓存与供应商提示词缓存均在实际链路生效，但暖跑 provider 新计算不为零，严格可比结论为 `not_comparable`。
 
 完整门禁没有通过：热运行的远端生成更慢，使 average case latency 增加 13,917 ms。两类模型的价格快照为空，报告中的零费用均标记 estimated，不能解释为真实免费或金额节省；生成的原始 gate 虽把数值零判为 passed，复核后的有效成本结果是 `inconclusive`。因此本轮总状态为 `partial`，精确事实见 `artifacts/migration-live-cold-warm-comparison.json`；历史 `code_version=unknown` 报告没有被冒充为当前提交证据。
+
+### DeepSeek 一次性货币层验证
+
+2026-09-12 仅对 `deepseek-v4-pro` 配置了当前官方谷价时段费率。配置通过 `PUT /api/v1/models/:id` 写入，随后完成一次模型调试和一轮 `baseline-v1` 小规模评测；所有实际调用均落在同一 UTC 价格时段内。模型调试、文档摘要和知识问答共 3 条新增 DeepSeek 调用，均满足 `cost > 0` 与 `cost_estimated=true`，模型用量 Summary 聚合为 USD 0.003405424。
+
+小规模评测报告自身的总费用为 USD 0.002908708，`priced_call_count=3/3`、`cost_coverage_ratio=1`、`cost_gate_eligible=true`。其中两条 Embedding logical call 全部命中应用缓存，没有发生 provider 输入，按成本合同属于已知零；这不等于本地 Ollama embedding 已有 token 价格。若未来出现 embedding cache miss，该部分费用仍为 `unknown`。
+
+DeepSeek 当前价格随 UTC 峰谷时段变化，而 `ModelPricing` 只能保存一套静态费率。验证结束后，请求显式携带 `pricing: {}` 恢复空配置，API 回读为 `{}`；临时认证身份也已撤销且复用请求返回 401。运行前 41 条历史 `model_calls` 的计数与校验和在运行后保持不变。官方价格快照和数据库/API 审计链分别保存于 `artifacts/pricing-snapshot-20260912.md` 与 `artifacts/pricing-currency-evidence-20260912.json`。本实验没有重跑 A4，也不提供冷/暖金额差。
 
 ### Wiki 真实冷/暖链路
 

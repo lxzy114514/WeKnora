@@ -1,0 +1,52 @@
+{
+  "run_id": "evaluation_10000_1789218907995_d55336e5_baselinev1",
+  "config_hash": "4844ce1fcdfa2de040d2121c55022c0cdb4aeb6ff6fa745882059965f66de967",
+  "metrics": {
+    "answer.bleu1": 0.07027027027027026,
+    "answer.bleu2": 0.039084710195840415,
+    "answer.bleu4": 0.017403248742231186,
+    "answer.rouge1": 0.23255813713358575,
+    "answer.rouge2": 0.047244092650505366,
+    "answer.rougel": 0.2093023231800974,
+    "cost.call_count": 3,
+    "cost.chat_usd": 0.002908708,
+    "cost.embedding_usd": 0,
+    "cost.rerank_usd": 0,
+    "cost.total_usd": 0.002908708,
+    "latency.average_case_ms": 20211,
+    "latency.generation_ms": 19087,
+    "latency.index_ms": 465,
+    "latency.model_call_ms": 19087,
+    "latency.rerank_ms": 0,
+    "latency.retrieval_ms": 973,
+    "latency.total_ms": 20742,
+    "retrieval.map": 1,
+    "retrieval.mrr": 1,
+    "retrieval.ndcg10": 1,
+    "retrieval.ndcg3": 1,
+    "retrieval.precision": 1,
+    "retrieval.recall": 1
+  },
+  "metric_eligibility": {
+    "cost.call_count": {
+      "eligible": true,
+      "coverage_ratio": 1
+    },
+    "cost.chat_usd": {
+      "eligible": true,
+      "coverage_ratio": 1
+    },
+    "cost.embedding_usd": {
+      "eligible": true,
+      "coverage_ratio": 1
+    },
+    "cost.rerank_usd": {
+      "eligible": true,
+      "coverage_ratio": 1
+    },
+    "cost.total_usd": {
+      "eligible": true,
+      "coverage_ratio": 1
+    }
+  }
+}

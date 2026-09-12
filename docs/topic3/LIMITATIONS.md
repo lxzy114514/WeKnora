@@ -1,6 +1,6 @@
 # 已知限制与后续工作
 
-1. 真实模型质量与费用需要部署本分支、配置价格和凭据后生成。本提交只报告已经实际运行的确定性测试，不伪造线上结果。
+1. 当前分支已经完成真实 RAG、Wiki 和一次性 DeepSeek 货币层验证。`deepseek-v4-pro` 的新调用在官方谷价时段内产生了可审计 USD 金额；本地 `bge-m3:latest` 没有 provider token 价，发生 provider 计算时仍为 `unknown`，因此整个部署的模型价格覆盖仍是部分覆盖。
 2. GitHub 分支保护属于远端管理操作；工作流已提供稳定检查名，但必须由仓库管理员设为主分支必需检查。
 3. VLM 接口目前不返回厂商 token usage，因此 token 与费用根据字符数估算并标记为 estimated；旧版内联 VLM 配置没有价格字段，虽会完整记录调用但成本为零。ASR 目前只记录音频字节、调用结果和耗时，尚未增加按分钟计价。
 4. 当前费用管理界面使用 USD。若未来支持多币种，聚合层需要汇率快照或禁止跨币种求和，不能简单相加。
@@ -9,5 +9,6 @@
 7. 真实模型存在随机性。固定配置保证“条件相同且可比较”，不承诺两次报告字节级相同。
 8. 文档解析器八引擎横向比较已实现为选做扩展，但本机只有 `simple` 可用，实际报告为 `1/8` ready 的 `partial` 结果。其余引擎依赖 DocReader、外部服务或凭据，不能把当前结果表述为完整八引擎基线。
 9. Windows 原生全量测试仍受 SQLite 文件句柄、Docker `npipe` 与 DuckDB/MinGW 链接影响；Linux amd64、Go 1.26 交付环境已经执行 `go test -p 2 ./...` 并全仓通过。两种环境的原始证据均保留。
-10. Docker 恢复后已完成当前提交的真实冷/热缓存运行，Embedding 与 Prompt Cache 的命中变化得到证明；但暖跑仍有 113 个 Chat cache-miss tokens，按严格规则为 `not_comparable`。模型价格未配置，无法证明金额节省；原始 gate 对 estimated zero 的数值通过只能解释为 `inconclusive`。单次热运行还因远端生成波动触发时延门禁，不能据此建立稳定性能结论。
+10. Docker 恢复后已完成当前提交的真实冷/热缓存运行，Embedding 与 Prompt Cache 的命中变化得到证明；但暖跑仍有 113 个 Chat cache-miss tokens，按严格规则为 `not_comparable`。该组历史运行发生时模型价格尚未配置，后续一次性 DeepSeek 定价验证不会回填旧行，因此仍无法据此证明冷/暖金额节省；原始 gate 对 estimated zero 的数值通过只能解释为 `inconclusive`。单次热运行还因远端生成波动触发时延门禁，不能据此建立稳定性能结论。
 11. Wiki 冷/暖运行证明生产 `wiki_*` 调用读取了缓存，但异步链路没有 correlation ID，只能由受控时间窗和 knowledge ID 绑定。第二轮调用形状随 Wiki 状态变化且仍有 12,078 个 cache-miss tokens，故不能宣称端到端成本或时延改善。
+12. `ModelPricing` 只能保存一套静态费率，无法表达 DeepSeek 这类随 UTC 时段变化的峰谷价格。本交付的货币证据只适用于价格快照记录的时段；验证后已通过管理 API 显式发送 `pricing: {}` 恢复为空，避免后续调用静默使用过期费率。
