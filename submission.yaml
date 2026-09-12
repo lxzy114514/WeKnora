@@ -7,9 +7,9 @@ topic:
   title: "评测、模型成本与缓存工程化"
 result:
   type: code
-  url: "https://github.com/lxzy114514/WeKnora/tree/weknora-2026-final-3/docs/topic3"
+  url: "https://github.com/lxzy114514/WeKnora/tree/rhino-2026-final-3/docs/topic3"
 repository:
   url: "https://github.com/lxzy114514/WeKnora"
   branch: "feat/topic3-evaluation-cost-cache-20260828"
   commit: "fb51ec00acdbb270e4501c371a91bd08e1d73a11"
-  tag: "weknora-2026-final-3"
+  tag: "rhino-2026-final-3"
