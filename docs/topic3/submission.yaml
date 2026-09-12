@@ -20,8 +20,11 @@ reports:
   tests: docs/topic3/TEST_REPORT.md
   limitations: docs/topic3/LIMITATIONS.md
   migration: docs/topic3/MIGRATION_REPORT.md
+  migration_code_review: docs/topic3/MIGRATION_CODE_REVIEW.md
   traceability: docs/topic3/REQUIREMENT_TRACEABILITY.md
 evidence:
+  final_validation: artifacts/migration-validation-summary.json
+  final_focused_tests: artifacts/migration-final-focused-tests.txt
   cache_contract: artifacts/migration-cache-deterministic-evidence.json
   cache_live_status: artifacts/migration-cache-live-status.json
   cache_live_comparison: artifacts/migration-live-cold-warm-comparison.json
