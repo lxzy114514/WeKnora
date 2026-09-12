@@ -23,4 +23,4 @@
 
 ## 结论
 
-选择性迁移实现符合既定架构边界：继续复用 0828 的评测、调用观测、缓存和 CI 主链，没有引入第二套六表账本或 runtime factory。真实 RAG、Wiki 和 parser 的限制仍按 `partial`、`not_comparable` 或 `unknown` 如实保留。
+选择性迁移实现符合既定架构边界：继续复用 0828 的评测、调用观测、缓存和 CI 主链，未引入第二套六表调用记录模型或 runtime factory。真实 RAG、Wiki 和 parser 的限制仍按 `partial`、`not_comparable` 或 `unknown` 如实保留。

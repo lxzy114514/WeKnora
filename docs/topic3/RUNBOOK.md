@@ -85,7 +85,7 @@ go run ./cmd/evalgate -baseline testdata/evaluation/baseline.json -current testd
 Evaluation Regression / Deterministic quality gate
 ```
 
-设为必需检查。本分支不会擅自修改远端仓库设置。
+设为必需检查。远端仓库设置由仓库管理员单独配置，本分支不包含该设置变更。
 
 若团队已经为 PR 部署当前分支预览服务，还应把：
 
