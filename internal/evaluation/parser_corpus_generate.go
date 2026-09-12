@@ -105,7 +105,10 @@ func BuildParserCorpus(templateRoot, outputRoot string) error {
 			contents = buildDigitalMulticolumnPDF(authored)
 			generator = ParserGeneratorIdentityV1{Tool: "weknora-deterministic-pdf", Version: "1"}
 		case "pdf-scanned-ocr":
-			pagePNG := buildScannedPagePNG(authored)
+			pagePNG, err := buildScannedPagePNG(authored)
+			if err != nil {
+				return fmt.Errorf("generate parser document %s page image: %w", authored.ID, err)
+			}
 			pagePath := filepath.Join(outputRoot, "sources", "pdf-scanned-ocr-page-1.png")
 			if err := os.WriteFile(pagePath, pagePNG, 0o644); err != nil {
 				return err

@@ -3,8 +3,10 @@ package evaluation
 import (
 	"archive/zip"
 	"bytes"
+	"compress/zlib"
 	"encoding/json"
 	"fmt"
+	"io"
 	"os"
 	"path/filepath"
 	"sort"
@@ -14,6 +16,43 @@ import (
 	"github.com/Tencent/WeKnora/internal/infrastructure/docparser"
 	"github.com/stretchr/testify/require"
 )
+
+func TestDeterministicZlibBytesRoundTrip(t *testing.T) {
+	testCases := [][]byte{
+		nil,
+		[]byte("short literal payload"),
+		bytes.Repeat([]byte("same-pattern-"), 1000),
+	}
+	for _, matchLength := range []int{
+		3, 4, 5, 6, 7, 8, 9, 10,
+		11, 12, 13, 14, 15, 16, 17, 18,
+		19, 22, 23, 26, 27, 30, 31, 34,
+		35, 42, 43, 50, 51, 58, 59, 66,
+		67, 82, 83, 98, 99, 114, 115, 130,
+		131, 162, 163, 194, 195, 226, 227, 257, 258,
+	} {
+		// The leading byte is emitted as a literal; the remaining identical
+		// bytes exercise the requested distance-one match length.
+		testCases = append(testCases, bytes.Repeat([]byte{0x7f}, matchLength+1))
+	}
+	allBytes := make([]byte, 256)
+	for index := range allBytes {
+		allBytes[index] = byte(index)
+	}
+	testCases = append(testCases, allBytes)
+
+	for _, contents := range testCases {
+		compressed := zlibBytes(contents)
+		repeat := zlibBytes(contents)
+		require.Equal(t, compressed, repeat)
+		reader, err := zlib.NewReader(bytes.NewReader(compressed))
+		require.NoError(t, err)
+		decoded, err := io.ReadAll(reader)
+		require.NoError(t, err)
+		require.NoError(t, reader.Close())
+		require.True(t, bytes.Equal(contents, decoded))
+	}
+}
 
 func TestBuildParserCorpusIsByteStableInTwoDirectories(t *testing.T) {
 	templateRoot := parserCorpusRepositoryRoot(t)
@@ -45,6 +84,16 @@ func TestBuildParserCorpusIsByteStableInTwoDirectories(t *testing.T) {
 		archive, err := zip.OpenReader(filepath.Join(first, filepath.FromSlash(path)))
 		require.NoError(t, err, path)
 		require.NotEmpty(t, archive.File)
+		for _, member := range archive.File {
+			require.Equal(t, uint16(20), member.ReaderVersion, member.Name)
+			require.Equal(t, uint16(33), member.ModifiedDate, member.Name)
+			require.Zero(t, member.ModifiedTime, member.Name)
+			reader, openErr := member.Open()
+			require.NoError(t, openErr, member.Name)
+			_, readErr := io.ReadAll(reader)
+			require.NoError(t, readErr, member.Name)
+			require.NoError(t, reader.Close(), member.Name)
+		}
 		require.NoError(t, archive.Close())
 	}
 	for _, path := range wantDocuments[4:] {

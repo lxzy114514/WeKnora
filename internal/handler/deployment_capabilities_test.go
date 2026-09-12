@@ -21,6 +21,30 @@ func TestDeploymentCapabilityKeysMatchFrontend(t *testing.T) {
 	}
 }
 
+func TestParseFrontendDeploymentCapabilityKeysAcceptsLFAndCRLF(t *testing.T) {
+	lf := "export const DEPLOYMENT_CAPABILITY_KEYS = [\n  'organizations',\n  \"agents\",\n] as const\n"
+	for name, content := range map[string]string{
+		"lf": lf, "crlf": strings.ReplaceAll(lf, "\n", "\r\n"),
+	} {
+		t.Run(name, func(t *testing.T) {
+			keys, err := parseFrontendDeploymentCapabilityKeys([]byte(content))
+			if err != nil {
+				t.Fatalf("parse frontend capability keys: %v", err)
+			}
+			if !slices.Equal([]string{"organizations", "agents"}, keys) {
+				t.Fatalf("unexpected keys: %#v", keys)
+			}
+		})
+	}
+}
+
+func TestParseFrontendDeploymentCapabilityKeysRejectsMismatchedQuotes(t *testing.T) {
+	content := []byte("export const DEPLOYMENT_CAPABILITY_KEYS = [\n  'organizations\",\n] as const\n")
+	if _, err := parseFrontendDeploymentCapabilityKeys(content); err == nil {
+		t.Fatal("expected mismatched TypeScript quotes to be rejected")
+	}
+}
+
 func TestBuildDeploymentCapabilitiesIncludesAllKeys(t *testing.T) {
 	result := BuildDeploymentCapabilities("standard", DeploymentFeatureAvailability{
 		Organizations: true,
@@ -53,21 +77,35 @@ func readFrontendDeploymentCapabilityKeys() ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
+	return parseFrontendDeploymentCapabilityKeys(content)
+}
 
+func parseFrontendDeploymentCapabilityKeys(content []byte) ([]string, error) {
 	re := regexp.MustCompile(`(?s)export const DEPLOYMENT_CAPABILITY_KEYS = \[(.*?)\]`)
 	match := re.FindSubmatch(content)
 	if len(match) < 2 {
 		return nil, os.ErrInvalid
 	}
 
+	item := regexp.MustCompile(`^(?:'([^']+)'|"([^"]+)")\s*,?$`)
 	var keys []string
 	for _, line := range strings.Split(string(match[1]), "\n") {
-		line = strings.TrimSpace(strings.TrimRight(line, ","))
+		line = strings.TrimSpace(line)
 		if line == "" {
 			continue
 		}
-		line = strings.Trim(line, `'`)
-		keys = append(keys, line)
+		parts := item.FindStringSubmatch(line)
+		if len(parts) != 3 {
+			return nil, os.ErrInvalid
+		}
+		key := parts[1]
+		if key == "" {
+			key = parts[2]
+		}
+		keys = append(keys, key)
+	}
+	if len(keys) == 0 {
+		return nil, os.ErrInvalid
 	}
 	return keys, nil
 }

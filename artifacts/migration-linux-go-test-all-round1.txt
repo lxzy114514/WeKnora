@@ -1,0 +1,664 @@
+go: downloading github.com/gin-gonic/gin v1.12.0
+go: downloading github.com/joho/godotenv v1.5.1
+go: downloading github.com/wailsapp/wails/v2 v2.12.0
+go: downloading github.com/stretchr/testify v1.11.1
+go: downloading golang.org/x/mod v0.36.0
+go: downloading go.uber.org/dig v1.19.0
+go: downloading google.golang.org/grpc v1.81.0
+go: downloading google.golang.org/protobuf v1.36.11
+go: downloading github.com/swaggo/swag v1.16.6
+go: downloading gopkg.in/yaml.v3 v3.0.1
+go: downloading golang.org/x/sync v0.21.0
+go: downloading github.com/redis/go-redis/v9 v9.14.1
+go: downloading github.com/tiktoken-go/tokenizer v0.7.0
+go: downloading github.com/mark3labs/mcp-go v0.52.0
+go: downloading gorm.io/gorm v1.31.1
+go: downloading github.com/hibiken/asynq v0.26.0
+go: downloading github.com/xuri/excelize/v2 v2.11.0
+go: downloading github.com/DATA-DOG/go-sqlmock v1.5.2
+go: downloading github.com/elastic/go-elasticsearch/v7 v7.17.10
+go: downloading gorm.io/driver/sqlite v1.6.0
+go: downloading github.com/elastic/go-elasticsearch/v8 v8.19.6
+go: downloading github.com/milvus-io/milvus/client/v2 v2.6.4
+go: downloading github.com/neo4j/neo4j-go-driver/v6 v6.0.0
+go: downloading github.com/pgvector/pgvector-go v0.3.0
+go: downloading github.com/qdrant/go-client v1.18.1
+go: downloading github.com/opensearch-project/opensearch-go/v4 v4.6.0
+go: downloading github.com/asg017/sqlite-vec-go-bindings v0.1.6
+go: downloading github.com/go-openapi/strfmt v0.26.2
+go: downloading github.com/tencent/vectordatabase-sdk-go v1.8.4
+go: downloading github.com/weaviate/weaviate-go-client/v5 v5.7.3
+go: downloading github.com/weaviate/weaviate v1.37.3
+go: downloading github.com/aliyun/alibabacloud-oss-go-sdk-v2 v1.5.1
+go: downloading github.com/aws/aws-sdk-go-v2 v1.41.7
+go: downloading github.com/aws/aws-sdk-go-v2/config v1.32.17
+go: downloading github.com/aws/aws-sdk-go-v2/credentials v1.19.16
+go: downloading github.com/aws/aws-sdk-go-v2/service/s3 v1.101.0
+go: downloading github.com/ks3sdklib/aws-sdk-go v1.11.0
+go: downloading github.com/minio/minio-go/v7 v7.1.0
+go: downloading github.com/tencentyun/cos-go-sdk-v5 v0.7.73
+go: downloading github.com/volcengine/ve-tos-golang-sdk/v2 v2.9.4
+go: downloading github.com/JohannesKaufmann/html-to-markdown/v2 v2.5.1
+go: downloading github.com/alicebob/miniredis/v2 v2.38.0
+go: downloading github.com/go-sql-driver/mysql v1.10.0
+go: downloading github.com/golang-jwt/jwt/v5 v5.3.1
+go: downloading github.com/jackc/pgx/v5 v5.9.2
+go: downloading github.com/parquet-go/parquet-go v0.29.0
+go: downloading github.com/robfig/cron/v3 v3.0.1
+go: downloading golang.org/x/crypto v0.53.0
+go: downloading github.com/spf13/viper v1.21.0
+go: downloading github.com/golang-migrate/migrate/v4 v4.19.1
+go: downloading github.com/panjf2000/ants/v2 v2.12.0
+go: downloading gorm.io/driver/postgres v1.6.0
+go: downloading golang.org/x/time v0.15.0
+go: downloading codeberg.org/readeck/go-readability/v2 v2.1.2
+go: downloading github.com/mmcdole/gofeed v1.3.0
+go: downloading github.com/yuin/goldmark v1.8.2
+go: downloading golang.org/x/image v0.38.0
+go: downloading golang.org/x/net v0.56.0
+go: downloading golang.org/x/text v0.38.0
+go: downloading github.com/ollama/ollama v0.23.2
+go: downloading github.com/open-dingtalk/dingtalk-stream-sdk-go v0.9.2-beta.1
+go: downloading github.com/larksuite/oapi-sdk-go/v3 v3.9.7
+go: downloading github.com/gorilla/websocket v1.5.3
+go: downloading github.com/slack-go/slack v0.23.1
+go: downloading github.com/PuerkitoBio/goquery v1.12.0
+go: downloading github.com/chromedp/chromedp v0.15.1
+go: downloading github.com/sirupsen/logrus v1.9.4
+go: downloading go.opentelemetry.io/otel/trace v1.43.0
+go: downloading go.opentelemetry.io/otel v1.43.0
+go: downloading gopkg.in/natefinch/lumberjack.v2 v2.2.1
+go: downloading google.golang.org/api v0.278.0
+go: downloading github.com/sashabaranov/go-openai v1.41.2
+go: downloading github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common v1.3.103
+go: downloading github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/lkeap v1.3.103
+go: downloading github.com/volcengine/vikingdb-go-sdk v0.0.11
+go: downloading github.com/gin-contrib/cors v1.7.7
+go: downloading github.com/swaggo/files v1.0.1
+go: downloading github.com/swaggo/gin-swagger v1.6.1
+go: downloading go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp v1.43.0
+go: downloading go.opentelemetry.io/otel/sdk v1.43.0
+go: downloading go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.43.0
+go: downloading github.com/longbridgeapp/opencc v0.3.13
+go: downloading github.com/yanyiwu/gojieba v1.4.7
+go: downloading connectrpc.com/connect v1.19.1
+go: downloading github.com/google/jsonschema-go v0.4.3
+go: downloading github.com/containerd/errdefs v1.0.0
+go: downloading github.com/pganalyze/pg_query_go/v6 v6.2.2
+go: downloading github.com/matiasinsaurralde/go-e2b v0.1.1-0.20260808041540-fdc08ceaa1c1
+go: downloading github.com/moby/moby/api v1.55.0
+go: downloading github.com/moby/moby/client v0.5.1
+go: downloading github.com/tencentcloud/CubeSandbox/sdk/go v0.0.0-20260807115140-5cefcca27a7f
+go: downloading github.com/gin-contrib/sse v1.1.0
+go: downloading github.com/mattn/go-isatty v0.0.22
+go: downloading github.com/quic-go/quic-go v0.59.1
+go: downloading github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc
+go: downloading github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2
+go: downloading github.com/leaanthony/slicer v1.6.0
+go: downloading github.com/leaanthony/u v1.1.1
+go: downloading google.golang.org/genproto/googleapis/rpc v0.0.0-20260427160629-7cedc36a6bc4
+go: downloading google.golang.org/genproto v0.0.0-20260319201613-d00831a3d3e7
+go: downloading github.com/KyleBanks/depth v1.2.1
+go: downloading github.com/go-openapi/spec v0.22.3
+go: downloading golang.org/x/tools v0.45.0
+go: downloading github.com/cespare/xxhash/v2 v2.3.0
+go: downloading github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f
+go: downloading github.com/jinzhu/now v1.1.5
+go: downloading golang.org/x/sys v0.46.0
+go: downloading github.com/richardlehane/mscfb v1.0.7
+go: downloading github.com/tiendc/go-deepcopy v1.7.2
+go: downloading github.com/xuri/efp v0.0.1
+go: downloading github.com/xuri/nfp v0.0.2-0.20250530014748-2ddeb826f9a9
+go: downloading github.com/mattn/go-sqlite3 v1.14.24
+go: downloading github.com/elastic/elastic-transport-go/v8 v8.9.0
+go: downloading github.com/cockroachdb/errors v1.9.1
+go: downloading github.com/milvus-io/milvus-proto/go-api/v2 v2.6.15
+go: downloading github.com/samber/lo v1.49.1
+go: downloading github.com/tidwall/gjson v1.18.0
+go: downloading github.com/grpc-ecosystem/go-grpc-middleware v1.4.0
+go: downloading github.com/milvus-io/milvus/pkg/v2 v2.6.7-0.20251201120310-af64f2acba38
+go: downloading github.com/go-openapi/errors v0.22.7
+go: downloading github.com/oklog/ulid/v2 v2.1.1
+go: downloading github.com/pkg/errors v0.9.1
+go: downloading github.com/aws/smithy-go v1.25.1
+go: downloading github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.18.23
+go: downloading github.com/aws/aws-sdk-go-v2/service/signin v1.0.11
+go: downloading github.com/aws/aws-sdk-go-v2/service/sso v1.30.17
+go: downloading github.com/aws/aws-sdk-go-v2/service/ssooidc v1.35.21
+go: downloading github.com/aws/aws-sdk-go-v2/service/sts v1.42.1
+go: downloading github.com/go-openapi/swag v0.26.0
+go: downloading github.com/go-openapi/validate v0.25.1
+go: downloading github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream v1.7.10
+go: downloading github.com/aws/aws-sdk-go-v2/internal/configsources v1.4.23
+go: downloading github.com/aws/aws-sdk-go-v2/internal/v4a v1.4.24
+go: downloading github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.13.9
+go: downloading github.com/aws/aws-sdk-go-v2/service/internal/checksum v1.9.15
+go: downloading github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.13.23
+go: downloading github.com/aws/aws-sdk-go-v2/service/internal/s3shared v1.19.23
+go: downloading github.com/klauspost/compress v1.18.6
+go: downloading github.com/dustin/go-humanize v1.0.1
+go: downloading github.com/klauspost/crc32 v1.3.0
+go: downloading github.com/minio/crc64nvme v1.1.1
+go: downloading github.com/minio/md5-simd v1.1.2
+go: downloading github.com/zeebo/xxh3 v1.1.0
+go: downloading go.yaml.in/yaml/v3 v3.0.4
+go: downloading github.com/go-ini/ini v1.67.0
+go: downloading github.com/clbanning/mxj v1.8.4
+go: downloading github.com/google/go-querystring v1.1.0
+go: downloading github.com/mitchellh/mapstructure v1.5.0
+go: downloading github.com/mozillazg/go-httpheader v0.2.1
+go: downloading github.com/yuin/gopher-lua v1.1.1
+go: downloading filippo.io/edwards25519 v1.2.0
+go: downloading golang.org/x/oauth2 v0.36.0
+go: downloading github.com/parquet-go/bitpack v1.0.0
+go: downloading github.com/parquet-go/jsonlite v1.0.0
+go: downloading github.com/twpayne/go-geom v1.6.1
+go: downloading github.com/fsnotify/fsnotify v1.9.0
+go: downloading github.com/sagikazarmark/locafero v0.11.0
+go: downloading github.com/spf13/afero v1.15.0
+go: downloading github.com/spf13/cast v1.10.0
+go: downloading github.com/spf13/pflag v1.0.10
+go: downloading github.com/json-iterator/go v1.1.13-0.20220915233716-71ac16282d12
+go: downloading github.com/mmcdole/goxpp v1.1.1-0.20240225020742-a0c311522b23
+go: downloading github.com/go-shiori/dom v0.0.0-20230515143342-73569d674e1c
+go: downloading github.com/itlightning/dateparse v0.2.1
+go: downloading github.com/gogo/protobuf v1.3.2
+go: downloading github.com/JohannesKaufmann/dom v0.2.0
+go: downloading github.com/andybalholm/cascadia v1.3.3
+go: downloading github.com/chromedp/cdproto v0.0.0-20260321001828-e3e3800016bc
+go: downloading github.com/go-json-experiment/json v0.0.0-20260214004413-d219187c3433
+go: downloading github.com/gobwas/ws v1.4.0
+go: downloading github.com/yosida95/uritemplate/v3 v3.0.2
+go: downloading github.com/googleapis/gax-go/v2 v2.22.0
+go: downloading cloud.google.com/go/auth v0.20.0
+go: downloading github.com/volcengine/volc-sdk-golang v1.0.252
+go: downloading go.opentelemetry.io/proto/otlp v1.10.0
+go: downloading github.com/liuzl/da v0.0.0-20180704015230-14771aad5b1d
+go: downloading github.com/moby/docker-image-spec v1.3.1
+go: downloading github.com/opencontainers/go-digest v1.0.0
+go: downloading github.com/opencontainers/image-spec v1.1.1
+go: downloading github.com/docker/go-units v0.5.0
+go: downloading github.com/containerd/errdefs/pkg v0.3.0
+go: downloading github.com/distribution/reference v0.6.0
+go: downloading github.com/docker/go-connections v0.7.0
+go: downloading go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.68.0
+go: downloading github.com/go-playground/validator/v10 v10.30.1
+go: downloading github.com/goccy/go-yaml v1.19.2
+go: downloading github.com/pelletier/go-toml/v2 v2.2.4
+go: downloading github.com/ugorji/go/codec v1.3.1
+go: downloading go.mongodb.org/mongo-driver/v2 v2.5.0
+go: downloading github.com/quic-go/qpack v0.6.0
+go: downloading github.com/go-openapi/jsonpointer v0.22.4
+go: downloading github.com/go-openapi/jsonreference v0.21.4
+go: downloading github.com/go-openapi/swag/jsonname v0.26.0
+go: downloading github.com/go-openapi/swag/jsonutils v0.26.0
+go: downloading github.com/go-openapi/swag/loading v0.26.0
+go: downloading github.com/go-openapi/swag/stringutils v0.26.0
+go: downloading github.com/dlclark/regexp2 v1.11.5
+go: downloading github.com/santhosh-tekuri/jsonschema/v6 v6.0.2
+go: downloading github.com/jinzhu/inflection v1.0.0
+go: downloading github.com/richardlehane/msoleps v1.0.6
+go: downloading github.com/cockroachdb/logtags v0.0.0-20211118104740-dabe8e521a4f
+go: downloading github.com/cockroachdb/redact v1.1.3
+go: downloading github.com/getsentry/sentry-go v0.30.0
+go: downloading github.com/tidwall/match v1.1.1
+go: downloading github.com/tidwall/pretty v1.2.1
+go: downloading github.com/blang/semver/v4 v4.0.0
+go: downloading go.uber.org/zap v1.27.0
+go: downloading go.uber.org/atomic v1.11.0
+go: downloading github.com/cenkalti/backoff/v4 v4.3.0
+go: downloading github.com/spaolacci/murmur3 v1.1.0
+go: downloading github.com/x448/float16 v0.8.4
+go: downloading golang.org/x/exp v0.0.0-20260112195511-716be5621a96
+go: downloading github.com/go-ego/gse v0.80.3
+go: downloading github.com/go-openapi/swag/cmdutils v0.26.0
+go: downloading github.com/go-openapi/swag/conv v0.26.0
+go: downloading github.com/go-openapi/swag/fileutils v0.26.0
+go: downloading github.com/go-openapi/swag/mangling v0.26.0
+go: downloading github.com/go-openapi/swag/netutils v0.26.0
+go: downloading github.com/go-openapi/swag/typeutils v0.26.0
+go: downloading github.com/go-openapi/swag/yamlutils v0.26.0
+go: downloading github.com/go-openapi/analysis v0.24.1
+go: downloading github.com/go-openapi/loads v0.23.2
+go: downloading github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.7.23
+go: downloading github.com/klauspost/cpuid/v2 v2.3.0
+go: downloading github.com/rs/xid v1.6.0
+go: downloading github.com/tinylib/msgp v1.6.1
+go: downloading github.com/jackc/pgpassfile v1.0.0
+go: downloading github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761
+go: downloading github.com/jackc/puddle/v2 v2.2.2
+go: downloading github.com/andybalholm/brotli v1.2.0
+go: downloading github.com/pierrec/lz4/v4 v4.1.25
+go: downloading github.com/sourcegraph/conc v0.3.1-0.20240121214520-5f936abd7ae8
+go: downloading github.com/subosito/gotenv v1.6.0
+go: downloading github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd
+go: downloading github.com/modern-go/reflect2 v1.0.2
+go: downloading github.com/gogs/chardet v0.0.0-20211120154057-b7413eaefb8f
+go: downloading github.com/chromedp/sysutil v1.1.0
+go: downloading github.com/gobwas/httphead v0.1.0
+go: downloading github.com/gobwas/pool v0.2.1
+go: downloading github.com/wk8/go-ordered-map/v2 v2.1.8
+go: downloading cloud.google.com/go/auth/oauth2adapt v0.2.8
+go: downloading cloud.google.com/go/compute/metadata v0.9.0
+go: downloading github.com/google/s2a-go v0.1.9
+go: downloading github.com/go-logr/logr v1.4.3
+go: downloading go.opentelemetry.io/otel/metric v1.43.0
+go: downloading github.com/go-logr/stdr v1.2.2
+go: downloading go.opentelemetry.io/auto/sdk v1.2.1
+go: downloading github.com/cenkalti/backoff/v5 v5.0.3
+go: downloading github.com/grpc-ecosystem/grpc-gateway/v2 v2.28.0
+go: downloading github.com/grpc-ecosystem/grpc-gateway v1.16.0
+go: downloading github.com/liuzl/cedar-go v0.0.0-20170805034717-80a9c64b256d
+go: downloading github.com/gabriel-vasile/mimetype v1.4.12
+go: downloading github.com/go-playground/universal-translator v0.18.1
+go: downloading github.com/leodido/go-urn v1.4.0
+go: downloading github.com/felixge/httpsnoop v1.0.4
+go: downloading github.com/kr/pretty v0.3.1
+go: downloading github.com/uber/jaeger-client-go v2.30.0+incompatible
+go: downloading github.com/shirou/gopsutil/v3 v3.23.12
+go: downloading github.com/containerd/cgroups/v3 v3.0.3
+go: downloading go.uber.org/automaxprocs v1.5.3
+go: downloading k8s.io/apimachinery v0.32.3
+go: downloading go.uber.org/multierr v1.11.0
+go: downloading github.com/go-openapi/runtime v0.29.2
+go: downloading github.com/vcaesar/cedar v0.20.2
+go: downloading github.com/philhofer/fwd v1.2.0
+go: downloading github.com/bahlo/generic-list-go v0.2.0
+go: downloading github.com/buger/jsonparser v1.1.2
+go: downloading github.com/mailru/easyjson v0.9.0
+go: downloading github.com/googleapis/enterprise-certificate-proxy v0.3.15
+go: downloading google.golang.org/genproto/googleapis/api v0.0.0-20260401024825-9d38bb4040a9
+go: downloading github.com/go-playground/locales v0.14.1
+go: downloading github.com/leaanthony/go-ansi-parser v1.6.1
+go: downloading github.com/prometheus/client_golang v1.20.5
+go: downloading github.com/kr/text v0.2.0
+go: downloading github.com/rogpeppe/go-internal v1.14.1
+go: downloading go.etcd.io/etcd/client/v3 v3.5.5
+go: downloading gopkg.in/yaml.v2 v2.4.0
+go: downloading go.etcd.io/etcd/api/v3 v3.5.5
+go: downloading go.etcd.io/etcd/server/v3 v3.5.5
+go: downloading github.com/cilium/ebpf v0.11.0
+go: downloading github.com/coreos/go-systemd/v22 v22.3.2
+go: downloading github.com/godbus/dbus/v5 v5.1.0
+go: downloading github.com/opencontainers/runtime-spec v1.0.2
+go: downloading github.com/tklauser/go-sysconf v0.3.16
+go: downloading gopkg.in/inf.v0 v0.9.1
+go: downloading github.com/rivo/uniseg v0.4.7
+go: downloading github.com/beorn7/perks v1.0.1
+go: downloading github.com/prometheus/client_model v0.6.2
+go: downloading github.com/prometheus/common v0.65.0
+go: downloading github.com/prometheus/procfs v0.15.1
+go: downloading go.etcd.io/etcd/client/pkg/v3 v3.5.5
+go: downloading github.com/golang/protobuf v1.5.4
+go: downloading github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0
+go: downloading github.com/soheilhy/cmux v0.1.5
+go: downloading github.com/tmc/grpc-websocket-proxy v0.0.0-20201229170055-e5319fda7802
+go: downloading go.etcd.io/bbolt v1.4.3
+go: downloading go.etcd.io/etcd/pkg/v3 v3.5.5
+go: downloading go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc v0.59.0
+go: downloading go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.43.0
+go: downloading sigs.k8s.io/yaml v1.4.0
+go: downloading github.com/tklauser/numcpus v0.11.0
+go: downloading github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822
+go: downloading github.com/coreos/go-semver v0.3.0
+go: downloading go.etcd.io/etcd/raft/v3 v3.5.5
+go: downloading github.com/xiang90/probing v0.0.0-20190116061207-43a291ad63a2
+go: downloading github.com/jonboulle/clockwork v0.5.0
+go: downloading github.com/fxamacker/cbor/v2 v2.7.0
+go: downloading github.com/stretchr/objx v0.5.3
+go: downloading github.com/form3tech-oss/jwt-go v3.2.5+incompatible
+go: downloading go.etcd.io/etcd/client/v2 v2.305.5
+go: downloading github.com/google/btree v1.1.3
+?       github.com/Tencent/WeKnora/cmd/desktop  [no test files]
+?       github.com/Tencent/WeKnora/cmd/download/duckdb  [no test files]
+ok      github.com/Tencent/WeKnora/cmd/evalbench    0.440s
+ok      github.com/Tencent/WeKnora/cmd/evalctl  0.438s
+ok      github.com/Tencent/WeKnora/cmd/evalgate 0.004s
+?       github.com/Tencent/WeKnora/cmd/server   [no test files]
+?       github.com/Tencent/WeKnora/cmd/topic3-parser-benchmark  [no test files]
+?       github.com/Tencent/WeKnora/cmd/topic3-parser-corpus [no test files]
+ok      github.com/Tencent/WeKnora/docreader/client 0.034s
+?       github.com/Tencent/WeKnora/docreader/proto  [no test files]
+ok      github.com/Tencent/WeKnora/docs 0.039s
+ok      github.com/Tencent/WeKnora/internal/agent   0.459s
+ok      github.com/Tencent/WeKnora/internal/agent/approval  2.423s
+ok      github.com/Tencent/WeKnora/internal/agent/memory    0.402s
+ok      github.com/Tencent/WeKnora/internal/agent/skills    0.398s
+ok      github.com/Tencent/WeKnora/internal/agent/token 0.481s
+ok      github.com/Tencent/WeKnora/internal/agent/tools 1.306s
+ok      github.com/Tencent/WeKnora/internal/application/repository  1.149s
+ok      github.com/Tencent/WeKnora/internal/application/repository/retriever/doris  0.499s
+?       github.com/Tencent/WeKnora/internal/application/repository/retriever/elasticsearch  [no test files]
+?       github.com/Tencent/WeKnora/internal/application/repository/retriever/elasticsearch/v7   [no test files]
+?       github.com/Tencent/WeKnora/internal/application/repository/retriever/elasticsearch/v8   [no test files]
+ok      github.com/Tencent/WeKnora/internal/application/repository/retriever/milvus 0.439s
+?       github.com/Tencent/WeKnora/internal/application/repository/retriever/neo4j  [no test files]
+ok      github.com/Tencent/WeKnora/internal/application/repository/retriever/opensearch 0.487s
+?       github.com/Tencent/WeKnora/internal/application/repository/retriever/postgres   [no test files]
+?       github.com/Tencent/WeKnora/internal/application/repository/retriever/qdrant [no test files]
+ok      github.com/Tencent/WeKnora/internal/application/repository/retriever/sqlite 0.472s
+ok      github.com/Tencent/WeKnora/internal/application/repository/retriever/tencentvectordb    0.486s
+?       github.com/Tencent/WeKnora/internal/application/repository/retriever/weaviate   [no test files]
+ok      github.com/Tencent/WeKnora/internal/application/service 5.046s
+ok      github.com/Tencent/WeKnora/internal/application/service/chat_pipeline   0.454s
+ok      github.com/Tencent/WeKnora/internal/application/service/file    1.024s
+ok      github.com/Tencent/WeKnora/internal/application/service/memory  3.106s
+ok      github.com/Tencent/WeKnora/internal/application/service/metric  0.393s
+ok      github.com/Tencent/WeKnora/internal/application/service/retriever   0.435s
+?       github.com/Tencent/WeKnora/internal/assets  [no test files]
+ok      github.com/Tencent/WeKnora/internal/common  0.431s
+ok      github.com/Tencent/WeKnora/internal/common/redislock    0.061s
+ok      github.com/Tencent/WeKnora/internal/config  0.452s
+ok      github.com/Tencent/WeKnora/internal/container   0.547s
+ok      github.com/Tencent/WeKnora/internal/database    0.955s
+ok      github.com/Tencent/WeKnora/internal/datasource  3.029s
+ok      github.com/Tencent/WeKnora/internal/datasource/connector/feishu/core    2.941s
+ok      github.com/Tencent/WeKnora/internal/datasource/connector/feishu/drive   2.441s
+ok      github.com/Tencent/WeKnora/internal/datasource/connector/feishu/wiki    12.468s
+ok      github.com/Tencent/WeKnora/internal/datasource/connector/gitlab 0.403s
+ok      github.com/Tencent/WeKnora/internal/datasource/connector/ima    0.468s
+ok      github.com/Tencent/WeKnora/internal/datasource/connector/notion 1.247s
+ok      github.com/Tencent/WeKnora/internal/datasource/connector/rss    0.425s
+ok      github.com/Tencent/WeKnora/internal/datasource/connector/yuque  7.788s
+?       github.com/Tencent/WeKnora/internal/errors  [no test files]
+--- FAIL: TestCommittedParserCorpusMatchesAFreshDeterministicBuild (0.12s)
+    parser_corpus_test.go:76:
+            Error Trace:    /app/internal/evaluation/parser_corpus_test.go:76
+            Error:          Not equal:
+                            expected: "11131:1b890db774fb2f568079f5ecc478e595fbb2e04b9162fe9e832bd530cae13929"
+                            actual  : "11132:c2a62b5d689436d7de47d74fc9233d8fc24de85857c437f8a2babf63a5d6ec78"
+
+                            Diff:
+                            --- Expected
+                            +++ Actual
+                            @@ -1 +1 @@
+                            -11131:1b890db774fb2f568079f5ecc478e595fbb2e04b9162fe9e832bd530cae13929
+                            +11132:c2a62b5d689436d7de47d74fc9233d8fc24de85857c437f8a2babf63a5d6ec78
+            Test:           TestCommittedParserCorpusMatchesAFreshDeterministicBuild
+            Messages:       corpus-manifest.json
+FAIL
+FAIL    github.com/Tencent/WeKnora/internal/evaluation  1.041s
+ok      github.com/Tencent/WeKnora/internal/evaluation/gate 0.003s
+ok      github.com/Tencent/WeKnora/internal/event   0.574s
+ERROR[2026-09-12 10:57:02.535] [] audit_log.go:242[ListSystemAuditLog] | db: connection refused
+INFO [2026-09-12 10:57:02.535] [] auth.go:725[ChangePassword] | Start password change
+INFO [2026-09-12 10:57:02.535] [] auth.go:725[ChangePassword] | Start password change
+ERROR[2026-09-12 10:57:02.535] [] auth.go:65[NewAuthHandler] | [auth] AuthHandler constructed with nil/incomplete config (cfg=&{<nil> <nil> <nil> <nil> <nil> <nil> <nil> [] <nil> <nil> <nil> <nil> <nil> <nil> <nil> <nil> }); registration_mode enforcement is disabled. This is almost certainly a wiring bug.
+ERROR[2026-09-12 10:57:02.535] [] auth.go:65[NewAuthHandler] | [auth] AuthHandler constructed with nil/incomplete config (cfg=&{<nil> <nil> <nil> <nil> <nil> <nil> <nil> [] <nil> <nil> <nil> <nil> <nil> <nil> <nil> <nil> }); registration_mode enforcement is disabled. This is almost certainly a wiring bug.
+ERROR[2026-09-12 10:57:02.535] [] auth.go:65[NewAuthHandler] | [auth] AuthHandler constructed with nil/incomplete config (cfg=&{<nil> <nil> <nil> <nil> <nil> <nil> <nil> [] <nil> <nil> <nil> <nil> <nil> <nil> <nil> <nil> }); registration_mode enforcement is disabled. This is almost certainly a wiring bug.
+ERROR[2026-09-12 10:57:02.535] [] auth.go:350[OIDCStart] | Failed to generate OIDC authorization URL: idp unavailable
+ERROR[2026-09-12 10:57:02.535] [] auth_register_by_invite.go:199[RegisterByInvite] | register-by-invite: accept failed for user new-user: expired
+INFO [2026-09-12 10:57:02.540] [] auth.go:165[Register] | Start user registration
+WARNING[2026-09-12 10:57:02.540] [] auth.go:174[Register] | Registration rejected: auth.registration_mode=invite_only
+INFO [2026-09-12 10:57:02.540] [] auth.go:165[Register] | Start user registration
+INFO [2026-09-12 10:57:02.540] [] auth.go:222[Register] | User registered successfully: alice@example.com
+INFO [2026-09-12 10:57:02.540] [] auth.go:165[Register] | Start user registration
+INFO [2026-09-12 10:57:02.540] [] auth.go:222[Register] | User registered successfully: alice@example.com
+ERROR[2026-09-12 10:57:02.541] [] auth.go:65[NewAuthHandler] | [auth] AuthHandler constructed with nil/incomplete config (cfg=&{<nil> <nil> <nil> <nil> <nil> <nil> <nil> [] <nil> <nil> <nil> <nil> <nil> <nil> <nil> <nil> }); registration_mode enforcement is disabled. This is almost certainly a wiring bug.
+INFO [2026-09-12 10:57:02.541] [] auth.go:165[Register] | Start user registration
+INFO [2026-09-12 10:57:02.541] [] auth.go:222[Register] | User registered successfully: alice@example.com
+INFO [2026-09-12 10:57:02.541] [] auth.go:165[Register] | Start user registration
+INFO [2026-09-12 10:57:02.541] [] auth.go:222[Register] | User registered successfully: alice@example.com
+DEBUG[2026-09-12 10:57:02.541] [] chunker_debug.go:210[PreviewChunking] | chunker preview: tier=heading chunks=1
+DEBUG[2026-09-12 10:57:02.541] [] chunker_debug.go:210[PreviewChunking] | chunker preview: tier=legacy chunks=1
+DEBUG[2026-09-12 10:57:02.542] [] strategy.go:111[SplitWithDiagnostics] | chunker: tier legacy rejected: too many tiny chunks
+DEBUG[2026-09-12 10:57:02.542] [] chunker_debug.go:210[PreviewChunking] | chunker preview: tier=legacy chunks=1100
+DEBUG[2026-09-12 10:57:02.544] [] strategy.go:111[SplitWithDiagnostics] | chunker: tier heading rejected: too many tiny chunks
+DEBUG[2026-09-12 10:57:02.544] [] strategy.go:111[SplitWithDiagnostics] | chunker: tier legacy rejected: too many tiny chunks
+DEBUG[2026-09-12 10:57:02.544] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.544] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.544] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.544] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.544] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.544] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.544] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.544] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.544] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.544] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.544] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.544] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.544] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.544] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.544] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.545] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.545] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.545] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.545] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.545] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.545] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.545] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.545] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.545] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.545] [] chunker_debug.go:210[PreviewChunking] | chunker preview: tier=legacy chunks=36
+DEBUG[2026-09-12 10:57:02.546] [] strategy.go:48[Split] | chunker: tier heading rejected: too many tiny chunks
+DEBUG[2026-09-12 10:57:02.546] [] strategy.go:48[Split] | chunker: tier legacy rejected: too many tiny chunks
+DEBUG[2026-09-12 10:57:02.546] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.546] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.547] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.547] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.547] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.547] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.547] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.547] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.547] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.547] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.547] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.547] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.547] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.547] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.547] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.547] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.547] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.547] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.547] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.547] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.547] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.547] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.547] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.547] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 10:57:02.548] [] chunker_debug.go:210[PreviewChunking] | chunker preview: tier=legacy chunks=4
+DEBUG[2026-09-12 10:57:02.549] [] chunker_debug.go:210[PreviewChunking] | chunker preview: tier=heading chunks=12
+DEBUG[2026-09-12 10:57:02.552] [] chunker_debug.go:210[PreviewChunking] | chunker preview: tier=heading chunks=12
+DEBUG[2026-09-12 10:57:02.554] [] chunker_debug.go:210[PreviewChunking] | chunker preview: tier=heading chunks=12
+INFO [2026-09-12 10:57:02.554] [] custom_agent.go:641[GetSuggestedQuestions] | Getting suggested questions for agent agent-1, kbIDs: [kb-blocked], tagScopes: 0, limit: 0
+ERROR[2026-09-12 10:57:02.554] [agent_id=agent-1 error=error code: 1002, error message: API key scope does not allow one or more knowledge bases] custom_agent.go:646[GetSuggestedQuestions] | 发生错误
+INFO [2026-09-12 10:57:02.554] [] custom_agent.go:641[GetSuggestedQuestions] | Getting suggested questions for agent agent-1, kbIDs: [], tagScopes: 1, limit: 0
+--- FAIL: TestDeploymentCapabilityKeysMatchFrontend (0.00s)
+    deployment_capabilities_test.go:16: read frontend capability keys: open /app/frontend/src/config/deploymentCapabilities.ts: no such file or directory
+INFO [2026-09-12 10:57:02.556] [] message.go:86[LoadMessages] | Start loading messages
+INFO [2026-09-12 10:57:02.556] [] message.go:93[LoadMessages] | Loading messages params, session ID: 11111111-2222-3333-4444-555555555555, limit: 20, before time:
+INFO [2026-09-12 10:57:02.556] [] message.go:112[LoadMessages] | Getting recent messages for session, session ID: 11111111-2222-3333-4444-555555555555, limit: 20
+INFO [2026-09-12 10:57:02.556] [] message.go:129[LoadMessages] | Successfully retrieved recent messages, session ID: 11111111-2222-3333-4444-555555555555, message count: 1
+INFO [2026-09-12 10:57:02.556] [] message.go:86[LoadMessages] | Start loading messages
+INFO [2026-09-12 10:57:02.556] [] message.go:93[LoadMessages] | Loading messages params, session ID: 11111111-2222-3333-4444-555555555555, limit: 20, before time:
+INFO [2026-09-12 10:57:02.556] [] message.go:112[LoadMessages] | Getting recent messages for session, session ID: 11111111-2222-3333-4444-555555555555, limit: 20
+INFO [2026-09-12 10:57:02.556] [] message.go:129[LoadMessages] | Successfully retrieved recent messages, session ID: 11111111-2222-3333-4444-555555555555, message count: 1
+WARNING[2026-09-12 10:57:02.557] [] embed_channel.go:430[CreateEmbedSession] | failed to assign embed session owner for 11111111-2222-3333-4444-555555555555: session not found
+ERROR[2026-09-12 10:57:02.557] [error=Key: 'StopSessionRequest.MessageID' Error:Field validation for 'MessageID' failed on the 'required' tag session_id=11111111-2222-3333-4444-555555555555] stream.go:231[StopSession] | 发生错误
+INFO [2026-09-12 10:57:02.557] [] knowledge.go:938[ListKnowledge] | Start retrieving knowledge list
+INFO [2026-09-12 10:57:02.557] [] knowledge.go:992[ListKnowledge] | Retrieving knowledge list under knowledge base, kb_id=kb-1 tag_ids= keyword= file_type= parse_status= source= start_time= end_time= folder_path= folder_scope= page=0 page_size=0 effectiveTenantID=1
+INFO [2026-09-12 10:57:02.557] [] knowledge.go:1018[ListKnowledge] | Knowledge list retrieved successfully, knowledge base ID: kb-1, total: 0
+INFO [2026-09-12 10:57:02.557] [] knowledge.go:938[ListKnowledge] | Start retrieving knowledge list
+INFO [2026-09-12 10:57:02.557] [] knowledge.go:992[ListKnowledge] | Retrieving knowledge list under knowledge base, kb_id=kb-1 tag_ids= keyword= file_type= parse_status= source= start_time= end_time= folder_path= folder_scope=exact page=0 page_size=0 effectiveTenantID=1
+INFO [2026-09-12 10:57:02.557] [] knowledge.go:1018[ListKnowledge] | Knowledge list retrieved successfully, knowledge base ID: kb-1, total: 0
+INFO [2026-09-12 10:57:02.557] [] knowledge.go:938[ListKnowledge] | Start retrieving knowledge list
+INFO [2026-09-12 10:57:02.557] [] knowledge.go:992[ListKnowledge] | Retrieving knowledge list under knowledge base, kb_id=kb-1 tag_ids= keyword= file_type= parse_status= source= start_time= end_time= folder_path=docs/spec folder_scope=exact page=0 page_size=0 effectiveTenantID=1
+INFO [2026-09-12 10:57:02.557] [] knowledge.go:1018[ListKnowledge] | Knowledge list retrieved successfully, knowledge base ID: kb-1, total: 0
+INFO [2026-09-12 10:57:02.557] [] knowledge.go:938[ListKnowledge] | Start retrieving knowledge list
+INFO [2026-09-12 10:57:02.557] [] knowledge.go:992[ListKnowledge] | Retrieving knowledge list under knowledge base, kb_id=kb-1 tag_ids= keyword= file_type= parse_status= source= start_time= end_time= folder_path=docs folder_scope=subtree page=0 page_size=0 effectiveTenantID=1
+INFO [2026-09-12 10:57:02.557] [] knowledge.go:1018[ListKnowledge] | Knowledge list retrieved successfully, knowledge base ID: kb-1, total: 0
+INFO [2026-09-12 10:57:02.557] [] knowledge.go:938[ListKnowledge] | Start retrieving knowledge list
+INFO [2026-09-12 10:57:02.557] [] knowledge.go:992[ListKnowledge] | Retrieving knowledge list under knowledge base, kb_id=kb-1 tag_ids= keyword= file_type= parse_status= source= start_time= end_time= folder_path=docs folder_scope=exact page=0 page_size=0 effectiveTenantID=1
+INFO [2026-09-12 10:57:02.557] [] knowledge.go:1018[ListKnowledge] | Knowledge list retrieved successfully, knowledge base ID: kb-1, total: 0
+INFO [2026-09-12 10:57:02.557] [] knowledge.go:938[ListKnowledge] | Start retrieving knowledge list
+INFO [2026-09-12 10:57:02.557] [] knowledge.go:992[ListKnowledge] | Retrieving knowledge list under knowledge base, kb_id=kb-1 tag_ids= keyword= file_type= parse_status= source= start_time= end_time= folder_path=docs/spec folder_scope=exact page=0 page_size=0 effectiveTenantID=1
+INFO [2026-09-12 10:57:02.557] [] knowledge.go:1018[ListKnowledge] | Knowledge list retrieved successfully, knowledge base ID: kb-1, total: 0
+INFO [2026-09-12 10:57:02.557] [] knowledge.go:938[ListKnowledge] | Start retrieving knowledge list
+INFO [2026-09-12 10:57:02.557] [] knowledge.go:992[ListKnowledge] | Retrieving knowledge list under knowledge base, kb_id=kb-1 tag_ids= keyword= file_type= parse_status= source= start_time= end_time= folder_path=spec folder_scope=exact page=0 page_size=0 effectiveTenantID=1
+INFO [2026-09-12 10:57:02.557] [] knowledge.go:1018[ListKnowledge] | Knowledge list retrieved successfully, knowledge base ID: kb-1, total: 0
+INFO [2026-09-12 10:57:02.557] [] knowledge.go:1064[ListKnowledgeFolders] | Knowledge folder tree retrieved, kb_id=kb-1 folders=1
+WARNING[2026-09-12 10:57:02.557] [] rbac.go:342[EvaluateOwnershipOrRole] | [rbac] ownership/role would be checked (enforcement off, lookup skipped): user= have=viewer need=admin
+WARNING[2026-09-12 10:57:02.558] [] rbac.go:342[EvaluateOwnershipOrRole] | [rbac] ownership/role would be checked (enforcement off, lookup skipped): user= have=viewer need=admin
+WARNING[2026-09-12 10:57:02.558] [] rbac.go:342[EvaluateOwnershipOrRole] | [rbac] ownership/role would be checked (enforcement off, lookup skipped): user= have=viewer need=admin
+WARNING[2026-09-12 10:57:02.558] [] rbac.go:342[EvaluateOwnershipOrRole] | [rbac] ownership/role would be checked (enforcement off, lookup skipped): user= have=viewer need=admin
+WARNING[2026-09-12 10:57:02.558] [] rbac.go:342[EvaluateOwnershipOrRole] | [rbac] ownership/role would be checked (enforcement off, lookup skipped): user= have=viewer need=admin
+WARNING[2026-09-12 10:57:02.558] [] rbac.go:342[EvaluateOwnershipOrRole] | [rbac] ownership/role would be checked (enforcement off, lookup skipped): user= have=viewer need=admin
+INFO [2026-09-12 10:57:02.558] [] knowledgebase.go:1242[DuplicateKnowledgeBase] | Knowledge base duplicate created, source: src, target: copy-id
+WARNING[2026-09-12 10:57:02.558] [] knowledgebase.go:1220[DuplicateKnowledgeBase] | Knowledge base duplicate rejected: source belongs to another tenant, source_id: src, caller_tenant: 1, kb_tenant: 2
+ERROR[2026-09-12 10:57:02.558] [error=database unavailable] knowledgebase.go:1237[DuplicateKnowledgeBase] | 发生错误
+INFO [2026-09-12 10:57:02.558] [] knowledgebase.go:316[HybridSearch] | Start hybrid search
+INFO [2026-09-12 10:57:02.558] [] knowledgebase.go:338[HybridSearch] | Executing hybrid search, knowledge base ID: kb-1, query: diagram, effectiveTenantID: 1
+INFO [2026-09-12 10:57:02.558] [] knowledgebase.go:367[HybridSearch] | Hybrid search completed, knowledge base ID: kb-1, result count: 1
+INFO [2026-09-12 10:57:02.558] [] storageurl.go:152[resolve] | [API] storage URL rewrite: src=resource://xifDo7NTSL300Lp1goVutw
+DEBUG[2026-09-12 10:57:02.558] [] storageurl.go:153[resolve] | [API] storage URL rewrite dst=https://cdn.example.com/signed.png
+INFO [2026-09-12 10:57:02.558] [] knowledgebase.go:316[HybridSearch] | Start hybrid search
+INFO [2026-09-12 10:57:02.558] [] knowledgebase.go:338[HybridSearch] | Executing hybrid search, knowledge base ID: kb-1, query: diagram, effectiveTenantID: 1
+INFO [2026-09-12 10:57:02.558] [] knowledgebase.go:367[HybridSearch] | Hybrid search completed, knowledge base ID: kb-1, result count: 1
+INFO [2026-09-12 10:57:02.558] [] storageurl.go:152[resolve] | [API] storage URL rewrite: src=resource://xifDo7NTSL300Lp1goVutw
+DEBUG[2026-09-12 10:57:02.558] [] storageurl.go:153[resolve] | [API] storage URL rewrite dst=https://cdn.example.com/signed.png
+INFO [2026-09-12 10:57:02.558] [] knowledgebase.go:316[HybridSearch] | Start hybrid search
+INFO [2026-09-12 10:57:02.558] [] knowledgebase.go:338[HybridSearch] | Executing hybrid search, knowledge base ID: kb-1, query: diagram, effectiveTenantID: 1
+WARNING[2026-09-12 10:57:02.558] [] knowledgebase.go:344[HybridSearch] | Rejected resource URL mode: error code: 1000, error message: invalid resource_urls value "signed": expected "handle" or "public"
+INFO [2026-09-12 10:57:02.558] [] knowledgebase.go:316[HybridSearch] | Start hybrid search
+INFO [2026-09-12 10:57:02.558] [] knowledgebase.go:338[HybridSearch] | Executing hybrid search, knowledge base ID: kb-1, query: diagram, effectiveTenantID: 1
+INFO [2026-09-12 10:57:02.558] [] knowledgebase.go:367[HybridSearch] | Hybrid search completed, knowledge base ID: kb-1, result count: 1
+INFO [2026-09-12 10:57:02.559] [] knowledgebase.go:316[HybridSearch] | Start hybrid search
+INFO [2026-09-12 10:57:02.559] [] knowledgebase.go:316[HybridSearch] | Start hybrid search
+INFO [2026-09-12 10:57:02.559] [] knowledgebase.go:316[HybridSearch] | Start hybrid search
+INFO [2026-09-12 10:57:02.559] [] knowledgebase.go:316[HybridSearch] | Start hybrid search
+INFO [2026-09-12 10:57:02.559] [] knowledgebase.go:316[HybridSearch] | Start hybrid search
+INFO [2026-09-12 10:57:02.559] [] knowledgebase.go:316[HybridSearch] | Start hybrid search
+INFO [2026-09-12 10:57:02.559] [] knowledgebase.go:316[HybridSearch] | Start hybrid search
+INFO [2026-09-12 10:57:02.559] [] knowledgebase.go:338[HybridSearch] | Executing hybrid search, knowledge base ID: kb-1, query: MiniMax, effectiveTenantID: 1
+INFO [2026-09-12 10:57:02.559] [] knowledgebase.go:367[HybridSearch] | Hybrid search completed, knowledge base ID: kb-1, result count: 0
+INFO [2026-09-12 10:57:02.559] [] knowledgebase.go:316[HybridSearch] | Start hybrid search
+INFO [2026-09-12 10:57:02.559] [] knowledgebase.go:338[HybridSearch] | Executing hybrid search, knowledge base ID: kb-1, query: , effectiveTenantID: 1
+INFO [2026-09-12 10:57:02.559] [] knowledgebase.go:367[HybridSearch] | Hybrid search completed, knowledge base ID: kb-1, result count: 0
+ERROR[2026-09-12 10:57:02.559] [error=connection refused] knowledgebase.go:483[validateAndGetKnowledgeBase] | 发生错误
+INFO [2026-09-12 10:57:02.559] [] knowledgebase.go:390[CreateKnowledgeBase] | Start creating knowledge base
+INFO [2026-09-12 10:57:02.559] [] knowledgebase.go:415[CreateKnowledgeBase] | Creating knowledge base, name: kb
+INFO [2026-09-12 10:57:02.559] [] knowledgebase.go:390[CreateKnowledgeBase] | Start creating knowledge base
+INFO [2026-09-12 10:57:02.559] [] knowledgebase.go:415[CreateKnowledgeBase] | Creating knowledge base, name: kb
+INFO [2026-09-12 10:57:02.559] [] knowledgebase.go:390[CreateKnowledgeBase] | Start creating knowledge base
+INFO [2026-09-12 10:57:02.559] [] knowledgebase.go:415[CreateKnowledgeBase] | Creating knowledge base, name: kb
+ERROR[2026-09-12 10:57:02.559] [error=connection refused] knowledgebase.go:429[CreateKnowledgeBase] | 发生错误
+WARNING[2026-09-12 10:57:02.560] [store_count=1 tenant_id=1] knowledgebase.go:255[batchResolveKBStoreViews] | [kb.list] batch store view resolve failed; rendering bound KBs as unavailable
+INFO [2026-09-12 10:57:02.560] [] message.go:86[LoadMessages] | Start loading messages
+INFO [2026-09-12 10:57:02.560] [] message.go:93[LoadMessages] | Loading messages params, session ID: sess1, limit: 20, before time:
+INFO [2026-09-12 10:57:02.560] [] message.go:112[LoadMessages] | Getting recent messages for session, session ID: sess1, limit: 20
+INFO [2026-09-12 10:57:02.560] [] message.go:129[LoadMessages] | Successfully retrieved recent messages, session ID: sess1, message count: 1
+INFO [2026-09-12 10:57:02.561] [] message.go:86[LoadMessages] | Start loading messages
+INFO [2026-09-12 10:57:02.561] [] message.go:93[LoadMessages] | Loading messages params, session ID: sess1, limit: 20, before time:
+INFO [2026-09-12 10:57:02.561] [] message.go:112[LoadMessages] | Getting recent messages for session, session ID: sess1, limit: 20
+INFO [2026-09-12 10:57:02.561] [] message.go:129[LoadMessages] | Successfully retrieved recent messages, session ID: sess1, message count: 1
+INFO [2026-09-12 10:57:02.561] [] storageurl.go:152[resolve] | [API] storage URL rewrite: src=resource://xifDo7NTSL300Lp1goVutw
+DEBUG[2026-09-12 10:57:02.561] [] storageurl.go:153[resolve] | [API] storage URL rewrite dst=https://cdn.example.com/signed.png
+INFO [2026-09-12 10:57:02.561] [] message.go:86[LoadMessages] | Start loading messages
+INFO [2026-09-12 10:57:02.561] [] message.go:93[LoadMessages] | Loading messages params, session ID: sess1, limit: 20, before time:
+WARNING[2026-09-12 10:57:02.561] [] message.go:98[LoadMessages] | Rejected resource URL mode: error code: 1000, error message: invalid resource_urls value "signed": expected "handle" or "public"
+INFO [2026-09-12 10:57:02.561] [] message.go:86[LoadMessages] | Start loading messages
+INFO [2026-09-12 10:57:02.561] [] message.go:93[LoadMessages] | Loading messages params, session ID: sess1, limit: 20, before time:
+INFO [2026-09-12 10:57:02.561] [] message.go:112[LoadMessages] | Getting recent messages for session, session ID: sess1, limit: 20
+INFO [2026-09-12 10:57:02.561] [] message.go:129[LoadMessages] | Successfully retrieved recent messages, session ID: sess1, message count: 1
+INFO [2026-09-12 10:57:02.561] [] storageurl.go:152[resolve] | [API] storage URL rewrite: src=resource://xifDo7NTSL300Lp1goVutw
+DEBUG[2026-09-12 10:57:02.561] [] storageurl.go:153[resolve] | [API] storage URL rewrite dst=https://cdn.example.com/signed.png
+INFO [2026-09-12 10:57:02.561] [] message.go:86[LoadMessages] | Start loading messages
+INFO [2026-09-12 10:57:02.561] [] message.go:93[LoadMessages] | Loading messages params, session ID: sess1, limit: 20, before time:
+INFO [2026-09-12 10:57:02.561] [] message.go:112[LoadMessages] | Getting recent messages for session, session ID: sess1, limit: 20
+INFO [2026-09-12 10:57:02.561] [] message.go:129[LoadMessages] | Successfully retrieved recent messages, session ID: sess1, message count: 1
+INFO [2026-09-12 10:57:02.561] [] message.go:86[LoadMessages] | Start loading messages
+INFO [2026-09-12 10:57:02.561] [] message.go:93[LoadMessages] | Loading messages params, session ID: sess1, limit: 20, before time:
+WARNING[2026-09-12 10:57:02.561] [] message.go:98[LoadMessages] | Rejected resource URL mode: error code: 1002, error message: resource_urls=public is not available for a knowledge-base-restricted API key
+INFO [2026-09-12 10:57:02.561] [] message.go:86[LoadMessages] | Start loading messages
+INFO [2026-09-12 10:57:02.561] [] message.go:93[LoadMessages] | Loading messages params, session ID: sess1, limit: 20, before time:
+INFO [2026-09-12 10:57:02.561] [] message.go:112[LoadMessages] | Getting recent messages for session, session ID: sess1, limit: 20
+INFO [2026-09-12 10:57:02.561] [] message.go:129[LoadMessages] | Successfully retrieved recent messages, session ID: sess1, message count: 1
+INFO [2026-09-12 10:57:02.561] [] message.go:86[LoadMessages] | Start loading messages
+INFO [2026-09-12 10:57:02.561] [] message.go:93[LoadMessages] | Loading messages params, session ID: sess1, limit: 20, before time:
+INFO [2026-09-12 10:57:02.561] [] message.go:112[LoadMessages] | Getting recent messages for session, session ID: sess1, limit: 20
+WARNING[2026-09-12 10:57:02.561] [] message.go:120[LoadMessages] | Session not found, ID: sess1
+INFO [2026-09-12 10:57:02.561] [] message.go:86[LoadMessages] | Start loading messages
+INFO [2026-09-12 10:57:02.561] [] message.go:93[LoadMessages] | Loading messages params, session ID: sess1, limit: 20, before time: 2026-09-12T10:57:02.56144314Z
+INFO [2026-09-12 10:57:02.561] [] message.go:154[LoadMessages] | Getting messages before specific time, session ID: sess1, before time: 2026-09-12T10:57:02.56144314Z, limit: 20
+WARNING[2026-09-12 10:57:02.561] [] message.go:160[LoadMessages] | Session not found, ID: sess1
+INFO [2026-09-12 10:57:02.561] [] message.go:86[LoadMessages] | Start loading messages
+INFO [2026-09-12 10:57:02.561] [] message.go:93[LoadMessages] | Loading messages params, session ID: sess1, limit: 20, before time: 2026-05-20T09:43:37+08:00
+INFO [2026-09-12 10:57:02.561] [] message.go:154[LoadMessages] | Getting messages before specific time, session ID: sess1, before time: 2026-05-20T09:43:37+08:00, limit: 20
+INFO [2026-09-12 10:57:02.561] [] message.go:169[LoadMessages] | Successfully retrieved messages before time, session ID: sess1, message count: 0
+INFO [2026-09-12 10:57:02.561] [] message.go:196[DeleteMessage] | Start deleting message
+INFO [2026-09-12 10:57:02.561] [] message.go:202[DeleteMessage] | Deleting message, session ID: sess1, message ID: msg1
+WARNING[2026-09-12 10:57:02.561] [] message.go:210[DeleteMessage] | Session not found, ID: sess1
+INFO [2026-09-12 10:57:02.561] [] message.go:196[DeleteMessage] | Start deleting message
+INFO [2026-09-12 10:57:02.561] [] message.go:202[DeleteMessage] | Deleting message, session ID: sess1, message ID: msg1
+WARNING[2026-09-12 10:57:02.561] [] message.go:210[DeleteMessage] | Session not found, ID: sess1
+INFO [2026-09-12 10:57:02.702] [] system.go:1580[ResetUserPassword] | Password reset by system administrator for user ID: target-user
+WARNING[2026-09-12 10:57:02.703] [] system.go:2025[mutateRuntimeTask] | cancel runtime queue task queue=multimodal task=task-orphan: knowledge gone, purged queue record
+WARNING[2026-09-12 10:57:02.703] [] system.go:2025[mutateRuntimeTask] | cancel runtime queue task queue=multimodal task=task-orphan: knowledge gone, purged queue record
+WARNING[2026-09-12 10:57:02.703] [] system.go:2025[mutateRuntimeTask] | cancel runtime queue task queue=multimodal task=task-orphan: knowledge gone, purged queue record
+INFO [2026-09-12 10:57:02.703] [] system.go:1668[CreateSystemUser] | System admin created user alice (ID: u1)
+INFO [2026-09-12 10:57:02.703] [] system.go:1668[CreateSystemUser] | System admin created user bob (ID: u2)
+INFO [2026-09-12 10:57:02.703] [] system.go:1668[CreateSystemUser] | System admin created user carol (ID: u3)
+INFO [2026-09-12 10:57:02.703] [] system.go:1668[CreateSystemUser] | System admin created user carol (ID: u3)
+INFO [2026-09-12 10:57:02.703] [] system.go:1668[CreateSystemUser] | System admin created user dave (ID: u4)
+INFO [2026-09-12 10:57:02.704] [] system.go:1649[CreateSystemUser] | Create user noop (identity already exists, ID: existing)
+ERROR[2026-09-12 10:57:02.704] [] system.go:1662[CreateSystemUser] | Failed to create user: transient db hiccup
+ERROR[2026-09-12 10:57:02.704] [] tenant_invitation.go:627[AcceptMyInvitationByToken] | AcceptMyInvitationByToken failed: user=u-test err=boom
+ERROR[2026-09-12 10:57:02.704] [] tenant_invitation.go:306[CreateInvitation] | auto_accept_invitation enabled but memberService is nil; tenant=7
+WARNING[2026-09-12 10:57:02.705] [] access.go:192[func2] | [rbac] path-tenant-match rejected: user=u1 ctx_tenant=1 path_tenant=5 path=/tenants/5/members
+WARNING[2026-09-12 10:57:02.705] [] access.go:192[func2] | [rbac] path-tenant-match rejected: user=u1 ctx_tenant=1 path_tenant=5 path=/tenants/5/members
+WARNING[2026-09-12 10:57:02.705] [] access.go:192[func2] | [rbac] path-tenant-match rejected: user=u1 ctx_tenant=1 path_tenant=5 path=/tenants/5/members/u2
+WARNING[2026-09-12 10:57:02.705] [] access.go:192[func2] | [rbac] path-tenant-match rejected: user=u1 ctx_tenant=1 path_tenant=5 path=/tenants/5/members/u2
+WARNING[2026-09-12 10:57:02.705] [] access.go:192[func2] | [rbac] path-tenant-match rejected: user=u1 ctx_tenant=1 path_tenant=5 path=/tenants/5/leave
+WARNING[2026-09-12 10:57:02.705] [] access.go:192[func2] | [rbac] path-tenant-match rejected: user=u-superuser ctx_tenant=1 path_tenant=5 path=/tenants/5/members
+INFO [2026-09-12 10:57:02.711] [] tenant.go:229[CreateTenant] | Start creating tenant
+WARNING[2026-09-12 10:57:02.711] [] tenant.go:250[CreateTenant] | Self-service tenant creation denied by policy for user regular-user
+INFO [2026-09-12 10:57:02.711] [] tenant.go:229[CreateTenant] | Start creating tenant
+INFO [2026-09-12 10:57:02.711] [] tenant.go:345[CreateTenant] | Creating tenant, name: admin-created
+INFO [2026-09-12 10:57:02.711] [] tenant.go:446[CreateTenant] | Tenant created successfully, ID: 99, name: admin-created
+FAIL
+FAIL    github.com/Tencent/WeKnora/internal/handler 0.598s
+ok      github.com/Tencent/WeKnora/internal/handler/dto 0.495s
+ok      github.com/Tencent/WeKnora/internal/handler/session 0.577s
+ok      github.com/Tencent/WeKnora/internal/im  0.497s
+ok      github.com/Tencent/WeKnora/internal/im/dingtalk 0.492s
+ok      github.com/Tencent/WeKnora/internal/im/feishu   0.445s
+ok      github.com/Tencent/WeKnora/internal/im/mattermost   0.475s
+ok      github.com/Tencent/WeKnora/internal/im/qqbot    0.429s
+ok      github.com/Tencent/WeKnora/internal/im/slack    0.506s
+ok      github.com/Tencent/WeKnora/internal/im/telegram 0.479s
+?       github.com/Tencent/WeKnora/internal/im/wechat   [no test files]
+ok      github.com/Tencent/WeKnora/internal/im/wecom    0.474s
+ok      github.com/Tencent/WeKnora/internal/im/yunzhijia    0.501s
+ok      github.com/Tencent/WeKnora/internal/infrastructure/chunker  0.455s
+ok      github.com/Tencent/WeKnora/internal/infrastructure/docparser    0.537s
+ok      github.com/Tencent/WeKnora/internal/infrastructure/docparser/anydoc 0.002s
+ok      github.com/Tencent/WeKnora/internal/infrastructure/web_fetch    0.475s
+ok      github.com/Tencent/WeKnora/internal/infrastructure/web_search   0.440s
+ok      github.com/Tencent/WeKnora/internal/logger  0.429s
+ok      github.com/Tencent/WeKnora/internal/mcp 0.527s
+ok      github.com/Tencent/WeKnora/internal/middleware  0.523s
+ok      github.com/Tencent/WeKnora/internal/middleware/asynqdl  0.505s
+ok      github.com/Tencent/WeKnora/internal/modelcontext    0.487s
+ok      github.com/Tencent/WeKnora/internal/models/asr  0.525s
+ok      github.com/Tencent/WeKnora/internal/models/chat 2.876s
+ok      github.com/Tencent/WeKnora/internal/models/embedding    2.180s
+ok      github.com/Tencent/WeKnora/internal/models/limiter  0.766s
+ok      github.com/Tencent/WeKnora/internal/models/provider 0.389s
+ok      github.com/Tencent/WeKnora/internal/models/rerank   0.473s
+?       github.com/Tencent/WeKnora/internal/models/utils    [no test files]
+?       github.com/Tencent/WeKnora/internal/models/utils/ollama [no test files]
+ok      github.com/Tencent/WeKnora/internal/models/vlm  0.437s
+ok      github.com/Tencent/WeKnora/internal/ratelimit   0.002s
+ok      github.com/Tencent/WeKnora/internal/router  0.568s
+ok      github.com/Tencent/WeKnora/internal/runtime 0.414s
+ok      github.com/Tencent/WeKnora/internal/sandbox 3.176s
+ok      github.com/Tencent/WeKnora/internal/searchutil  0.393s
+ok      github.com/Tencent/WeKnora/internal/storageallowlist    0.002s
+ok      github.com/Tencent/WeKnora/internal/storageurl  0.446s
+?       github.com/Tencent/WeKnora/internal/stream  [no test files]
+ok      github.com/Tencent/WeKnora/internal/tracing/langfuse    0.504s
+ok      github.com/Tencent/WeKnora/internal/types   0.954s
+?       github.com/Tencent/WeKnora/internal/types/interfaces    [no test files]
+ok      github.com/Tencent/WeKnora/internal/utils   0.019s
+ok      github.com/Tencent/WeKnora/packages/dsh-weknora/contract    0.417s
+FAIL

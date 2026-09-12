@@ -3,7 +3,7 @@
   "gate": "E1",
   "status": "accepted",
   "hashes": {
-    "corpus_manifest_sha256": "c2a62b5d689436d7de47d74fc9233d8fc24de85857c437f8a2babf63a5d6ec78",
+    "corpus_manifest_sha256": "1189575f4f3b71a565225b0fd3610627038fe4c733dde67bacc3b6065dbfb246",
     "render_manifest_sha256": "5d00f74e34e3fbc645b8a0b5dc1b85117527f69f4efe84f5e5466a07b8853c28",
     "ground_truth_payload_sha256": "62b6748d92fc51e63da5a62999006ac0938e57102766d7e71aef7b496e180703",
     "extraction_rules_sha256": "ee9df07b09be9dcee23196911640f6b10ddb9767f81ccc3c5909b84a8501dc0b"
@@ -11,17 +11,17 @@
   "render_manifest_file": {
     "path": "dataset/parser_benchmark/v1/e1/implementation-render-manifest.json",
     "bytes": 8020,
-    "sha256": "7c61b16e2812a35275d159de0f39967d5dce5bc351a1ea78d2370e76d897ef38"
+    "sha256": "c7e380a34b94369e98159ce6de3711569cfa2abd9dbb581fb2e3dbac6ef55be2"
   },
   "ground_truth_file": {
     "path": "dataset/parser_benchmark/v1/ground-truth.json",
-    "bytes": 10448,
-    "sha256": "db5c5cb0dcf8fe056b2c2f2055e32c10d3e0fed70ce4f92bdcd8f65ca2c55680"
+    "bytes": 11208,
+    "sha256": "d53731a0501fd644447c22dc58e37975ee1952d3127662fc946b67f11f3606ba"
   },
   "render_input": {
     "path": "dataset/parser_benchmark/v1/e1/render-input-manifest.json",
-    "bytes": 2950,
-    "sha256": "016edaef218fcce123e74a001e6303133237b8c8350704988372bdeb0799a64e"
+    "bytes": 2952,
+    "sha256": "549ac9ad9076620ff227144ebf505aa0476d3eb261e2ebe959047111a6b9ccd0"
   },
   "sources": [
     {
@@ -31,8 +31,8 @@
     },
     {
       "path": "dataset/parser_benchmark/v1/sources/pdf-scanned-ocr-page-1.png",
-      "bytes": 39534,
-      "sha256": "bfe83d0b1e5723ebe0e179572a6723c0d44835881c5efeb7a329f19b0c1cb5b9"
+      "bytes": 102904,
+      "sha256": "061d94a7042cf0fa5e09d4dc9d955341648f907188cac02021d9a49123f12502"
     }
   ],
   "documents": [
@@ -40,8 +40,8 @@
       "id": "docx-embedded-image",
       "path": "dataset/parser_benchmark/v1/documents/docx-embedded-image.docx",
       "extension": "docx",
-      "bytes": 4266,
-      "sha256": "c10ea759ee914973db0af1f58fc58227bc69d25380af6e101bf6260d04a9cca7",
+      "bytes": 11756,
+      "sha256": "17a5a88250e69f7d26c65a941d0441d354f617dbb2cd3557db01916cf4b1aa3a",
       "attributes": [
         "embedded-image",
         "heading",
@@ -59,8 +59,8 @@
       "id": "docx-heading-list-table",
       "path": "dataset/parser_benchmark/v1/documents/docx-heading-list-table.docx",
       "extension": "docx",
-      "bytes": 3610,
-      "sha256": "8e647295dda9004d99da7f5ad34e36b8474adb15529d53afc27c5ee62a7122ad",
+      "bytes": 7193,
+      "sha256": "fe8f1d95b27a1e46c0d901a7f80145de8608a07205045c9aff0338aa34c020fd",
       "attributes": [
         "heading",
         "list",
@@ -139,8 +139,8 @@
       "id": "pdf-scanned-ocr",
       "path": "dataset/parser_benchmark/v1/documents/pdf-scanned-ocr.pdf",
       "extension": "pdf",
-      "bytes": 10487,
-      "sha256": "fa54e8a41a497372dd2525c888dbffb496c1d01e8b02040d6a0767957815e3e3",
+      "bytes": 62841,
+      "sha256": "954f26a49e0ca2bb115e07498d444173c72d5f754ae65973b50b14c11cb6d943",
       "attributes": [
         "heading",
         "raster-only",

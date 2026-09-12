@@ -3,8 +3,10 @@ package evaluation
 import (
 	"archive/zip"
 	"bytes"
-	"compress/zlib"
+	"encoding/binary"
 	"fmt"
+	"hash/adler32"
+	"hash/crc32"
 	"image"
 	"image/color"
 	"image/draw"
@@ -72,7 +74,7 @@ func buildTableFormulaPDF(document parserAuthoredDocumentV1) []byte {
 	return assembleTextPDF([]byte(content.String()))
 }
 
-func buildScannedPagePNG(document parserAuthoredDocumentV1) []byte {
+func buildScannedPagePNG(document parserAuthoredDocumentV1) ([]byte, error) {
 	small := image.NewRGBA(image.Rect(0, 0, 400, 533))
 	draw.Draw(small, small.Bounds(), image.NewUniform(color.White), image.Point{}, draw.Src)
 	drawer := &font.Drawer{Dst: small, Src: image.NewUniform(color.RGBA{20, 20, 20, 255}), Face: basicfont.Face7x13}
@@ -93,8 +95,7 @@ func buildScannedPagePNG(document parserAuthoredDocumentV1) []byte {
 		}
 	}
 	var output bytes.Buffer
-	_ = png.Encode(&output, large)
-	return output.Bytes()
+	return deterministicRGBPNG(&output, large)
 }
 
 func buildImagePDF(pagePNG []byte) []byte {
@@ -170,11 +171,100 @@ func pdfText(x, y, size float64, value string) string {
 }
 
 func zlibBytes(contents []byte) []byte {
-	var output bytes.Buffer
-	writer, _ := zlib.NewWriterLevel(&output, zlib.BestCompression)
-	_, _ = writer.Write(contents)
-	_ = writer.Close()
-	return output.Bytes()
+	// Emit one fixed-Huffman DEFLATE block with only distance-one run matches.
+	// This deliberately small encoder is stable across Go releases while still
+	// compressing the long solid-color runs in the generated raster fixtures.
+	output := []byte{0x78, 0x01} // RFC 1950 header.
+	bits := deflateBitWriter{output: output}
+	bits.writeBits(1, 1) // BFINAL
+	bits.writeBits(1, 2) // BTYPE=fixed Huffman (01, least-significant bit first)
+	for index := 0; index < len(contents); {
+		runLength := 1
+		if index > 0 && contents[index] == contents[index-1] {
+			for runLength < 258 && index+runLength < len(contents) && contents[index+runLength] == contents[index-1] {
+				runLength++
+			}
+		}
+		if runLength >= 3 {
+			bits.writeLength(runLength)
+			bits.writeBits(0, 5) // distance code 0 => distance 1
+			index += runLength
+			continue
+		}
+		bits.writeFixedSymbol(int(contents[index]))
+		index++
+	}
+	bits.writeFixedSymbol(256)
+	output = bits.finish()
+	return binary.BigEndian.AppendUint32(output, adler32.Checksum(contents))
+}
+
+type deflateBitWriter struct {
+	output  []byte
+	current byte
+	used    uint8
+}
+
+func (writer *deflateBitWriter) writeBits(value uint16, count uint8) {
+	for bit := uint8(0); bit < count; bit++ {
+		writer.current |= byte((value>>bit)&1) << writer.used
+		writer.used++
+		if writer.used == 8 {
+			writer.output = append(writer.output, writer.current)
+			writer.current = 0
+			writer.used = 0
+		}
+	}
+}
+
+func (writer *deflateBitWriter) writeFixedSymbol(symbol int) {
+	var code uint16
+	var width uint8
+	switch {
+	case symbol <= 143:
+		code, width = uint16(0x30+symbol), 8
+	case symbol <= 255:
+		code, width = uint16(0x190+symbol-144), 9
+	case symbol <= 279:
+		code, width = uint16(symbol-256), 7
+	default:
+		code, width = uint16(0xc0+symbol-280), 8
+	}
+	writer.writeBits(reverseDeflateBits(code, width), width)
+}
+
+func (writer *deflateBitWriter) writeLength(length int) {
+	bases := [...]int{3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 23, 27, 31, 35, 43, 51, 59, 67, 83, 99, 115, 131, 163, 195, 227, 258}
+	extraBits := [...]uint8{0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 0}
+	for index, base := range bases {
+		maximum := base
+		if index+1 < len(bases) {
+			maximum = bases[index+1] - 1
+		}
+		if length <= maximum {
+			writer.writeFixedSymbol(257 + index)
+			writer.writeBits(uint16(length-base), extraBits[index])
+			return
+		}
+	}
+	panic("DEFLATE match length out of range")
+}
+
+func (writer *deflateBitWriter) finish() []byte {
+	if writer.used != 0 {
+		writer.output = append(writer.output, writer.current)
+		writer.current = 0
+		writer.used = 0
+	}
+	return writer.output
+}
+
+func reverseDeflateBits(value uint16, width uint8) uint16 {
+	var reversed uint16
+	for index := uint8(0); index < width; index++ {
+		reversed = (reversed << 1) | ((value >> index) & 1)
+	}
+	return reversed
 }
 
 func buildHeadingListTableDOCX(document parserAuthoredDocumentV1) ([]byte, error) {
@@ -237,14 +327,21 @@ func deterministicZIP(parts map[string][]byte) ([]byte, error) {
 	var output bytes.Buffer
 	archive := zip.NewWriter(&output)
 	for _, name := range names {
-		header := &zip.FileHeader{Name: name, Method: zip.Deflate, Modified: time.Date(1980, 1, 1, 0, 0, 0, 0, time.UTC)}
+		contents := parts[name]
+		size := uint32(len(contents))
+		header := &zip.FileHeader{
+			Name: name, Method: zip.Store, CreatorVersion: 20, ReaderVersion: 20,
+			CRC32: crc32.ChecksumIEEE(contents), CompressedSize: size, UncompressedSize: size,
+			CompressedSize64: uint64(size), UncompressedSize64: uint64(size),
+		}
+		header.SetModTime(time.Date(1980, 1, 1, 0, 0, 0, 0, time.UTC))
 		header.SetMode(0o644)
-		writer, err := archive.CreateHeader(header)
+		writer, err := archive.CreateRaw(header)
 		if err != nil {
 			_ = archive.Close()
 			return nil, fmt.Errorf("create docx zip entry %s: %w", name, err)
 		}
-		if _, err := writer.Write(parts[name]); err != nil {
+		if _, err := writer.Write(contents); err != nil {
 			_ = archive.Close()
 			return nil, fmt.Errorf("write docx zip entry %s: %w", name, err)
 		}
@@ -262,10 +359,54 @@ func buildDiagramPNG() ([]byte, error) {
 	draw.Draw(canvas, image.Rect(0, 175, 640, 260), image.NewUniform(color.RGBA{82, 150, 76, 255}), image.Point{}, draw.Src)
 	draw.Draw(canvas, image.Rect(0, 85, 640, 175), image.NewUniform(color.RGBA{65, 145, 220, 255}), image.Point{}, draw.Src)
 	var output bytes.Buffer
-	if err := png.Encode(&output, canvas); err != nil {
-		return nil, fmt.Errorf("encode docx diagram: %w", err)
+	return deterministicRGBPNG(&output, canvas)
+}
+
+// deterministicRGBPNG emits the small PNG subset needed by the committed
+// parser fixtures. Its fixed-Huffman DEFLATE stream is independent of Go's evolving
+// compression heuristics, so a fresh corpus has the same identity on every
+// supported build host.
+func deterministicRGBPNG(output *bytes.Buffer, source image.Image) ([]byte, error) {
+	bounds := source.Bounds()
+	if bounds.Dx() <= 0 || bounds.Dy() <= 0 {
+		return nil, fmt.Errorf("encode parser PNG: empty image bounds")
 	}
+
+	raw := make([]byte, 0, bounds.Dy()*(1+bounds.Dx()*3))
+	for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
+		raw = append(raw, 1) // PNG Sub filter.
+		previous := [3]byte{}
+		for x := bounds.Min.X; x < bounds.Max.X; x++ {
+			r, g, b, a := source.At(x, y).RGBA()
+			if a != 0xffff {
+				return nil, fmt.Errorf("encode parser PNG: non-opaque pixel at (%d,%d)", x, y)
+			}
+			current := [3]byte{byte(r >> 8), byte(g >> 8), byte(b >> 8)}
+			raw = append(raw, current[0]-previous[0], current[1]-previous[1], current[2]-previous[2])
+			previous = current
+		}
+	}
+
+	output.Write([]byte{0x89, 'P', 'N', 'G', '\r', '\n', 0x1a, '\n'})
+	ihdr := make([]byte, 13)
+	binary.BigEndian.PutUint32(ihdr[0:4], uint32(bounds.Dx()))
+	binary.BigEndian.PutUint32(ihdr[4:8], uint32(bounds.Dy()))
+	ihdr[8] = 8 // bit depth
+	ihdr[9] = 2 // truecolor RGB
+	writePNGChunk(output, "IHDR", ihdr)
+	writePNGChunk(output, "IDAT", zlibBytes(raw))
+	writePNGChunk(output, "IEND", nil)
 	return output.Bytes(), nil
+}
+
+func writePNGChunk(output *bytes.Buffer, chunkType string, contents []byte) {
+	_ = binary.Write(output, binary.BigEndian, uint32(len(contents)))
+	output.WriteString(chunkType)
+	output.Write(contents)
+	checksum := crc32.NewIEEE()
+	_, _ = checksum.Write([]byte(chunkType))
+	_, _ = checksum.Write(contents)
+	_ = binary.Write(output, binary.BigEndian, checksum.Sum32())
 }
 
 func docxParagraph(value, style string) string {

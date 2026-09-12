@@ -1,0 +1,100 @@
+?       github.com/Tencent/WeKnora/cmd/desktop  [no test files]
+?       github.com/Tencent/WeKnora/cmd/download/duckdb  [no test files]
+ok      github.com/Tencent/WeKnora/cmd/evalbench    (cached)
+ok      github.com/Tencent/WeKnora/cmd/evalctl  (cached)
+ok      github.com/Tencent/WeKnora/cmd/evalgate (cached)
+?       github.com/Tencent/WeKnora/cmd/server   [no test files]
+?       github.com/Tencent/WeKnora/cmd/topic3-parser-benchmark  [no test files]
+?       github.com/Tencent/WeKnora/cmd/topic3-parser-corpus [no test files]
+ok      github.com/Tencent/WeKnora/docreader/client (cached)
+?       github.com/Tencent/WeKnora/docreader/proto  [no test files]
+ok      github.com/Tencent/WeKnora/docs (cached)
+ok      github.com/Tencent/WeKnora/internal/agent   (cached)
+ok      github.com/Tencent/WeKnora/internal/agent/approval  (cached)
+ok      github.com/Tencent/WeKnora/internal/agent/memory    (cached)
+ok      github.com/Tencent/WeKnora/internal/agent/skills    (cached)
+ok      github.com/Tencent/WeKnora/internal/agent/token (cached)
+ok      github.com/Tencent/WeKnora/internal/agent/tools (cached)
+ok      github.com/Tencent/WeKnora/internal/application/repository  (cached)
+ok      github.com/Tencent/WeKnora/internal/application/repository/retriever/doris  (cached)
+?       github.com/Tencent/WeKnora/internal/application/repository/retriever/elasticsearch  [no test files]
+?       github.com/Tencent/WeKnora/internal/application/repository/retriever/elasticsearch/v7   [no test files]
+?       github.com/Tencent/WeKnora/internal/application/repository/retriever/elasticsearch/v8   [no test files]
+ok      github.com/Tencent/WeKnora/internal/application/repository/retriever/milvus (cached)
+?       github.com/Tencent/WeKnora/internal/application/repository/retriever/neo4j  [no test files]
+ok      github.com/Tencent/WeKnora/internal/application/repository/retriever/opensearch (cached)
+?       github.com/Tencent/WeKnora/internal/application/repository/retriever/postgres   [no test files]
+?       github.com/Tencent/WeKnora/internal/application/repository/retriever/qdrant [no test files]
+ok      github.com/Tencent/WeKnora/internal/application/repository/retriever/sqlite (cached)
+ok      github.com/Tencent/WeKnora/internal/application/repository/retriever/tencentvectordb    (cached)
+?       github.com/Tencent/WeKnora/internal/application/repository/retriever/weaviate   [no test files]
+ok      github.com/Tencent/WeKnora/internal/application/service (cached)
+ok      github.com/Tencent/WeKnora/internal/application/service/chat_pipeline   (cached)
+ok      github.com/Tencent/WeKnora/internal/application/service/file    (cached)
+ok      github.com/Tencent/WeKnora/internal/application/service/memory  (cached)
+ok      github.com/Tencent/WeKnora/internal/application/service/metric  (cached)
+ok      github.com/Tencent/WeKnora/internal/application/service/retriever   (cached)
+?       github.com/Tencent/WeKnora/internal/assets  [no test files]
+ok      github.com/Tencent/WeKnora/internal/common  (cached)
+ok      github.com/Tencent/WeKnora/internal/common/redislock    (cached)
+ok      github.com/Tencent/WeKnora/internal/config  (cached)
+ok      github.com/Tencent/WeKnora/internal/container   (cached)
+ok      github.com/Tencent/WeKnora/internal/database    (cached)
+ok      github.com/Tencent/WeKnora/internal/datasource  (cached)
+ok      github.com/Tencent/WeKnora/internal/datasource/connector/feishu/core    (cached)
+ok      github.com/Tencent/WeKnora/internal/datasource/connector/feishu/drive   (cached)
+ok      github.com/Tencent/WeKnora/internal/datasource/connector/feishu/wiki    (cached)
+ok      github.com/Tencent/WeKnora/internal/datasource/connector/gitlab (cached)
+ok      github.com/Tencent/WeKnora/internal/datasource/connector/ima    (cached)
+ok      github.com/Tencent/WeKnora/internal/datasource/connector/notion (cached)
+ok      github.com/Tencent/WeKnora/internal/datasource/connector/rss    (cached)
+ok      github.com/Tencent/WeKnora/internal/datasource/connector/yuque  (cached)
+?       github.com/Tencent/WeKnora/internal/errors  [no test files]
+ok      github.com/Tencent/WeKnora/internal/evaluation  (cached)
+ok      github.com/Tencent/WeKnora/internal/evaluation/gate (cached)
+ok      github.com/Tencent/WeKnora/internal/event   (cached)
+ok      github.com/Tencent/WeKnora/internal/handler 0.611s
+ok      github.com/Tencent/WeKnora/internal/handler/dto (cached)
+ok      github.com/Tencent/WeKnora/internal/handler/session (cached)
+ok      github.com/Tencent/WeKnora/internal/im  (cached)
+ok      github.com/Tencent/WeKnora/internal/im/dingtalk (cached)
+ok      github.com/Tencent/WeKnora/internal/im/feishu   (cached)
+ok      github.com/Tencent/WeKnora/internal/im/mattermost   (cached)
+ok      github.com/Tencent/WeKnora/internal/im/qqbot    (cached)
+ok      github.com/Tencent/WeKnora/internal/im/slack    (cached)
+ok      github.com/Tencent/WeKnora/internal/im/telegram (cached)
+?       github.com/Tencent/WeKnora/internal/im/wechat   [no test files]
+ok      github.com/Tencent/WeKnora/internal/im/wecom    (cached)
+ok      github.com/Tencent/WeKnora/internal/im/yunzhijia    (cached)
+ok      github.com/Tencent/WeKnora/internal/infrastructure/chunker  (cached)
+ok      github.com/Tencent/WeKnora/internal/infrastructure/docparser    (cached)
+ok      github.com/Tencent/WeKnora/internal/infrastructure/docparser/anydoc (cached)
+ok      github.com/Tencent/WeKnora/internal/infrastructure/web_fetch    (cached)
+ok      github.com/Tencent/WeKnora/internal/infrastructure/web_search   (cached)
+ok      github.com/Tencent/WeKnora/internal/logger  (cached)
+ok      github.com/Tencent/WeKnora/internal/mcp (cached)
+ok      github.com/Tencent/WeKnora/internal/middleware  (cached)
+ok      github.com/Tencent/WeKnora/internal/middleware/asynqdl  (cached)
+ok      github.com/Tencent/WeKnora/internal/modelcontext    (cached)
+ok      github.com/Tencent/WeKnora/internal/models/asr  (cached)
+ok      github.com/Tencent/WeKnora/internal/models/chat (cached)
+ok      github.com/Tencent/WeKnora/internal/models/embedding    (cached)
+ok      github.com/Tencent/WeKnora/internal/models/limiter  (cached)
+ok      github.com/Tencent/WeKnora/internal/models/provider (cached)
+ok      github.com/Tencent/WeKnora/internal/models/rerank   (cached)
+?       github.com/Tencent/WeKnora/internal/models/utils    [no test files]
+?       github.com/Tencent/WeKnora/internal/models/utils/ollama [no test files]
+ok      github.com/Tencent/WeKnora/internal/models/vlm  (cached)
+ok      github.com/Tencent/WeKnora/internal/ratelimit   (cached)
+ok      github.com/Tencent/WeKnora/internal/router  (cached)
+ok      github.com/Tencent/WeKnora/internal/runtime (cached)
+ok      github.com/Tencent/WeKnora/internal/sandbox (cached)
+ok      github.com/Tencent/WeKnora/internal/searchutil  (cached)
+ok      github.com/Tencent/WeKnora/internal/storageallowlist    (cached)
+ok      github.com/Tencent/WeKnora/internal/storageurl  (cached)
+?       github.com/Tencent/WeKnora/internal/stream  [no test files]
+ok      github.com/Tencent/WeKnora/internal/tracing/langfuse    (cached)
+ok      github.com/Tencent/WeKnora/internal/types   3.691s
+?       github.com/Tencent/WeKnora/internal/types/interfaces    [no test files]
+ok      github.com/Tencent/WeKnora/internal/utils   (cached)
+ok      github.com/Tencent/WeKnora/packages/dsh-weknora/contract    (cached)

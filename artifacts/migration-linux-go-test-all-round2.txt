@@ -1,0 +1,337 @@
+?       github.com/Tencent/WeKnora/cmd/desktop  [no test files]
+?       github.com/Tencent/WeKnora/cmd/download/duckdb  [no test files]
+ok      github.com/Tencent/WeKnora/cmd/evalbench    0.664s
+ok      github.com/Tencent/WeKnora/cmd/evalctl  0.613s
+ok      github.com/Tencent/WeKnora/cmd/evalgate 0.006s
+?       github.com/Tencent/WeKnora/cmd/server   [no test files]
+?       github.com/Tencent/WeKnora/cmd/topic3-parser-benchmark  [no test files]
+?       github.com/Tencent/WeKnora/cmd/topic3-parser-corpus [no test files]
+ok      github.com/Tencent/WeKnora/docreader/client 0.109s
+?       github.com/Tencent/WeKnora/docreader/proto  [no test files]
+ok      github.com/Tencent/WeKnora/docs 0.063s
+ok      github.com/Tencent/WeKnora/internal/agent   0.566s
+ok      github.com/Tencent/WeKnora/internal/agent/approval  2.537s
+ok      github.com/Tencent/WeKnora/internal/agent/memory    0.498s
+ok      github.com/Tencent/WeKnora/internal/agent/skills    0.510s
+ok      github.com/Tencent/WeKnora/internal/agent/token 0.721s
+ok      github.com/Tencent/WeKnora/internal/agent/tools 1.321s
+ok      github.com/Tencent/WeKnora/internal/application/repository  1.003s
+ok      github.com/Tencent/WeKnora/internal/application/repository/retriever/doris  0.509s
+?       github.com/Tencent/WeKnora/internal/application/repository/retriever/elasticsearch  [no test files]
+?       github.com/Tencent/WeKnora/internal/application/repository/retriever/elasticsearch/v7   [no test files]
+?       github.com/Tencent/WeKnora/internal/application/repository/retriever/elasticsearch/v8   [no test files]
+ok      github.com/Tencent/WeKnora/internal/application/repository/retriever/milvus 0.490s
+?       github.com/Tencent/WeKnora/internal/application/repository/retriever/neo4j  [no test files]
+ok      github.com/Tencent/WeKnora/internal/application/repository/retriever/opensearch 0.511s
+?       github.com/Tencent/WeKnora/internal/application/repository/retriever/postgres   [no test files]
+?       github.com/Tencent/WeKnora/internal/application/repository/retriever/qdrant [no test files]
+ok      github.com/Tencent/WeKnora/internal/application/repository/retriever/sqlite 0.443s
+ok      github.com/Tencent/WeKnora/internal/application/repository/retriever/tencentvectordb    0.466s
+?       github.com/Tencent/WeKnora/internal/application/repository/retriever/weaviate   [no test files]
+ok      github.com/Tencent/WeKnora/internal/application/service 5.456s
+ok      github.com/Tencent/WeKnora/internal/application/service/chat_pipeline   0.470s
+ok      github.com/Tencent/WeKnora/internal/application/service/file    0.950s
+ok      github.com/Tencent/WeKnora/internal/application/service/memory  3.117s
+ok      github.com/Tencent/WeKnora/internal/application/service/metric  0.405s
+ok      github.com/Tencent/WeKnora/internal/application/service/retriever   0.408s
+?       github.com/Tencent/WeKnora/internal/assets  [no test files]
+ok      github.com/Tencent/WeKnora/internal/common  0.478s
+ok      github.com/Tencent/WeKnora/internal/common/redislock    0.072s
+ok      github.com/Tencent/WeKnora/internal/config  0.533s
+ok      github.com/Tencent/WeKnora/internal/container   0.519s
+ok      github.com/Tencent/WeKnora/internal/database    1.304s
+ok      github.com/Tencent/WeKnora/internal/datasource  3.123s
+ok      github.com/Tencent/WeKnora/internal/datasource/connector/feishu/core    2.951s
+ok      github.com/Tencent/WeKnora/internal/datasource/connector/feishu/drive   2.411s
+ok      github.com/Tencent/WeKnora/internal/datasource/connector/feishu/wiki    12.466s
+ok      github.com/Tencent/WeKnora/internal/datasource/connector/gitlab 0.400s
+ok      github.com/Tencent/WeKnora/internal/datasource/connector/ima    0.487s
+ok      github.com/Tencent/WeKnora/internal/datasource/connector/notion 1.173s
+ok      github.com/Tencent/WeKnora/internal/datasource/connector/rss    0.494s
+ok      github.com/Tencent/WeKnora/internal/datasource/connector/yuque  7.693s
+?       github.com/Tencent/WeKnora/internal/errors  [no test files]
+ok      github.com/Tencent/WeKnora/internal/evaluation  1.299s
+ok      github.com/Tencent/WeKnora/internal/evaluation/gate 0.006s
+ok      github.com/Tencent/WeKnora/internal/event   0.542s
+ERROR[2026-09-12 11:29:45.261] [] audit_log.go:242[ListSystemAuditLog] | db: connection refused
+INFO [2026-09-12 11:29:45.262] [] auth.go:725[ChangePassword] | Start password change
+INFO [2026-09-12 11:29:45.262] [] auth.go:725[ChangePassword] | Start password change
+ERROR[2026-09-12 11:29:45.262] [] auth.go:65[NewAuthHandler] | [auth] AuthHandler constructed with nil/incomplete config (cfg=&{<nil> <nil> <nil> <nil> <nil> <nil> <nil> [] <nil> <nil> <nil> <nil> <nil> <nil> <nil> <nil> }); registration_mode enforcement is disabled. This is almost certainly a wiring bug.
+ERROR[2026-09-12 11:29:45.262] [] auth.go:65[NewAuthHandler] | [auth] AuthHandler constructed with nil/incomplete config (cfg=&{<nil> <nil> <nil> <nil> <nil> <nil> <nil> [] <nil> <nil> <nil> <nil> <nil> <nil> <nil> <nil> }); registration_mode enforcement is disabled. This is almost certainly a wiring bug.
+ERROR[2026-09-12 11:29:45.262] [] auth.go:65[NewAuthHandler] | [auth] AuthHandler constructed with nil/incomplete config (cfg=&{<nil> <nil> <nil> <nil> <nil> <nil> <nil> [] <nil> <nil> <nil> <nil> <nil> <nil> <nil> <nil> }); registration_mode enforcement is disabled. This is almost certainly a wiring bug.
+ERROR[2026-09-12 11:29:45.262] [] auth.go:350[OIDCStart] | Failed to generate OIDC authorization URL: idp unavailable
+ERROR[2026-09-12 11:29:45.262] [] auth_register_by_invite.go:199[RegisterByInvite] | register-by-invite: accept failed for user new-user: expired
+INFO [2026-09-12 11:29:45.262] [] auth.go:165[Register] | Start user registration
+WARNING[2026-09-12 11:29:45.262] [] auth.go:174[Register] | Registration rejected: auth.registration_mode=invite_only
+INFO [2026-09-12 11:29:45.262] [] auth.go:165[Register] | Start user registration
+INFO [2026-09-12 11:29:45.262] [] auth.go:222[Register] | User registered successfully: alice@example.com
+INFO [2026-09-12 11:29:45.262] [] auth.go:165[Register] | Start user registration
+INFO [2026-09-12 11:29:45.262] [] auth.go:222[Register] | User registered successfully: alice@example.com
+ERROR[2026-09-12 11:29:45.262] [] auth.go:65[NewAuthHandler] | [auth] AuthHandler constructed with nil/incomplete config (cfg=&{<nil> <nil> <nil> <nil> <nil> <nil> <nil> [] <nil> <nil> <nil> <nil> <nil> <nil> <nil> <nil> }); registration_mode enforcement is disabled. This is almost certainly a wiring bug.
+INFO [2026-09-12 11:29:45.262] [] auth.go:165[Register] | Start user registration
+INFO [2026-09-12 11:29:45.262] [] auth.go:222[Register] | User registered successfully: alice@example.com
+INFO [2026-09-12 11:29:45.262] [] auth.go:165[Register] | Start user registration
+INFO [2026-09-12 11:29:45.262] [] auth.go:222[Register] | User registered successfully: alice@example.com
+DEBUG[2026-09-12 11:29:45.263] [] chunker_debug.go:210[PreviewChunking] | chunker preview: tier=heading chunks=1
+DEBUG[2026-09-12 11:29:45.263] [] chunker_debug.go:210[PreviewChunking] | chunker preview: tier=legacy chunks=1
+DEBUG[2026-09-12 11:29:45.264] [] strategy.go:111[SplitWithDiagnostics] | chunker: tier legacy rejected: too many tiny chunks
+DEBUG[2026-09-12 11:29:45.264] [] chunker_debug.go:210[PreviewChunking] | chunker preview: tier=legacy chunks=1100
+DEBUG[2026-09-12 11:29:45.265] [] strategy.go:111[SplitWithDiagnostics] | chunker: tier heading rejected: too many tiny chunks
+DEBUG[2026-09-12 11:29:45.266] [] strategy.go:111[SplitWithDiagnostics] | chunker: tier legacy rejected: too many tiny chunks
+DEBUG[2026-09-12 11:29:45.266] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.266] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.266] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.266] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.266] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.266] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.266] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.266] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.266] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.266] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.266] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.266] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.266] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.266] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.266] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.266] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.266] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.267] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.267] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.267] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.267] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.267] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.267] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.267] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.267] [] chunker_debug.go:210[PreviewChunking] | chunker preview: tier=legacy chunks=36
+DEBUG[2026-09-12 11:29:45.268] [] strategy.go:48[Split] | chunker: tier heading rejected: too many tiny chunks
+DEBUG[2026-09-12 11:29:45.268] [] strategy.go:48[Split] | chunker: tier legacy rejected: too many tiny chunks
+DEBUG[2026-09-12 11:29:45.268] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.268] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.268] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.268] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.269] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.269] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.269] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.269] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.269] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.269] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.269] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.269] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.269] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.269] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.269] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.269] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.269] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.269] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.269] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.269] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.269] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.269] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.269] [] strategy.go:48[Split] | chunker: tier heading rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.269] [] strategy.go:48[Split] | chunker: tier legacy rejected: single chunk for large document
+DEBUG[2026-09-12 11:29:45.270] [] chunker_debug.go:210[PreviewChunking] | chunker preview: tier=legacy chunks=4
+DEBUG[2026-09-12 11:29:45.271] [] chunker_debug.go:210[PreviewChunking] | chunker preview: tier=heading chunks=12
+DEBUG[2026-09-12 11:29:45.274] [] chunker_debug.go:210[PreviewChunking] | chunker preview: tier=heading chunks=12
+DEBUG[2026-09-12 11:29:45.275] [] chunker_debug.go:210[PreviewChunking] | chunker preview: tier=heading chunks=12
+INFO [2026-09-12 11:29:45.276] [] custom_agent.go:641[GetSuggestedQuestions] | Getting suggested questions for agent agent-1, kbIDs: [kb-blocked], tagScopes: 0, limit: 0
+ERROR[2026-09-12 11:29:45.276] [agent_id=agent-1 error=error code: 1002, error message: API key scope does not allow one or more knowledge bases] custom_agent.go:646[GetSuggestedQuestions] | 发生错误
+INFO [2026-09-12 11:29:45.276] [] custom_agent.go:641[GetSuggestedQuestions] | Getting suggested questions for agent agent-1, kbIDs: [], tagScopes: 1, limit: 0
+--- FAIL: TestDeploymentCapabilityKeysMatchFrontend (0.01s)
+    deployment_capabilities_test.go:20: backend keys = []string{"organizations", "agents", "integrations.im", "integrations.embed", "integrations.api", "settings.mcp", "settings.websearch", "settings.vectorstore", "settings.storage", "settings.sandbox"}, frontend keys = []string{"organizations',", "agents',", "integrations.im',", "integrations.embed',", "integrations.api',", "settings.mcp',", "settings.websearch',", "settings.vectorstore',", "settings.storage',", "settings.sandbox',"}
+INFO [2026-09-12 11:29:45.286] [] message.go:86[LoadMessages] | Start loading messages
+INFO [2026-09-12 11:29:45.286] [] message.go:93[LoadMessages] | Loading messages params, session ID: 11111111-2222-3333-4444-555555555555, limit: 20, before time:
+INFO [2026-09-12 11:29:45.286] [] message.go:112[LoadMessages] | Getting recent messages for session, session ID: 11111111-2222-3333-4444-555555555555, limit: 20
+INFO [2026-09-12 11:29:45.286] [] message.go:129[LoadMessages] | Successfully retrieved recent messages, session ID: 11111111-2222-3333-4444-555555555555, message count: 1
+INFO [2026-09-12 11:29:45.286] [] message.go:86[LoadMessages] | Start loading messages
+INFO [2026-09-12 11:29:45.286] [] message.go:93[LoadMessages] | Loading messages params, session ID: 11111111-2222-3333-4444-555555555555, limit: 20, before time:
+INFO [2026-09-12 11:29:45.286] [] message.go:112[LoadMessages] | Getting recent messages for session, session ID: 11111111-2222-3333-4444-555555555555, limit: 20
+INFO [2026-09-12 11:29:45.286] [] message.go:129[LoadMessages] | Successfully retrieved recent messages, session ID: 11111111-2222-3333-4444-555555555555, message count: 1
+WARNING[2026-09-12 11:29:45.286] [] embed_channel.go:430[CreateEmbedSession] | failed to assign embed session owner for 11111111-2222-3333-4444-555555555555: session not found
+ERROR[2026-09-12 11:29:45.286] [error=Key: 'StopSessionRequest.MessageID' Error:Field validation for 'MessageID' failed on the 'required' tag session_id=11111111-2222-3333-4444-555555555555] stream.go:231[StopSession] | 发生错误
+INFO [2026-09-12 11:29:45.287] [] knowledge.go:938[ListKnowledge] | Start retrieving knowledge list
+INFO [2026-09-12 11:29:45.287] [] knowledge.go:992[ListKnowledge] | Retrieving knowledge list under knowledge base, kb_id=kb-1 tag_ids= keyword= file_type= parse_status= source= start_time= end_time= folder_path= folder_scope= page=0 page_size=0 effectiveTenantID=1
+INFO [2026-09-12 11:29:45.287] [] knowledge.go:1018[ListKnowledge] | Knowledge list retrieved successfully, knowledge base ID: kb-1, total: 0
+INFO [2026-09-12 11:29:45.287] [] knowledge.go:938[ListKnowledge] | Start retrieving knowledge list
+INFO [2026-09-12 11:29:45.287] [] knowledge.go:992[ListKnowledge] | Retrieving knowledge list under knowledge base, kb_id=kb-1 tag_ids= keyword= file_type= parse_status= source= start_time= end_time= folder_path= folder_scope=exact page=0 page_size=0 effectiveTenantID=1
+INFO [2026-09-12 11:29:45.287] [] knowledge.go:1018[ListKnowledge] | Knowledge list retrieved successfully, knowledge base ID: kb-1, total: 0
+INFO [2026-09-12 11:29:45.287] [] knowledge.go:938[ListKnowledge] | Start retrieving knowledge list
+INFO [2026-09-12 11:29:45.287] [] knowledge.go:992[ListKnowledge] | Retrieving knowledge list under knowledge base, kb_id=kb-1 tag_ids= keyword= file_type= parse_status= source= start_time= end_time= folder_path=docs/spec folder_scope=exact page=0 page_size=0 effectiveTenantID=1
+INFO [2026-09-12 11:29:45.287] [] knowledge.go:1018[ListKnowledge] | Knowledge list retrieved successfully, knowledge base ID: kb-1, total: 0
+INFO [2026-09-12 11:29:45.287] [] knowledge.go:938[ListKnowledge] | Start retrieving knowledge list
+INFO [2026-09-12 11:29:45.287] [] knowledge.go:992[ListKnowledge] | Retrieving knowledge list under knowledge base, kb_id=kb-1 tag_ids= keyword= file_type= parse_status= source= start_time= end_time= folder_path=docs folder_scope=subtree page=0 page_size=0 effectiveTenantID=1
+INFO [2026-09-12 11:29:45.287] [] knowledge.go:1018[ListKnowledge] | Knowledge list retrieved successfully, knowledge base ID: kb-1, total: 0
+INFO [2026-09-12 11:29:45.287] [] knowledge.go:938[ListKnowledge] | Start retrieving knowledge list
+INFO [2026-09-12 11:29:45.287] [] knowledge.go:992[ListKnowledge] | Retrieving knowledge list under knowledge base, kb_id=kb-1 tag_ids= keyword= file_type= parse_status= source= start_time= end_time= folder_path=docs folder_scope=exact page=0 page_size=0 effectiveTenantID=1
+INFO [2026-09-12 11:29:45.287] [] knowledge.go:1018[ListKnowledge] | Knowledge list retrieved successfully, knowledge base ID: kb-1, total: 0
+INFO [2026-09-12 11:29:45.287] [] knowledge.go:938[ListKnowledge] | Start retrieving knowledge list
+INFO [2026-09-12 11:29:45.287] [] knowledge.go:992[ListKnowledge] | Retrieving knowledge list under knowledge base, kb_id=kb-1 tag_ids= keyword= file_type= parse_status= source= start_time= end_time= folder_path=docs/spec folder_scope=exact page=0 page_size=0 effectiveTenantID=1
+INFO [2026-09-12 11:29:45.287] [] knowledge.go:1018[ListKnowledge] | Knowledge list retrieved successfully, knowledge base ID: kb-1, total: 0
+INFO [2026-09-12 11:29:45.287] [] knowledge.go:938[ListKnowledge] | Start retrieving knowledge list
+INFO [2026-09-12 11:29:45.287] [] knowledge.go:992[ListKnowledge] | Retrieving knowledge list under knowledge base, kb_id=kb-1 tag_ids= keyword= file_type= parse_status= source= start_time= end_time= folder_path=spec folder_scope=exact page=0 page_size=0 effectiveTenantID=1
+INFO [2026-09-12 11:29:45.287] [] knowledge.go:1018[ListKnowledge] | Knowledge list retrieved successfully, knowledge base ID: kb-1, total: 0
+INFO [2026-09-12 11:29:45.287] [] knowledge.go:1064[ListKnowledgeFolders] | Knowledge folder tree retrieved, kb_id=kb-1 folders=1
+WARNING[2026-09-12 11:29:45.287] [] rbac.go:342[EvaluateOwnershipOrRole] | [rbac] ownership/role would be checked (enforcement off, lookup skipped): user= have=viewer need=admin
+WARNING[2026-09-12 11:29:45.287] [] rbac.go:342[EvaluateOwnershipOrRole] | [rbac] ownership/role would be checked (enforcement off, lookup skipped): user= have=viewer need=admin
+WARNING[2026-09-12 11:29:45.287] [] rbac.go:342[EvaluateOwnershipOrRole] | [rbac] ownership/role would be checked (enforcement off, lookup skipped): user= have=viewer need=admin
+WARNING[2026-09-12 11:29:45.287] [] rbac.go:342[EvaluateOwnershipOrRole] | [rbac] ownership/role would be checked (enforcement off, lookup skipped): user= have=viewer need=admin
+WARNING[2026-09-12 11:29:45.287] [] rbac.go:342[EvaluateOwnershipOrRole] | [rbac] ownership/role would be checked (enforcement off, lookup skipped): user= have=viewer need=admin
+WARNING[2026-09-12 11:29:45.287] [] rbac.go:342[EvaluateOwnershipOrRole] | [rbac] ownership/role would be checked (enforcement off, lookup skipped): user= have=viewer need=admin
+INFO [2026-09-12 11:29:45.287] [] knowledgebase.go:1242[DuplicateKnowledgeBase] | Knowledge base duplicate created, source: src, target: copy-id
+WARNING[2026-09-12 11:29:45.288] [] knowledgebase.go:1220[DuplicateKnowledgeBase] | Knowledge base duplicate rejected: source belongs to another tenant, source_id: src, caller_tenant: 1, kb_tenant: 2
+ERROR[2026-09-12 11:29:45.288] [error=database unavailable] knowledgebase.go:1237[DuplicateKnowledgeBase] | 发生错误
+INFO [2026-09-12 11:29:45.288] [] knowledgebase.go:316[HybridSearch] | Start hybrid search
+INFO [2026-09-12 11:29:45.288] [] knowledgebase.go:338[HybridSearch] | Executing hybrid search, knowledge base ID: kb-1, query: diagram, effectiveTenantID: 1
+INFO [2026-09-12 11:29:45.288] [] knowledgebase.go:367[HybridSearch] | Hybrid search completed, knowledge base ID: kb-1, result count: 1
+INFO [2026-09-12 11:29:45.288] [] storageurl.go:152[resolve] | [API] storage URL rewrite: src=resource://xifDo7NTSL300Lp1goVutw
+DEBUG[2026-09-12 11:29:45.288] [] storageurl.go:153[resolve] | [API] storage URL rewrite dst=https://cdn.example.com/signed.png
+INFO [2026-09-12 11:29:45.288] [] knowledgebase.go:316[HybridSearch] | Start hybrid search
+INFO [2026-09-12 11:29:45.288] [] knowledgebase.go:338[HybridSearch] | Executing hybrid search, knowledge base ID: kb-1, query: diagram, effectiveTenantID: 1
+INFO [2026-09-12 11:29:45.288] [] knowledgebase.go:367[HybridSearch] | Hybrid search completed, knowledge base ID: kb-1, result count: 1
+INFO [2026-09-12 11:29:45.288] [] storageurl.go:152[resolve] | [API] storage URL rewrite: src=resource://xifDo7NTSL300Lp1goVutw
+DEBUG[2026-09-12 11:29:45.288] [] storageurl.go:153[resolve] | [API] storage URL rewrite dst=https://cdn.example.com/signed.png
+INFO [2026-09-12 11:29:45.288] [] knowledgebase.go:316[HybridSearch] | Start hybrid search
+INFO [2026-09-12 11:29:45.288] [] knowledgebase.go:338[HybridSearch] | Executing hybrid search, knowledge base ID: kb-1, query: diagram, effectiveTenantID: 1
+WARNING[2026-09-12 11:29:45.288] [] knowledgebase.go:344[HybridSearch] | Rejected resource URL mode: error code: 1000, error message: invalid resource_urls value "signed": expected "handle" or "public"
+INFO [2026-09-12 11:29:45.288] [] knowledgebase.go:316[HybridSearch] | Start hybrid search
+INFO [2026-09-12 11:29:45.288] [] knowledgebase.go:338[HybridSearch] | Executing hybrid search, knowledge base ID: kb-1, query: diagram, effectiveTenantID: 1
+INFO [2026-09-12 11:29:45.288] [] knowledgebase.go:367[HybridSearch] | Hybrid search completed, knowledge base ID: kb-1, result count: 1
+INFO [2026-09-12 11:29:45.288] [] knowledgebase.go:316[HybridSearch] | Start hybrid search
+INFO [2026-09-12 11:29:45.288] [] knowledgebase.go:316[HybridSearch] | Start hybrid search
+INFO [2026-09-12 11:29:45.288] [] knowledgebase.go:316[HybridSearch] | Start hybrid search
+INFO [2026-09-12 11:29:45.288] [] knowledgebase.go:316[HybridSearch] | Start hybrid search
+INFO [2026-09-12 11:29:45.288] [] knowledgebase.go:316[HybridSearch] | Start hybrid search
+INFO [2026-09-12 11:29:45.288] [] knowledgebase.go:316[HybridSearch] | Start hybrid search
+INFO [2026-09-12 11:29:45.288] [] knowledgebase.go:316[HybridSearch] | Start hybrid search
+INFO [2026-09-12 11:29:45.288] [] knowledgebase.go:338[HybridSearch] | Executing hybrid search, knowledge base ID: kb-1, query: MiniMax, effectiveTenantID: 1
+INFO [2026-09-12 11:29:45.288] [] knowledgebase.go:367[HybridSearch] | Hybrid search completed, knowledge base ID: kb-1, result count: 0
+INFO [2026-09-12 11:29:45.288] [] knowledgebase.go:316[HybridSearch] | Start hybrid search
+INFO [2026-09-12 11:29:45.288] [] knowledgebase.go:338[HybridSearch] | Executing hybrid search, knowledge base ID: kb-1, query: , effectiveTenantID: 1
+INFO [2026-09-12 11:29:45.288] [] knowledgebase.go:367[HybridSearch] | Hybrid search completed, knowledge base ID: kb-1, result count: 0
+ERROR[2026-09-12 11:29:45.289] [error=connection refused] knowledgebase.go:483[validateAndGetKnowledgeBase] | 发生错误
+INFO [2026-09-12 11:29:45.289] [] knowledgebase.go:390[CreateKnowledgeBase] | Start creating knowledge base
+INFO [2026-09-12 11:29:45.289] [] knowledgebase.go:415[CreateKnowledgeBase] | Creating knowledge base, name: kb
+INFO [2026-09-12 11:29:45.289] [] knowledgebase.go:390[CreateKnowledgeBase] | Start creating knowledge base
+INFO [2026-09-12 11:29:45.289] [] knowledgebase.go:415[CreateKnowledgeBase] | Creating knowledge base, name: kb
+INFO [2026-09-12 11:29:45.289] [] knowledgebase.go:390[CreateKnowledgeBase] | Start creating knowledge base
+INFO [2026-09-12 11:29:45.289] [] knowledgebase.go:415[CreateKnowledgeBase] | Creating knowledge base, name: kb
+ERROR[2026-09-12 11:29:45.289] [error=connection refused] knowledgebase.go:429[CreateKnowledgeBase] | 发生错误
+WARNING[2026-09-12 11:29:45.289] [store_count=1 tenant_id=1] knowledgebase.go:255[batchResolveKBStoreViews] | [kb.list] batch store view resolve failed; rendering bound KBs as unavailable
+INFO [2026-09-12 11:29:45.290] [] message.go:86[LoadMessages] | Start loading messages
+INFO [2026-09-12 11:29:45.290] [] message.go:93[LoadMessages] | Loading messages params, session ID: sess1, limit: 20, before time:
+INFO [2026-09-12 11:29:45.290] [] message.go:112[LoadMessages] | Getting recent messages for session, session ID: sess1, limit: 20
+INFO [2026-09-12 11:29:45.290] [] message.go:129[LoadMessages] | Successfully retrieved recent messages, session ID: sess1, message count: 1
+INFO [2026-09-12 11:29:45.290] [] message.go:86[LoadMessages] | Start loading messages
+INFO [2026-09-12 11:29:45.290] [] message.go:93[LoadMessages] | Loading messages params, session ID: sess1, limit: 20, before time:
+INFO [2026-09-12 11:29:45.290] [] message.go:112[LoadMessages] | Getting recent messages for session, session ID: sess1, limit: 20
+INFO [2026-09-12 11:29:45.290] [] message.go:129[LoadMessages] | Successfully retrieved recent messages, session ID: sess1, message count: 1
+INFO [2026-09-12 11:29:45.290] [] storageurl.go:152[resolve] | [API] storage URL rewrite: src=resource://xifDo7NTSL300Lp1goVutw
+DEBUG[2026-09-12 11:29:45.290] [] storageurl.go:153[resolve] | [API] storage URL rewrite dst=https://cdn.example.com/signed.png
+INFO [2026-09-12 11:29:45.290] [] message.go:86[LoadMessages] | Start loading messages
+INFO [2026-09-12 11:29:45.290] [] message.go:93[LoadMessages] | Loading messages params, session ID: sess1, limit: 20, before time:
+WARNING[2026-09-12 11:29:45.290] [] message.go:98[LoadMessages] | Rejected resource URL mode: error code: 1000, error message: invalid resource_urls value "signed": expected "handle" or "public"
+INFO [2026-09-12 11:29:45.290] [] message.go:86[LoadMessages] | Start loading messages
+INFO [2026-09-12 11:29:45.290] [] message.go:93[LoadMessages] | Loading messages params, session ID: sess1, limit: 20, before time:
+INFO [2026-09-12 11:29:45.290] [] message.go:112[LoadMessages] | Getting recent messages for session, session ID: sess1, limit: 20
+INFO [2026-09-12 11:29:45.290] [] message.go:129[LoadMessages] | Successfully retrieved recent messages, session ID: sess1, message count: 1
+INFO [2026-09-12 11:29:45.290] [] storageurl.go:152[resolve] | [API] storage URL rewrite: src=resource://xifDo7NTSL300Lp1goVutw
+DEBUG[2026-09-12 11:29:45.290] [] storageurl.go:153[resolve] | [API] storage URL rewrite dst=https://cdn.example.com/signed.png
+INFO [2026-09-12 11:29:45.290] [] message.go:86[LoadMessages] | Start loading messages
+INFO [2026-09-12 11:29:45.290] [] message.go:93[LoadMessages] | Loading messages params, session ID: sess1, limit: 20, before time:
+INFO [2026-09-12 11:29:45.290] [] message.go:112[LoadMessages] | Getting recent messages for session, session ID: sess1, limit: 20
+INFO [2026-09-12 11:29:45.290] [] message.go:129[LoadMessages] | Successfully retrieved recent messages, session ID: sess1, message count: 1
+INFO [2026-09-12 11:29:45.291] [] message.go:86[LoadMessages] | Start loading messages
+INFO [2026-09-12 11:29:45.291] [] message.go:93[LoadMessages] | Loading messages params, session ID: sess1, limit: 20, before time:
+WARNING[2026-09-12 11:29:45.291] [] message.go:98[LoadMessages] | Rejected resource URL mode: error code: 1002, error message: resource_urls=public is not available for a knowledge-base-restricted API key
+INFO [2026-09-12 11:29:45.291] [] message.go:86[LoadMessages] | Start loading messages
+INFO [2026-09-12 11:29:45.291] [] message.go:93[LoadMessages] | Loading messages params, session ID: sess1, limit: 20, before time:
+INFO [2026-09-12 11:29:45.291] [] message.go:112[LoadMessages] | Getting recent messages for session, session ID: sess1, limit: 20
+INFO [2026-09-12 11:29:45.291] [] message.go:129[LoadMessages] | Successfully retrieved recent messages, session ID: sess1, message count: 1
+INFO [2026-09-12 11:29:45.291] [] message.go:86[LoadMessages] | Start loading messages
+INFO [2026-09-12 11:29:45.291] [] message.go:93[LoadMessages] | Loading messages params, session ID: sess1, limit: 20, before time:
+INFO [2026-09-12 11:29:45.291] [] message.go:112[LoadMessages] | Getting recent messages for session, session ID: sess1, limit: 20
+WARNING[2026-09-12 11:29:45.291] [] message.go:120[LoadMessages] | Session not found, ID: sess1
+INFO [2026-09-12 11:29:45.291] [] message.go:86[LoadMessages] | Start loading messages
+INFO [2026-09-12 11:29:45.291] [] message.go:93[LoadMessages] | Loading messages params, session ID: sess1, limit: 20, before time: 2026-09-12T11:29:45.2911514Z
+INFO [2026-09-12 11:29:45.291] [] message.go:154[LoadMessages] | Getting messages before specific time, session ID: sess1, before time: 2026-09-12T11:29:45.2911514Z, limit: 20
+WARNING[2026-09-12 11:29:45.291] [] message.go:160[LoadMessages] | Session not found, ID: sess1
+INFO [2026-09-12 11:29:45.291] [] message.go:86[LoadMessages] | Start loading messages
+INFO [2026-09-12 11:29:45.291] [] message.go:93[LoadMessages] | Loading messages params, session ID: sess1, limit: 20, before time: 2026-05-20T09:43:37+08:00
+INFO [2026-09-12 11:29:45.291] [] message.go:154[LoadMessages] | Getting messages before specific time, session ID: sess1, before time: 2026-05-20T09:43:37+08:00, limit: 20
+INFO [2026-09-12 11:29:45.291] [] message.go:169[LoadMessages] | Successfully retrieved messages before time, session ID: sess1, message count: 0
+INFO [2026-09-12 11:29:45.291] [] message.go:196[DeleteMessage] | Start deleting message
+INFO [2026-09-12 11:29:45.291] [] message.go:202[DeleteMessage] | Deleting message, session ID: sess1, message ID: msg1
+WARNING[2026-09-12 11:29:45.291] [] message.go:210[DeleteMessage] | Session not found, ID: sess1
+INFO [2026-09-12 11:29:45.291] [] message.go:196[DeleteMessage] | Start deleting message
+INFO [2026-09-12 11:29:45.291] [] message.go:202[DeleteMessage] | Deleting message, session ID: sess1, message ID: msg1
+WARNING[2026-09-12 11:29:45.291] [] message.go:210[DeleteMessage] | Session not found, ID: sess1
+INFO [2026-09-12 11:29:45.433] [] system.go:1580[ResetUserPassword] | Password reset by system administrator for user ID: target-user
+WARNING[2026-09-12 11:29:45.433] [] system.go:2025[mutateRuntimeTask] | cancel runtime queue task queue=multimodal task=task-orphan: knowledge gone, purged queue record
+WARNING[2026-09-12 11:29:45.433] [] system.go:2025[mutateRuntimeTask] | cancel runtime queue task queue=multimodal task=task-orphan: knowledge gone, purged queue record
+WARNING[2026-09-12 11:29:45.433] [] system.go:2025[mutateRuntimeTask] | cancel runtime queue task queue=multimodal task=task-orphan: knowledge gone, purged queue record
+INFO [2026-09-12 11:29:45.433] [] system.go:1668[CreateSystemUser] | System admin created user alice (ID: u1)
+INFO [2026-09-12 11:29:45.433] [] system.go:1668[CreateSystemUser] | System admin created user bob (ID: u2)
+INFO [2026-09-12 11:29:45.434] [] system.go:1668[CreateSystemUser] | System admin created user carol (ID: u3)
+INFO [2026-09-12 11:29:45.434] [] system.go:1668[CreateSystemUser] | System admin created user carol (ID: u3)
+INFO [2026-09-12 11:29:45.434] [] system.go:1668[CreateSystemUser] | System admin created user dave (ID: u4)
+INFO [2026-09-12 11:29:45.434] [] system.go:1649[CreateSystemUser] | Create user noop (identity already exists, ID: existing)
+ERROR[2026-09-12 11:29:45.434] [] system.go:1662[CreateSystemUser] | Failed to create user: transient db hiccup
+ERROR[2026-09-12 11:29:45.434] [] tenant_invitation.go:627[AcceptMyInvitationByToken] | AcceptMyInvitationByToken failed: user=u-test err=boom
+ERROR[2026-09-12 11:29:45.434] [] tenant_invitation.go:306[CreateInvitation] | auto_accept_invitation enabled but memberService is nil; tenant=7
+WARNING[2026-09-12 11:29:45.435] [] access.go:192[func2] | [rbac] path-tenant-match rejected: user=u1 ctx_tenant=1 path_tenant=5 path=/tenants/5/members
+WARNING[2026-09-12 11:29:45.435] [] access.go:192[func2] | [rbac] path-tenant-match rejected: user=u1 ctx_tenant=1 path_tenant=5 path=/tenants/5/members
+WARNING[2026-09-12 11:29:45.435] [] access.go:192[func2] | [rbac] path-tenant-match rejected: user=u1 ctx_tenant=1 path_tenant=5 path=/tenants/5/members/u2
+WARNING[2026-09-12 11:29:45.435] [] access.go:192[func2] | [rbac] path-tenant-match rejected: user=u1 ctx_tenant=1 path_tenant=5 path=/tenants/5/members/u2
+WARNING[2026-09-12 11:29:45.435] [] access.go:192[func2] | [rbac] path-tenant-match rejected: user=u1 ctx_tenant=1 path_tenant=5 path=/tenants/5/leave
+WARNING[2026-09-12 11:29:45.435] [] access.go:192[func2] | [rbac] path-tenant-match rejected: user=u-superuser ctx_tenant=1 path_tenant=5 path=/tenants/5/members
+INFO [2026-09-12 11:29:45.439] [] tenant.go:229[CreateTenant] | Start creating tenant
+WARNING[2026-09-12 11:29:45.439] [] tenant.go:250[CreateTenant] | Self-service tenant creation denied by policy for user regular-user
+INFO [2026-09-12 11:29:45.439] [] tenant.go:229[CreateTenant] | Start creating tenant
+INFO [2026-09-12 11:29:45.439] [] tenant.go:345[CreateTenant] | Creating tenant, name: admin-created
+INFO [2026-09-12 11:29:45.439] [] tenant.go:446[CreateTenant] | Tenant created successfully, ID: 99, name: admin-created
+FAIL
+FAIL    github.com/Tencent/WeKnora/internal/handler 0.606s
+ok      github.com/Tencent/WeKnora/internal/handler/dto 0.529s
+ok      github.com/Tencent/WeKnora/internal/handler/session 0.542s
+ok      github.com/Tencent/WeKnora/internal/im  0.515s
+ok      github.com/Tencent/WeKnora/internal/im/dingtalk 0.449s
+ok      github.com/Tencent/WeKnora/internal/im/feishu   0.474s
+ok      github.com/Tencent/WeKnora/internal/im/mattermost   0.434s
+ok      github.com/Tencent/WeKnora/internal/im/qqbot    0.488s
+ok      github.com/Tencent/WeKnora/internal/im/slack    0.427s
+ok      github.com/Tencent/WeKnora/internal/im/telegram 0.448s
+?       github.com/Tencent/WeKnora/internal/im/wechat   [no test files]
+ok      github.com/Tencent/WeKnora/internal/im/wecom    0.420s
+ok      github.com/Tencent/WeKnora/internal/im/yunzhijia    0.498s
+ok      github.com/Tencent/WeKnora/internal/infrastructure/chunker  0.522s
+ok      github.com/Tencent/WeKnora/internal/infrastructure/docparser    0.457s
+ok      github.com/Tencent/WeKnora/internal/infrastructure/docparser/anydoc 0.005s
+ok      github.com/Tencent/WeKnora/internal/infrastructure/web_fetch    0.417s
+ok      github.com/Tencent/WeKnora/internal/infrastructure/web_search   0.462s
+ok      github.com/Tencent/WeKnora/internal/logger  0.421s
+ok      github.com/Tencent/WeKnora/internal/mcp 0.534s
+ok      github.com/Tencent/WeKnora/internal/middleware  0.521s
+ok      github.com/Tencent/WeKnora/internal/middleware/asynqdl  0.511s
+ok      github.com/Tencent/WeKnora/internal/modelcontext    0.474s
+ok      github.com/Tencent/WeKnora/internal/models/asr  0.527s
+ok      github.com/Tencent/WeKnora/internal/models/chat 2.902s
+ok      github.com/Tencent/WeKnora/internal/models/embedding    1.963s
+ok      github.com/Tencent/WeKnora/internal/models/limiter  0.792s
+ok      github.com/Tencent/WeKnora/internal/models/provider 0.399s
+ok      github.com/Tencent/WeKnora/internal/models/rerank   0.446s
+?       github.com/Tencent/WeKnora/internal/models/utils    [no test files]
+?       github.com/Tencent/WeKnora/internal/models/utils/ollama [no test files]
+ok      github.com/Tencent/WeKnora/internal/models/vlm  0.432s
+ok      github.com/Tencent/WeKnora/internal/ratelimit   0.005s
+ok      github.com/Tencent/WeKnora/internal/router  0.610s
+ok      github.com/Tencent/WeKnora/internal/runtime 0.458s
+ok      github.com/Tencent/WeKnora/internal/sandbox 3.079s
+ok      github.com/Tencent/WeKnora/internal/searchutil  0.392s
+ok      github.com/Tencent/WeKnora/internal/storageallowlist    0.005s
+ok      github.com/Tencent/WeKnora/internal/storageurl  0.419s
+?       github.com/Tencent/WeKnora/internal/stream  [no test files]
+ok      github.com/Tencent/WeKnora/internal/tracing/langfuse    0.580s
+ok      github.com/Tencent/WeKnora/internal/types   3.337s
+?       github.com/Tencent/WeKnora/internal/types/interfaces    [no test files]
+ok      github.com/Tencent/WeKnora/internal/utils   0.019s
+ok      github.com/Tencent/WeKnora/packages/dsh-weknora/contract    0.540s
+FAIL

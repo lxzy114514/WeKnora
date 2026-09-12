@@ -13,8 +13,8 @@
     },
     {
       "path": "dataset/parser_benchmark/v1/sources/pdf-scanned-ocr-page-1.png",
-      "bytes": 39534,
-      "sha256": "bfe83d0b1e5723ebe0e179572a6723c0d44835881c5efeb7a329f19b0c1cb5b9"
+      "bytes": 102904,
+      "sha256": "061d94a7042cf0fa5e09d4dc9d955341648f907188cac02021d9a49123f12502"
     }
   ],
   "documents": [
@@ -22,8 +22,8 @@
       "id": "docx-embedded-image",
       "path": "dataset/parser_benchmark/v1/documents/docx-embedded-image.docx",
       "extension": "docx",
-      "bytes": 4266,
-      "sha256": "c10ea759ee914973db0af1f58fc58227bc69d25380af6e101bf6260d04a9cca7",
+      "bytes": 11756,
+      "sha256": "17a5a88250e69f7d26c65a941d0441d354f617dbb2cd3557db01916cf4b1aa3a",
       "attributes": [
         "embedded-image",
         "heading",
@@ -41,8 +41,8 @@
       "id": "docx-heading-list-table",
       "path": "dataset/parser_benchmark/v1/documents/docx-heading-list-table.docx",
       "extension": "docx",
-      "bytes": 3610,
-      "sha256": "8e647295dda9004d99da7f5ad34e36b8474adb15529d53afc27c5ee62a7122ad",
+      "bytes": 7193,
+      "sha256": "fe8f1d95b27a1e46c0d901a7f80145de8608a07205045c9aff0338aa34c020fd",
       "attributes": [
         "heading",
         "list",
@@ -121,8 +121,8 @@
       "id": "pdf-scanned-ocr",
       "path": "dataset/parser_benchmark/v1/documents/pdf-scanned-ocr.pdf",
       "extension": "pdf",
-      "bytes": 10487,
-      "sha256": "fa54e8a41a497372dd2525c888dbffb496c1d01e8b02040d6a0767957815e3e3",
+      "bytes": 62841,
+      "sha256": "954f26a49e0ca2bb115e07498d444173c72d5f754ae65973b50b14c11cb6d943",
       "attributes": [
         "heading",
         "raster-only",
@@ -168,8 +168,8 @@
   },
   "render_input_manifest": {
     "path": "dataset/parser_benchmark/v1/e1/render-input-manifest.json",
-    "bytes": 2950,
-    "sha256": "016edaef218fcce123e74a001e6303133237b8c8350704988372bdeb0799a64e"
+    "bytes": 2952,
+    "sha256": "549ac9ad9076620ff227144ebf505aa0476d3eb261e2ebe959047111a6b9ccd0"
   },
   "support_matrix": [
     {

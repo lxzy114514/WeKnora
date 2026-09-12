@@ -394,16 +394,16 @@
     "status": "approved",
     "reviewed_by": "independent_auditor",
     "auditor_task_id": "01a0906d-6717-73c1-a530-6947632b8c4b",
-    "reviewed_at": "2026-09-12T12:04:09+08:00",
+    "reviewed_at": "2026-09-12T19:24:10.1418974+08:00",
     "approved_hashes": {
-      "corpus_manifest_sha256": "c2a62b5d689436d7de47d74fc9233d8fc24de85857c437f8a2babf63a5d6ec78",
+      "corpus_manifest_sha256": "1189575f4f3b71a565225b0fd3610627038fe4c733dde67bacc3b6065dbfb246",
       "render_manifest_sha256": "5d00f74e34e3fbc645b8a0b5dc1b85117527f69f4efe84f5e5466a07b8853c28",
       "ground_truth_payload_sha256": "62b6748d92fc51e63da5a62999006ac0938e57102766d7e71aef7b496e180703",
       "extraction_rules_sha256": "ee9df07b09be9dcee23196911640f6b10ddb9767f81ccc3c5909b84a8501dc0b"
     },
     "receipt": {
-      "path": "docs/topic3/audit/E1_4edbde49_ROUND2_REVIEW_RECEIPT.md",
-      "sha256": "0e7586bf0618313f5fc83ee5356c15fa0bb6bb57c215c86bbddfaa866301855a"
+      "path": "docs/topic3/audit/E1_b43beccd_CROSS_PLATFORM_REAPPROVAL_RECEIPT.md",
+      "sha256": "efaa3da2dd0af822126fa0cfe62ae7945160a29339b850dc47452cdfb6da1d22"
     }
   }
 }

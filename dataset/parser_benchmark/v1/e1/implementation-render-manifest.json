@@ -3,7 +3,7 @@
   "corpus_version": "v1",
   "provenance": {
     "role": "implementation_self_check",
-    "created_at": "2026-09-12T04:58:42+08:00",
+    "created_at": "2026-09-12T19:21:52+08:00",
     "tools": [
       {
         "name": "documents-skill",
@@ -53,7 +53,7 @@
   "documents": [
     {
       "id": "docx-embedded-image",
-      "input_sha256": "c10ea759ee914973db0af1f58fc58227bc69d25380af6e101bf6260d04a9cca7",
+      "input_sha256": "17a5a88250e69f7d26c65a941d0441d354f617dbb2cd3557db01916cf4b1aa3a",
       "inspection_mode": "paged_render",
       "pages": [
         {
@@ -71,14 +71,14 @@
         {
           "path": "dataset/parser_benchmark/v1/e1/implementation-render/docx-embedded-image/intermediate.pdf",
           "bytes": 40341,
-          "sha256": "9b353a7ebccd0cd6e80862097208bdcf3c287671ca25770910a46140550b290d"
+          "sha256": "6bbc8833b6da64367eb52cf5358d762ab8a0762ea63001804eab962180030732"
         }
       ],
       "page_manifest_sha256": "85d07f9f260649f4b069c41cfedb955c3280d92a6b7f360ea0261c330f772be5"
     },
     {
       "id": "docx-heading-list-table",
-      "input_sha256": "8e647295dda9004d99da7f5ad34e36b8474adb15529d53afc27c5ee62a7122ad",
+      "input_sha256": "fe8f1d95b27a1e46c0d901a7f80145de8608a07205045c9aff0338aa34c020fd",
       "inspection_mode": "paged_render",
       "pages": [
         {
@@ -96,7 +96,7 @@
         {
           "path": "dataset/parser_benchmark/v1/e1/implementation-render/docx-heading-list-table/intermediate.pdf",
           "bytes": 46430,
-          "sha256": "d28fad8a3f6f567d867a807586deee5850ec56478a9939c193c7945b6543e0b9"
+          "sha256": "9dd15b056ea4df9bbc0cf9eda63296d07d212fb83573b9bbd1a32489e1a00250"
         }
       ],
       "page_manifest_sha256": "e303c3f74ceed05b4919d6d49ac7eb5e9d9d3fdcff048a86751c608aaad7e1ff"
@@ -157,7 +157,7 @@
     },
     {
       "id": "pdf-scanned-ocr",
-      "input_sha256": "fa54e8a41a497372dd2525c888dbffb496c1d01e8b02040d6a0767957815e3e3",
+      "input_sha256": "954f26a49e0ca2bb115e07498d444173c72d5f754ae65973b50b14c11cb6d943",
       "inspection_mode": "paged_render",
       "pages": [
         {
