@@ -17,3 +17,5 @@ COMMAND go run ./cmd/evalgate -baseline testdata/evaluation/baseline.json -curre
 evaluation gate passed (6 checks)
 COMMAND go vet focused packages
 RESULT all focused checks passed
+COMMAND go test -race ./internal/application/service -run ^TestEvaluation -count=1
+ok  	github.com/Tencent/WeKnora/internal/application/service	1.855s

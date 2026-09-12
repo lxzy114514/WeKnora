@@ -9,9 +9,10 @@
     "status": "passed",
     "race_enabled": true,
     "log": "artifacts/migration-final-focused-tests.txt",
-    "log_sha256": "977bfd22c5112e3e7c08167638111d0dbbd0ecbc3ee784e010f9684007b603a8",
+    "log_sha256": "755cda6b7794eca7b0fd98b4ad2a2f61c2c5ac959eacea1b5d7c2ae7789d9244",
     "checks": [
       "migration-related evaluation, parser, type, gate, CLI, cache, repository, chat pipeline, agent and model packages",
+      "evaluation service version, model snapshot and stage-duration tests",
       "selected Wiki stable-layout, concurrent warmup and cancellation-cleanup tests",
       "six-check local evaluation policy smoke test",
       "go vet for focused packages",
@@ -73,6 +74,12 @@
       "logger output-format assumption in the Feishu wiki connector test",
       "frontend capability-key parser assumption in internal/handler"
     ]
+  },
+  "full_repository_build": {
+    "command": "go build ./...",
+    "exit_code": 1,
+    "failure_category": "pre-existing Windows DuckDB static-library and MinGW __emutls linker mismatch",
+    "delivery_build_replacement": "The Linux production Docker image for tested_code_commit built successfully and is healthy."
   },
   "secret_scan": {
     "scope": "changed and newly tracked migration files",

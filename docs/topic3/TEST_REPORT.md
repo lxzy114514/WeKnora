@@ -29,6 +29,7 @@
 - 部分 SQLite 测试清理临时数据库时文件仍被占用。
 - Docker 主机使用 `npipe` 时，若测试路径只接受 Unix scheme 会失败。
 - `internal/container` 测试在当前 MinGW 与 DuckDB 静态库组合下链接失败（`__emutls` 符号）。
+- Windows 原生 `go build ./...` 也会在 `cmd/download/duckdb`、`cmd/desktop` 和 `cmd/server` 触发同一个 DuckDB/MinGW `__emutls` 链接错误；Linux 生产 Docker 镜像构建通过。
 - 一个既有前后端 capability key 测试把 TypeScript 单引号和逗号误解析进键名。
 - Windows 文件权限语义下，一个既有“不可读 Python 脚本”测试无法制造与 Unix 相同的不可读状态。
 
@@ -64,7 +65,7 @@
 
 同一轮复审还发现 estimated zero 会被普通数值门禁误判为成本通过。现在评测成本报告计算 `priced_call_count` 与 `cost_coverage_ratio`，`evalctl` 为每个成本指标写入显式 `metric_eligibility`，`evalgate` 对缺失或不合格的成本元数据均 fail closed。测试覆盖 Chat 的 input/output/cache-read/cache-write、Embedding provider 调用与全量应用缓存命中、Rerank，以及 legacy estimated-zero 报告拒绝路径；历史 portable JSON 仍可用于不涉及成本的诊断。
 
-最终标准复核进一步要求拒绝矛盾的资格元数据。门禁现在校验覆盖率为有限的 `[0,1]` 数值，并要求 `eligible=true` 时覆盖率精确为 1；零覆盖、负数、大于 1 和 NaN 均有回归测试。最终聚焦验证日志 SHA-256 为 `977bfd22c5112e3e7c08167638111d0dbbd0ecbc3ee784e010f9684007b603a8`。
+最终标准复核进一步要求拒绝矛盾的资格元数据。门禁现在校验覆盖率为有限的 `[0,1]` 数值，并要求 `eligible=true` 时覆盖率精确为 1；零覆盖、负数、大于 1 和 NaN 均有回归测试。最终聚焦验证还包含 Evaluation Service 的版本、模型快照与阶段耗时测试，日志 SHA-256 为 `755cda6b7794eca7b0fd98b4ad2a2f61c2c5ac959eacea1b5d7c2ae7789d9244`。
 
 提交 `e0174424` 又完成 Linux 生产镜像构建与容器替换。运行中镜像 ID 为 `sha256:1fed47104b69ba89ef224add9d17cc6a0dbda1c4796ccdaa037d9f24b1e208dc`，二进制嵌入提交号 `e01744242e6f`，容器健康状态为 `healthy`，`/health` 返回 `{"status":"ok"}`。
 
