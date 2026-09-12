@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "gate": "E1",
-  "status": "pending_independent_audit",
+  "status": "accepted",
   "hashes": {
     "corpus_manifest_sha256": "c2a62b5d689436d7de47d74fc9233d8fc24de85857c437f8a2babf63a5d6ec78",
     "render_manifest_sha256": "5d00f74e34e3fbc645b8a0b5dc1b85117527f69f4efe84f5e5466a07b8853c28",
