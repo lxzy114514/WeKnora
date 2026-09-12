@@ -1,0 +1,41 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "metric": "retrieval.recall",
+      "direction": "higher_is_better",
+      "baseline": 1,
+      "current": 1,
+      "change": 0,
+      "max_regression": 0.000001,
+      "passed": true
+    },
+    {
+      "metric": "retrieval.mrr",
+      "direction": "higher_is_better",
+      "baseline": 0.75,
+      "current": 0.75,
+      "change": 0,
+      "max_regression": 0.000001,
+      "passed": true
+    },
+    {
+      "metric": "retrieval.ndcg10",
+      "direction": "higher_is_better",
+      "baseline": 0.7753252713598225,
+      "current": 0.7753252713598225,
+      "change": 0,
+      "max_regression": 0.000001,
+      "passed": true
+    },
+    {
+      "metric": "answer.rougel",
+      "direction": "higher_is_better",
+      "baseline": 0.8617647008910035,
+      "current": 0.8617647008910035,
+      "change": 0,
+      "max_regression": 0.000001,
+      "passed": true
+    }
+  ]
+}

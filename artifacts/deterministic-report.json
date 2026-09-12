@@ -1,0 +1,18 @@
+{
+  "run_id": "deterministic-current-code",
+  "config_hash": "deterministic-cases-v1",
+  "metrics": {
+    "answer.bleu1": 0.8467663001386081,
+    "answer.bleu2": 0.7866792845310362,
+    "answer.bleu4": 0.6950310916839133,
+    "answer.rouge1": 0.8617647008910035,
+    "answer.rouge2": 0.7222222172333334,
+    "answer.rougel": 0.8617647008910035,
+    "retrieval.map": 0.6666666666666666,
+    "retrieval.mrr": 0.75,
+    "retrieval.ndcg10": 0.7753252713598225,
+    "retrieval.ndcg3": 0.7753252713598225,
+    "retrieval.precision": 0.5833333333333333,
+    "retrieval.recall": 1
+  }
+}

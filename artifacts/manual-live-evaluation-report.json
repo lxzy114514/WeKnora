@@ -1,0 +1,30 @@
+{
+  "run_id": "evaluation_10000_1788438818252_98b36181_baselinev1",
+  "config_hash": "689bd0ea6add9ac43005e2511b729db7c78e33500f542267a6c63ca288a22f77",
+  "metrics": {
+    "answer.bleu1": 0.11650485436893203,
+    "answer.bleu2": 0.06759303084186633,
+    "answer.bleu4": 0.030840976165230575,
+    "answer.rouge1": 0.27777777500000006,
+    "answer.rouge2": 0.057142854973242715,
+    "answer.rougel": 0.24999999722222221,
+    "cost.call_count": 3,
+    "cost.chat_usd": 0,
+    "cost.embedding_usd": 0,
+    "cost.rerank_usd": 0,
+    "cost.total_usd": 0,
+    "latency.average_case_ms": 13783,
+    "latency.generation_ms": 12851,
+    "latency.index_ms": 5051,
+    "latency.model_call_ms": 17704,
+    "latency.rerank_ms": 0,
+    "latency.retrieval_ms": 857,
+    "latency.total_ms": 18900,
+    "retrieval.map": 1,
+    "retrieval.mrr": 1,
+    "retrieval.ndcg10": 1,
+    "retrieval.ndcg3": 1,
+    "retrieval.precision": 1,
+    "retrieval.recall": 1
+  }
+}

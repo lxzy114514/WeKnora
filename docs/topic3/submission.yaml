@@ -11,6 +11,7 @@ entrypoints:
 required_check: Evaluation Regression / Deterministic quality gate
 reports:
   overview: docs/topic3/README.md
+  comprehensive: docs/topic3/SIX_MODULE_IMPLEMENTATION_REPORT.md
   specification: docs/topic3/SPEC.md
   architecture: docs/topic3/ARCHITECTURE.md
   runbook: docs/topic3/RUNBOOK.md
