@@ -23,6 +23,10 @@ reports:
 evidence:
   cache_contract: artifacts/migration-cache-deterministic-evidence.json
   cache_live_status: artifacts/migration-cache-live-status.json
+  cache_live_comparison: artifacts/migration-live-cold-warm-comparison.json
+  cache_live_cold_detail: artifacts/migration-live-cold-detail.json
+  cache_live_warm_detail: artifacts/migration-live-warm-detail.json
+  cache_live_gate: artifacts/migration-live-cold-warm-gate.json
   parser_report: artifacts/parser-benchmark-report.json
   parser_ground_truth_approval: docs/topic3/audit/E1_4edbde49_ROUND2_REVIEW_RECEIPT.md
 security:

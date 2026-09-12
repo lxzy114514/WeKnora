@@ -42,6 +42,8 @@ go run ./cmd/evalctl -dataset baseline-v1 -chat-model "<chat-id>" -embedding-mod
 
 > 本分支没有提交任何密钥，也没有伪造真实模型实验数字。没有可用于当前分支服务的评测凭据时，交付报告只记录确定性自动化结果。
 
+当前提交已完成一组同配置冷/热实跑：Embedding 命中从 0/5 升至 5/5，Chat cache-read tokens 从 0 升至 1024。完整门禁因远端生成时延波动失败，且模型未配置价格，所以总状态为 `partial`；详见 `artifacts/migration-live-cold-warm-comparison.json`。
+
 可选解析器基准不需要启动 WeKnora 服务：
 
 ```powershell

@@ -1,32 +1,37 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-12T04:12:19Z",
+  "generated_at": "2026-09-12T05:08:06Z",
   "branch": "feat/topic3-evaluation-cost-cache-20260828",
-  "commit": "8622e4559a9b158f0dba9a1dd9155f76ca639c44",
+  "commit": "db7ca387210c3b423e67b426b8fc23cacb2e74be",
   "evidence_kind": "live_cold_warm_cache_run",
-  "status": "inconclusive",
-  "runs_created": 0,
-  "provider_calls_made": 0,
-  "cost_incurred": false,
-  "reason_code": "local_runtime_unavailable",
-  "reason": "Docker Desktop could not start its Linux engine because its local Secrets Engine socket is an inaccessible stale reparse point.",
+  "status": "partial",
+  "runs_created": 2,
+  "reason_code": "cache_effect_proven_cost_and_latency_incomplete",
+  "reason": "The cache effects are proven by current-commit database facts, while configured prices are absent and the full gate failed on generation latency variance.",
   "observations": [
-    "docker info could not connect to npipe:////./pipe/dockerDesktopLinuxEngine",
-    "Docker Desktop host log reports failure while removing C:/Users/21169/AppData/Local/docker-secrets-engine/engine.sock",
-    "the branch service was therefore not rebuilt or started",
-    "no historical evaluation output was relabeled as current-branch evidence"
+    "Docker recovered and the branch image built successfully in Linux",
+    "the healthy service reported commit db7ca387210c and database migration version 90",
+    "cold and warm runs used the same non-empty config hash",
+    "Embedding cache hits increased from 0/5 to 5/5 and misses fell from 5 to 0",
+    "Chat cache-read tokens increased from 0 to 1024 while cache-miss tokens fell from 1137 to 113",
+    "retrieval metrics were unchanged and ROUGE-L changed by -0.0060415022",
+    "the full evaluation gate failed because average case latency increased by 13917 ms",
+    "pricing snapshots were empty, so zero estimated cost is not billing evidence"
   ],
   "safe_recovery": [
-    "restart Windows, then start Docker Desktop and verify docker info",
-    "if the socket remains inaccessible, use Docker Desktop repair with the user present",
-    "rerun the same fixed evaluation twice and compare the generated cold and warm reports"
+    "configure reviewed model prices before making a currency savings claim",
+    "repeat the same-config pilot to establish a latency distribution before changing the latency threshold"
   ],
   "related_evidence": {
-    "deterministic_contract": "artifacts/migration-cache-deterministic-evidence.json",
-    "deterministic_status": "passed"
+    "comparison": "artifacts/migration-live-cold-warm-comparison.json",
+    "cold_detail": "artifacts/migration-live-cold-detail.json",
+    "warm_detail": "artifacts/migration-live-warm-detail.json",
+    "gate": "artifacts/migration-live-cold-warm-gate.json",
+    "deterministic_contract": "artifacts/migration-cache-deterministic-evidence.json"
   },
   "limitations": [
-    "deterministic tests prove cache contracts but do not prove live provider billing savings",
-    "live Embedding and prompt-cache savings remain unverified for this commit"
+    "configured prices were absent, so actual provider cost remains unknown",
+    "one cold/warm pair is evidence of cache behavior, not a stable latency benchmark",
+    "the full gate remains failed on latency and must not be reported as passing"
   ]
 }

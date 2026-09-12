@@ -901,6 +901,6 @@ docker compose up -d --no-build app
 
 在保持本分支四表评测与缓存架构不变的前提下，第二套实现中有独立价值的解析器基准被选择性迁入。迁移没有 cherry-pick 或整分支合并，也没有引入第二套六表账本/runtime factory；新增范围仅包含七文档语料及独立审核、五项解析指标、固定 8×7 运行矩阵、实际 fallback 记录和报告 CLI。
 
-缓存主线没有另起一套实现。现有 Embedding cache、普通 RAG 稳定前缀、Wiki 缓存布局和供应商 usage 归一化继续作为唯一产品路径，并用 12 项竞态测试重新验证。真实冷/热模型运行因本机 Docker engine 无法启动而记为 `inconclusive`，没有用旧运行或零费用替代未知事实。
+缓存主线没有另起一套实现。现有 Embedding cache、普通 RAG 稳定前缀、Wiki 缓存布局和供应商 usage 归一化继续作为唯一产品路径，并用 12 项竞态测试重新验证。Docker 恢复后，当前提交的冷/热实跑进一步证明 Embedding 命中从 0/5 升至 5/5、Chat cache-read tokens 从 0 升至 1024；价格缺失和时延门禁失败仍按 `partial` 如实披露。
 
 解析器本机实测为 `partial`、`1/8` ready；固定 56 单元全部保留，未配置引擎明确记录 unavailable/unsupported。完整选择、证据和复现方式见 [`MIGRATION_REPORT.md`](MIGRATION_REPORT.md)。

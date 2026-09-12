@@ -63,6 +63,8 @@ Wiki 路径原有测试同时验证用途和稳定前缀元数据会传到模型
 
 围绕 Embedding、普通 RAG 稳定前缀、Wiki 缓存布局和供应商 Prompt Cache usage 解析，已在竞态检测下执行 12 项聚焦测试并全部通过。完整命令输出保存于 `artifacts/migration-cache-deterministic-tests.txt`，摘要保存于 `artifacts/migration-cache-deterministic-evidence.json`。这组证据是 hermetic 的代码契约证明，不等同于真实供应商账单实验。
 
-当前分支服务未能完成本机冷/热运行。Docker Desktop 在 Linux engine 启动前因本地 Secrets Engine 套接字异常退出，因此没有创建评测任务、没有发送供应商调用，也没有产生费用。本轮状态明确记为 `inconclusive`，见 `artifacts/migration-cache-live-status.json`；历史 `code_version=unknown` 报告没有被冒充为当前提交证据。
+Docker 恢复后已用当前提交镜像完成一次冷运行和一次热运行，两者配置哈希相同，服务报告 `code_version=db7ca387210c`。Embedding 从冷运行 0/5 命中、5 个未命中变为热运行 5/5 命中、0 个未命中；Chat cache-read tokens 从 0 增至 1024，cache-miss tokens 从 1137 降至 113。检索指标保持不变，ROUGE-L 变化约 -0.006；这证明应用缓存与供应商提示词缓存均在实际链路生效。
+
+完整门禁没有通过：热运行的远端生成更慢，使 average case latency 增加 13,917 ms。两类模型的价格快照为空，报告中的零费用均标记 estimated，不能解释为真实免费或金额节省。因此本轮总状态为 `partial`，精确事实见 `artifacts/migration-live-cold-warm-comparison.json`；历史 `code_version=unknown` 报告没有被冒充为当前提交证据。
 
 可选解析器基准使用独立审核的七文档语料运行了固定 56 单元矩阵。本机只有 `simple` 引擎可用，最终为 `partial`、`1/8` ready、2 个单元计分、0 个失败、35 个 unavailable、19 个 unsupported。两份已计分 Markdown 单元在适用分量上均为 1；该结果只证明实际可用集合，不能声称完成了八个引擎的实测比较。

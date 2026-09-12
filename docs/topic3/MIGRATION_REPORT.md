@@ -24,7 +24,7 @@
 
 解析器基准在当前机器完成一次正式本地运行：`1/8` 引擎 ready，56 个单元中 2 个计分、35 个 unavailable、19 个 unsupported、0 个失败，结论为 `partial`。只有 `simple` 引擎可用，因此该报告不是完整八引擎基线。
 
-缓存契约的 12 项聚焦竞态测试全部通过。真实冷/热 RAG 对比未完成：Docker Desktop 因本地 Secrets Engine 套接字异常无法启动 Linux engine。没有创建评测任务、没有发出供应商调用、没有产生费用；状态按事实记录为 `inconclusive`。
+缓存契约的 12 项聚焦竞态测试全部通过。Docker 恢复后又用当前提交镜像完成了同配置冷/热 RAG 对比：Embedding 命中从 0/5 升至 5/5，Chat cache-read tokens 从 0 升至 1024，检索指标不变。完整门禁因远端生成时延增加而失败；模型价格为空，零费用是 estimated 而非账单事实。因此整体按 `partial` 披露，缓存效果已证实，金额和稳定时延结论仍未闭合。
 
 ## 证据入口
 
@@ -32,6 +32,7 @@
 - 解析器报告：`artifacts/parser-benchmark-report.json`、`artifacts/parser-benchmark-report.md`
 - 缓存确定性证据：`artifacts/migration-cache-deterministic-evidence.json`
 - 真实冷/热状态：`artifacts/migration-cache-live-status.json`
+- 真实冷/热对比：`artifacts/migration-live-cold-warm-comparison.json`
 
 ## Git 检查点
 
