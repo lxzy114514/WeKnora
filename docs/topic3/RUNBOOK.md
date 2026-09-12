@@ -115,3 +115,23 @@ Evaluation Regression / Live RAG quality gate
 - 缓存未命中：核对租户、模型 ID、有效模型配置或向量维度是否变化。变化后不命中是正确行为。
 - `code_version` 为 `unknown`：镜像构建时未注入提交号；按“准备服务”中的命令重新构建后端镜像。
 - CI 外部服务超时：先区分基础设施故障和质量退化；只有 `REGRESSION <metric>` 才是阈值回归。
+
+## 8. 运行可选解析器基准
+
+语料与真值已经过独立 E1 审核。运行器会在解析前重新验证语料、渲染、抽取规则、真值和审核收据的哈希：
+
+```powershell
+go run ./cmd/topic3-parser-benchmark -repository-root . -run-id parser-local
+```
+
+远程 DocReader 可通过 `TOPIC3_DOCREADER_ADDR` 和 `TOPIC3_DOCREADER_TRANSPORT` 配置；云解析器只从当前进程的 `TOPIC3_*` 环境变量读取凭据或端点。不要把这些值写进仓库、命令输出或报告。
+
+预期产物为 `artifacts/parser-benchmark-report.json` 和 `artifacts/parser-benchmark-report.md`。报告固定保留八引擎、七文档共 56 个单元；缺失服务或凭据显示为 `unavailable`，文件类型不支持显示为 `unsupported`，不能从矩阵中删除。只有报告的 ready engine 数为 `8/8` 时才能称为完整八引擎实测。
+
+## 9. 当前迁移验证状态
+
+- 12 项缓存契约竞态测试已通过，原始日志和摘要位于 `artifacts/migration-cache-deterministic-*`。
+- 当前解析器运行得到 `partial`、`1/8` ready、2/37 支持单元已计分、0 个失败；其余是明确的 unavailable/unsupported。
+- 当前提交的真实冷/热 RAG 运行是 `inconclusive`：Docker Desktop 未能启动 Linux 引擎，未创建评测任务、未调用供应商、未产生费用。恢复步骤和诊断事实见 `artifacts/migration-cache-live-status.md`。
+
+这些状态不能互相替代：确定性测试证明代码契约，解析器报告证明本机实际可用集合，真实冷/热运行才可证明供应商调用和费用变化。

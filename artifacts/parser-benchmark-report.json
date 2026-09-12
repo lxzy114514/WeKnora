@@ -1,0 +1,943 @@
+{
+  "schema_version": 1,
+  "run_id": "parser-local-20260912",
+  "run_kind": "parser_benchmark",
+  "generated_at": "2026-09-12T04:08:32Z",
+  "status": "partial",
+  "corpus_version": "v1",
+  "corpus_manifest_sha256": "c2a62b5d689436d7de47d74fc9233d8fc24de85857c437f8a2babf63a5d6ec78",
+  "ground_truth_payload_sha256": "62b6748d92fc51e63da5a62999006ac0938e57102766d7e71aef7b496e180703",
+  "extraction_rules_sha256": "ee9df07b09be9dcee23196911640f6b10ddb9767f81ccc3c5909b84a8501dc0b",
+  "normalization_version": 1,
+  "metric_contract_version": 1,
+  "engine_count": 8,
+  "ready_engine_count": 1,
+  "available_engines": [
+    "simple"
+  ],
+  "cell_count": 56,
+  "supported_cell_count": 37,
+  "unsupported_cell_count": 19,
+  "unavailable_cell_count": 35,
+  "attempted_cell_count": 2,
+  "not_attempted_cell_count": 0,
+  "scored_cell_count": 2,
+  "failed_cell_count": 0,
+  "engines": [
+    {
+      "requested_engine": "builtin",
+      "available": false,
+      "supported_cell_count": 7,
+      "attempted_cell_count": 0,
+      "not_attempted_cell_count": 0,
+      "scored_cell_count": 0,
+      "failed_cell_count": 0,
+      "unavailable_cell_count": 7,
+      "executed_engines": [],
+      "metric_means": {
+        "text_similarity": {
+          "applicable_cell_count": 0,
+          "value": null
+        },
+        "structure_f1": {
+          "applicable_cell_count": 0,
+          "value": null
+        },
+        "table_cell_f1": {
+          "applicable_cell_count": 0,
+          "value": null
+        },
+        "formula_similarity": {
+          "applicable_cell_count": 0,
+          "value": null
+        },
+        "reading_order_accuracy": {
+          "applicable_cell_count": 0,
+          "value": null
+        }
+      }
+    },
+    {
+      "requested_engine": "simple",
+      "available": true,
+      "supported_cell_count": 2,
+      "attempted_cell_count": 2,
+      "not_attempted_cell_count": 0,
+      "scored_cell_count": 2,
+      "failed_cell_count": 0,
+      "unavailable_cell_count": 0,
+      "executed_engines": [
+        "simple"
+      ],
+      "metric_means": {
+        "text_similarity": {
+          "applicable_cell_count": 2,
+          "value": 1
+        },
+        "structure_f1": {
+          "applicable_cell_count": 2,
+          "value": 1
+        },
+        "table_cell_f1": {
+          "applicable_cell_count": 1,
+          "value": 1
+        },
+        "formula_similarity": {
+          "applicable_cell_count": 0,
+          "value": null
+        },
+        "reading_order_accuracy": {
+          "applicable_cell_count": 2,
+          "value": 1
+        }
+      }
+    },
+    {
+      "requested_engine": "anydoc",
+      "available": false,
+      "supported_cell_count": 5,
+      "attempted_cell_count": 0,
+      "not_attempted_cell_count": 0,
+      "scored_cell_count": 0,
+      "failed_cell_count": 0,
+      "unavailable_cell_count": 5,
+      "executed_engines": [],
+      "metric_means": {
+        "text_similarity": {
+          "applicable_cell_count": 0,
+          "value": null
+        },
+        "structure_f1": {
+          "applicable_cell_count": 0,
+          "value": null
+        },
+        "table_cell_f1": {
+          "applicable_cell_count": 0,
+          "value": null
+        },
+        "formula_similarity": {
+          "applicable_cell_count": 0,
+          "value": null
+        },
+        "reading_order_accuracy": {
+          "applicable_cell_count": 0,
+          "value": null
+        }
+      }
+    },
+    {
+      "requested_engine": "weknoracloud",
+      "available": false,
+      "supported_cell_count": 7,
+      "attempted_cell_count": 0,
+      "not_attempted_cell_count": 0,
+      "scored_cell_count": 0,
+      "failed_cell_count": 0,
+      "unavailable_cell_count": 7,
+      "executed_engines": [],
+      "metric_means": {
+        "text_similarity": {
+          "applicable_cell_count": 0,
+          "value": null
+        },
+        "structure_f1": {
+          "applicable_cell_count": 0,
+          "value": null
+        },
+        "table_cell_f1": {
+          "applicable_cell_count": 0,
+          "value": null
+        },
+        "formula_similarity": {
+          "applicable_cell_count": 0,
+          "value": null
+        },
+        "reading_order_accuracy": {
+          "applicable_cell_count": 0,
+          "value": null
+        }
+      }
+    },
+    {
+      "requested_engine": "mineru",
+      "available": false,
+      "supported_cell_count": 5,
+      "attempted_cell_count": 0,
+      "not_attempted_cell_count": 0,
+      "scored_cell_count": 0,
+      "failed_cell_count": 0,
+      "unavailable_cell_count": 5,
+      "executed_engines": [],
+      "metric_means": {
+        "text_similarity": {
+          "applicable_cell_count": 0,
+          "value": null
+        },
+        "structure_f1": {
+          "applicable_cell_count": 0,
+          "value": null
+        },
+        "table_cell_f1": {
+          "applicable_cell_count": 0,
+          "value": null
+        },
+        "formula_similarity": {
+          "applicable_cell_count": 0,
+          "value": null
+        },
+        "reading_order_accuracy": {
+          "applicable_cell_count": 0,
+          "value": null
+        }
+      }
+    },
+    {
+      "requested_engine": "mineru_cloud",
+      "available": false,
+      "supported_cell_count": 5,
+      "attempted_cell_count": 0,
+      "not_attempted_cell_count": 0,
+      "scored_cell_count": 0,
+      "failed_cell_count": 0,
+      "unavailable_cell_count": 5,
+      "executed_engines": [],
+      "metric_means": {
+        "text_similarity": {
+          "applicable_cell_count": 0,
+          "value": null
+        },
+        "structure_f1": {
+          "applicable_cell_count": 0,
+          "value": null
+        },
+        "table_cell_f1": {
+          "applicable_cell_count": 0,
+          "value": null
+        },
+        "formula_similarity": {
+          "applicable_cell_count": 0,
+          "value": null
+        },
+        "reading_order_accuracy": {
+          "applicable_cell_count": 0,
+          "value": null
+        }
+      }
+    },
+    {
+      "requested_engine": "paddleocr_vl",
+      "available": false,
+      "supported_cell_count": 3,
+      "attempted_cell_count": 0,
+      "not_attempted_cell_count": 0,
+      "scored_cell_count": 0,
+      "failed_cell_count": 0,
+      "unavailable_cell_count": 3,
+      "executed_engines": [],
+      "metric_means": {
+        "text_similarity": {
+          "applicable_cell_count": 0,
+          "value": null
+        },
+        "structure_f1": {
+          "applicable_cell_count": 0,
+          "value": null
+        },
+        "table_cell_f1": {
+          "applicable_cell_count": 0,
+          "value": null
+        },
+        "formula_similarity": {
+          "applicable_cell_count": 0,
+          "value": null
+        },
+        "reading_order_accuracy": {
+          "applicable_cell_count": 0,
+          "value": null
+        }
+      }
+    },
+    {
+      "requested_engine": "paddleocr_vl_cloud",
+      "available": false,
+      "supported_cell_count": 3,
+      "attempted_cell_count": 0,
+      "not_attempted_cell_count": 0,
+      "scored_cell_count": 0,
+      "failed_cell_count": 0,
+      "unavailable_cell_count": 3,
+      "executed_engines": [],
+      "metric_means": {
+        "text_similarity": {
+          "applicable_cell_count": 0,
+          "value": null
+        },
+        "structure_f1": {
+          "applicable_cell_count": 0,
+          "value": null
+        },
+        "table_cell_f1": {
+          "applicable_cell_count": 0,
+          "value": null
+        },
+        "formula_similarity": {
+          "applicable_cell_count": 0,
+          "value": null
+        },
+        "reading_order_accuracy": {
+          "applicable_cell_count": 0,
+          "value": null
+        }
+      }
+    }
+  ],
+  "cells": [
+    {
+      "sample_id": "parser:builtin:docx-embedded-image",
+      "requested_engine": "builtin",
+      "document_id": "docx-embedded-image",
+      "document_path": "dataset/parser_benchmark/v1/documents/docx-embedded-image.docx",
+      "extension": "docx",
+      "supported": true,
+      "outcome": "unavailable",
+      "error_code": "parser_engine_unavailable",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:builtin:docx-heading-list-table",
+      "requested_engine": "builtin",
+      "document_id": "docx-heading-list-table",
+      "document_path": "dataset/parser_benchmark/v1/documents/docx-heading-list-table.docx",
+      "extension": "docx",
+      "supported": true,
+      "outcome": "unavailable",
+      "error_code": "parser_engine_unavailable",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:builtin:md-code-link",
+      "requested_engine": "builtin",
+      "document_id": "md-code-link",
+      "document_path": "dataset/parser_benchmark/v1/documents/md-code-link.md",
+      "extension": "md",
+      "supported": true,
+      "outcome": "unavailable",
+      "error_code": "parser_engine_unavailable",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:builtin:md-heading-list-table",
+      "requested_engine": "builtin",
+      "document_id": "md-heading-list-table",
+      "document_path": "dataset/parser_benchmark/v1/documents/md-heading-list-table.md",
+      "extension": "md",
+      "supported": true,
+      "outcome": "unavailable",
+      "error_code": "parser_engine_unavailable",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:builtin:pdf-digital-multicolumn",
+      "requested_engine": "builtin",
+      "document_id": "pdf-digital-multicolumn",
+      "document_path": "dataset/parser_benchmark/v1/documents/pdf-digital-multicolumn.pdf",
+      "extension": "pdf",
+      "supported": true,
+      "outcome": "unavailable",
+      "error_code": "parser_engine_unavailable",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:builtin:pdf-scanned-ocr",
+      "requested_engine": "builtin",
+      "document_id": "pdf-scanned-ocr",
+      "document_path": "dataset/parser_benchmark/v1/documents/pdf-scanned-ocr.pdf",
+      "extension": "pdf",
+      "supported": true,
+      "outcome": "unavailable",
+      "error_code": "parser_engine_unavailable",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:builtin:pdf-table-formula",
+      "requested_engine": "builtin",
+      "document_id": "pdf-table-formula",
+      "document_path": "dataset/parser_benchmark/v1/documents/pdf-table-formula.pdf",
+      "extension": "pdf",
+      "supported": true,
+      "outcome": "unavailable",
+      "error_code": "parser_engine_unavailable",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:simple:docx-embedded-image",
+      "requested_engine": "simple",
+      "document_id": "docx-embedded-image",
+      "document_path": "dataset/parser_benchmark/v1/documents/docx-embedded-image.docx",
+      "extension": "docx",
+      "supported": false,
+      "outcome": "unsupported",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:simple:docx-heading-list-table",
+      "requested_engine": "simple",
+      "document_id": "docx-heading-list-table",
+      "document_path": "dataset/parser_benchmark/v1/documents/docx-heading-list-table.docx",
+      "extension": "docx",
+      "supported": false,
+      "outcome": "unsupported",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:simple:md-code-link",
+      "requested_engine": "simple",
+      "executed_engine": "simple",
+      "document_id": "md-code-link",
+      "document_path": "dataset/parser_benchmark/v1/documents/md-code-link.md",
+      "extension": "md",
+      "supported": true,
+      "outcome": "succeeded",
+      "output_sha256": "99a72656f1ba2dfb71aa2f7ebfdbd43104cd7c46145ae159cd01f668faa8650e",
+      "billing_status": "unknown",
+      "metrics": {
+        "text_similarity": {
+          "applicable": true,
+          "value": 1
+        },
+        "structure_f1": {
+          "applicable": true,
+          "value": 1
+        },
+        "table_cell_f1": {
+          "applicable": false,
+          "value": null
+        },
+        "formula_similarity": {
+          "applicable": false,
+          "value": null
+        },
+        "reading_order_accuracy": {
+          "applicable": true,
+          "value": 1
+        },
+        "spurious_table_count": 0,
+        "spurious_formula_count": 0
+      }
+    },
+    {
+      "sample_id": "parser:simple:md-heading-list-table",
+      "requested_engine": "simple",
+      "executed_engine": "simple",
+      "document_id": "md-heading-list-table",
+      "document_path": "dataset/parser_benchmark/v1/documents/md-heading-list-table.md",
+      "extension": "md",
+      "supported": true,
+      "outcome": "succeeded",
+      "output_sha256": "ee390711259dc4aa236569268b83e9b69f4afa383eaa26a037c285e3d3cdde79",
+      "billing_status": "unknown",
+      "metrics": {
+        "text_similarity": {
+          "applicable": true,
+          "value": 1
+        },
+        "structure_f1": {
+          "applicable": true,
+          "value": 1
+        },
+        "table_cell_f1": {
+          "applicable": true,
+          "value": 1
+        },
+        "formula_similarity": {
+          "applicable": false,
+          "value": null
+        },
+        "reading_order_accuracy": {
+          "applicable": true,
+          "value": 1
+        },
+        "spurious_table_count": 0,
+        "spurious_formula_count": 0
+      }
+    },
+    {
+      "sample_id": "parser:simple:pdf-digital-multicolumn",
+      "requested_engine": "simple",
+      "document_id": "pdf-digital-multicolumn",
+      "document_path": "dataset/parser_benchmark/v1/documents/pdf-digital-multicolumn.pdf",
+      "extension": "pdf",
+      "supported": false,
+      "outcome": "unsupported",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:simple:pdf-scanned-ocr",
+      "requested_engine": "simple",
+      "document_id": "pdf-scanned-ocr",
+      "document_path": "dataset/parser_benchmark/v1/documents/pdf-scanned-ocr.pdf",
+      "extension": "pdf",
+      "supported": false,
+      "outcome": "unsupported",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:simple:pdf-table-formula",
+      "requested_engine": "simple",
+      "document_id": "pdf-table-formula",
+      "document_path": "dataset/parser_benchmark/v1/documents/pdf-table-formula.pdf",
+      "extension": "pdf",
+      "supported": false,
+      "outcome": "unsupported",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:anydoc:docx-embedded-image",
+      "requested_engine": "anydoc",
+      "document_id": "docx-embedded-image",
+      "document_path": "dataset/parser_benchmark/v1/documents/docx-embedded-image.docx",
+      "extension": "docx",
+      "supported": true,
+      "outcome": "unavailable",
+      "error_code": "parser_engine_unavailable",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:anydoc:docx-heading-list-table",
+      "requested_engine": "anydoc",
+      "document_id": "docx-heading-list-table",
+      "document_path": "dataset/parser_benchmark/v1/documents/docx-heading-list-table.docx",
+      "extension": "docx",
+      "supported": true,
+      "outcome": "unavailable",
+      "error_code": "parser_engine_unavailable",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:anydoc:md-code-link",
+      "requested_engine": "anydoc",
+      "document_id": "md-code-link",
+      "document_path": "dataset/parser_benchmark/v1/documents/md-code-link.md",
+      "extension": "md",
+      "supported": false,
+      "outcome": "unsupported",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:anydoc:md-heading-list-table",
+      "requested_engine": "anydoc",
+      "document_id": "md-heading-list-table",
+      "document_path": "dataset/parser_benchmark/v1/documents/md-heading-list-table.md",
+      "extension": "md",
+      "supported": false,
+      "outcome": "unsupported",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:anydoc:pdf-digital-multicolumn",
+      "requested_engine": "anydoc",
+      "document_id": "pdf-digital-multicolumn",
+      "document_path": "dataset/parser_benchmark/v1/documents/pdf-digital-multicolumn.pdf",
+      "extension": "pdf",
+      "supported": true,
+      "outcome": "unavailable",
+      "error_code": "parser_engine_unavailable",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:anydoc:pdf-scanned-ocr",
+      "requested_engine": "anydoc",
+      "document_id": "pdf-scanned-ocr",
+      "document_path": "dataset/parser_benchmark/v1/documents/pdf-scanned-ocr.pdf",
+      "extension": "pdf",
+      "supported": true,
+      "outcome": "unavailable",
+      "error_code": "parser_engine_unavailable",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:anydoc:pdf-table-formula",
+      "requested_engine": "anydoc",
+      "document_id": "pdf-table-formula",
+      "document_path": "dataset/parser_benchmark/v1/documents/pdf-table-formula.pdf",
+      "extension": "pdf",
+      "supported": true,
+      "outcome": "unavailable",
+      "error_code": "parser_engine_unavailable",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:weknoracloud:docx-embedded-image",
+      "requested_engine": "weknoracloud",
+      "document_id": "docx-embedded-image",
+      "document_path": "dataset/parser_benchmark/v1/documents/docx-embedded-image.docx",
+      "extension": "docx",
+      "supported": true,
+      "outcome": "unavailable",
+      "error_code": "parser_engine_unavailable",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:weknoracloud:docx-heading-list-table",
+      "requested_engine": "weknoracloud",
+      "document_id": "docx-heading-list-table",
+      "document_path": "dataset/parser_benchmark/v1/documents/docx-heading-list-table.docx",
+      "extension": "docx",
+      "supported": true,
+      "outcome": "unavailable",
+      "error_code": "parser_engine_unavailable",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:weknoracloud:md-code-link",
+      "requested_engine": "weknoracloud",
+      "document_id": "md-code-link",
+      "document_path": "dataset/parser_benchmark/v1/documents/md-code-link.md",
+      "extension": "md",
+      "supported": true,
+      "outcome": "unavailable",
+      "error_code": "parser_engine_unavailable",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:weknoracloud:md-heading-list-table",
+      "requested_engine": "weknoracloud",
+      "document_id": "md-heading-list-table",
+      "document_path": "dataset/parser_benchmark/v1/documents/md-heading-list-table.md",
+      "extension": "md",
+      "supported": true,
+      "outcome": "unavailable",
+      "error_code": "parser_engine_unavailable",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:weknoracloud:pdf-digital-multicolumn",
+      "requested_engine": "weknoracloud",
+      "document_id": "pdf-digital-multicolumn",
+      "document_path": "dataset/parser_benchmark/v1/documents/pdf-digital-multicolumn.pdf",
+      "extension": "pdf",
+      "supported": true,
+      "outcome": "unavailable",
+      "error_code": "parser_engine_unavailable",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:weknoracloud:pdf-scanned-ocr",
+      "requested_engine": "weknoracloud",
+      "document_id": "pdf-scanned-ocr",
+      "document_path": "dataset/parser_benchmark/v1/documents/pdf-scanned-ocr.pdf",
+      "extension": "pdf",
+      "supported": true,
+      "outcome": "unavailable",
+      "error_code": "parser_engine_unavailable",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:weknoracloud:pdf-table-formula",
+      "requested_engine": "weknoracloud",
+      "document_id": "pdf-table-formula",
+      "document_path": "dataset/parser_benchmark/v1/documents/pdf-table-formula.pdf",
+      "extension": "pdf",
+      "supported": true,
+      "outcome": "unavailable",
+      "error_code": "parser_engine_unavailable",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:mineru:docx-embedded-image",
+      "requested_engine": "mineru",
+      "document_id": "docx-embedded-image",
+      "document_path": "dataset/parser_benchmark/v1/documents/docx-embedded-image.docx",
+      "extension": "docx",
+      "supported": true,
+      "outcome": "unavailable",
+      "error_code": "parser_engine_unavailable",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:mineru:docx-heading-list-table",
+      "requested_engine": "mineru",
+      "document_id": "docx-heading-list-table",
+      "document_path": "dataset/parser_benchmark/v1/documents/docx-heading-list-table.docx",
+      "extension": "docx",
+      "supported": true,
+      "outcome": "unavailable",
+      "error_code": "parser_engine_unavailable",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:mineru:md-code-link",
+      "requested_engine": "mineru",
+      "document_id": "md-code-link",
+      "document_path": "dataset/parser_benchmark/v1/documents/md-code-link.md",
+      "extension": "md",
+      "supported": false,
+      "outcome": "unsupported",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:mineru:md-heading-list-table",
+      "requested_engine": "mineru",
+      "document_id": "md-heading-list-table",
+      "document_path": "dataset/parser_benchmark/v1/documents/md-heading-list-table.md",
+      "extension": "md",
+      "supported": false,
+      "outcome": "unsupported",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:mineru:pdf-digital-multicolumn",
+      "requested_engine": "mineru",
+      "document_id": "pdf-digital-multicolumn",
+      "document_path": "dataset/parser_benchmark/v1/documents/pdf-digital-multicolumn.pdf",
+      "extension": "pdf",
+      "supported": true,
+      "outcome": "unavailable",
+      "error_code": "parser_engine_unavailable",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:mineru:pdf-scanned-ocr",
+      "requested_engine": "mineru",
+      "document_id": "pdf-scanned-ocr",
+      "document_path": "dataset/parser_benchmark/v1/documents/pdf-scanned-ocr.pdf",
+      "extension": "pdf",
+      "supported": true,
+      "outcome": "unavailable",
+      "error_code": "parser_engine_unavailable",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:mineru:pdf-table-formula",
+      "requested_engine": "mineru",
+      "document_id": "pdf-table-formula",
+      "document_path": "dataset/parser_benchmark/v1/documents/pdf-table-formula.pdf",
+      "extension": "pdf",
+      "supported": true,
+      "outcome": "unavailable",
+      "error_code": "parser_engine_unavailable",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:mineru_cloud:docx-embedded-image",
+      "requested_engine": "mineru_cloud",
+      "document_id": "docx-embedded-image",
+      "document_path": "dataset/parser_benchmark/v1/documents/docx-embedded-image.docx",
+      "extension": "docx",
+      "supported": true,
+      "outcome": "unavailable",
+      "error_code": "parser_engine_unavailable",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:mineru_cloud:docx-heading-list-table",
+      "requested_engine": "mineru_cloud",
+      "document_id": "docx-heading-list-table",
+      "document_path": "dataset/parser_benchmark/v1/documents/docx-heading-list-table.docx",
+      "extension": "docx",
+      "supported": true,
+      "outcome": "unavailable",
+      "error_code": "parser_engine_unavailable",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:mineru_cloud:md-code-link",
+      "requested_engine": "mineru_cloud",
+      "document_id": "md-code-link",
+      "document_path": "dataset/parser_benchmark/v1/documents/md-code-link.md",
+      "extension": "md",
+      "supported": false,
+      "outcome": "unsupported",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:mineru_cloud:md-heading-list-table",
+      "requested_engine": "mineru_cloud",
+      "document_id": "md-heading-list-table",
+      "document_path": "dataset/parser_benchmark/v1/documents/md-heading-list-table.md",
+      "extension": "md",
+      "supported": false,
+      "outcome": "unsupported",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:mineru_cloud:pdf-digital-multicolumn",
+      "requested_engine": "mineru_cloud",
+      "document_id": "pdf-digital-multicolumn",
+      "document_path": "dataset/parser_benchmark/v1/documents/pdf-digital-multicolumn.pdf",
+      "extension": "pdf",
+      "supported": true,
+      "outcome": "unavailable",
+      "error_code": "parser_engine_unavailable",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:mineru_cloud:pdf-scanned-ocr",
+      "requested_engine": "mineru_cloud",
+      "document_id": "pdf-scanned-ocr",
+      "document_path": "dataset/parser_benchmark/v1/documents/pdf-scanned-ocr.pdf",
+      "extension": "pdf",
+      "supported": true,
+      "outcome": "unavailable",
+      "error_code": "parser_engine_unavailable",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:mineru_cloud:pdf-table-formula",
+      "requested_engine": "mineru_cloud",
+      "document_id": "pdf-table-formula",
+      "document_path": "dataset/parser_benchmark/v1/documents/pdf-table-formula.pdf",
+      "extension": "pdf",
+      "supported": true,
+      "outcome": "unavailable",
+      "error_code": "parser_engine_unavailable",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:paddleocr_vl:docx-embedded-image",
+      "requested_engine": "paddleocr_vl",
+      "document_id": "docx-embedded-image",
+      "document_path": "dataset/parser_benchmark/v1/documents/docx-embedded-image.docx",
+      "extension": "docx",
+      "supported": false,
+      "outcome": "unsupported",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:paddleocr_vl:docx-heading-list-table",
+      "requested_engine": "paddleocr_vl",
+      "document_id": "docx-heading-list-table",
+      "document_path": "dataset/parser_benchmark/v1/documents/docx-heading-list-table.docx",
+      "extension": "docx",
+      "supported": false,
+      "outcome": "unsupported",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:paddleocr_vl:md-code-link",
+      "requested_engine": "paddleocr_vl",
+      "document_id": "md-code-link",
+      "document_path": "dataset/parser_benchmark/v1/documents/md-code-link.md",
+      "extension": "md",
+      "supported": false,
+      "outcome": "unsupported",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:paddleocr_vl:md-heading-list-table",
+      "requested_engine": "paddleocr_vl",
+      "document_id": "md-heading-list-table",
+      "document_path": "dataset/parser_benchmark/v1/documents/md-heading-list-table.md",
+      "extension": "md",
+      "supported": false,
+      "outcome": "unsupported",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:paddleocr_vl:pdf-digital-multicolumn",
+      "requested_engine": "paddleocr_vl",
+      "document_id": "pdf-digital-multicolumn",
+      "document_path": "dataset/parser_benchmark/v1/documents/pdf-digital-multicolumn.pdf",
+      "extension": "pdf",
+      "supported": true,
+      "outcome": "unavailable",
+      "error_code": "parser_engine_unavailable",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:paddleocr_vl:pdf-scanned-ocr",
+      "requested_engine": "paddleocr_vl",
+      "document_id": "pdf-scanned-ocr",
+      "document_path": "dataset/parser_benchmark/v1/documents/pdf-scanned-ocr.pdf",
+      "extension": "pdf",
+      "supported": true,
+      "outcome": "unavailable",
+      "error_code": "parser_engine_unavailable",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:paddleocr_vl:pdf-table-formula",
+      "requested_engine": "paddleocr_vl",
+      "document_id": "pdf-table-formula",
+      "document_path": "dataset/parser_benchmark/v1/documents/pdf-table-formula.pdf",
+      "extension": "pdf",
+      "supported": true,
+      "outcome": "unavailable",
+      "error_code": "parser_engine_unavailable",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:paddleocr_vl_cloud:docx-embedded-image",
+      "requested_engine": "paddleocr_vl_cloud",
+      "document_id": "docx-embedded-image",
+      "document_path": "dataset/parser_benchmark/v1/documents/docx-embedded-image.docx",
+      "extension": "docx",
+      "supported": false,
+      "outcome": "unsupported",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:paddleocr_vl_cloud:docx-heading-list-table",
+      "requested_engine": "paddleocr_vl_cloud",
+      "document_id": "docx-heading-list-table",
+      "document_path": "dataset/parser_benchmark/v1/documents/docx-heading-list-table.docx",
+      "extension": "docx",
+      "supported": false,
+      "outcome": "unsupported",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:paddleocr_vl_cloud:md-code-link",
+      "requested_engine": "paddleocr_vl_cloud",
+      "document_id": "md-code-link",
+      "document_path": "dataset/parser_benchmark/v1/documents/md-code-link.md",
+      "extension": "md",
+      "supported": false,
+      "outcome": "unsupported",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:paddleocr_vl_cloud:md-heading-list-table",
+      "requested_engine": "paddleocr_vl_cloud",
+      "document_id": "md-heading-list-table",
+      "document_path": "dataset/parser_benchmark/v1/documents/md-heading-list-table.md",
+      "extension": "md",
+      "supported": false,
+      "outcome": "unsupported",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:paddleocr_vl_cloud:pdf-digital-multicolumn",
+      "requested_engine": "paddleocr_vl_cloud",
+      "document_id": "pdf-digital-multicolumn",
+      "document_path": "dataset/parser_benchmark/v1/documents/pdf-digital-multicolumn.pdf",
+      "extension": "pdf",
+      "supported": true,
+      "outcome": "unavailable",
+      "error_code": "parser_engine_unavailable",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:paddleocr_vl_cloud:pdf-scanned-ocr",
+      "requested_engine": "paddleocr_vl_cloud",
+      "document_id": "pdf-scanned-ocr",
+      "document_path": "dataset/parser_benchmark/v1/documents/pdf-scanned-ocr.pdf",
+      "extension": "pdf",
+      "supported": true,
+      "outcome": "unavailable",
+      "error_code": "parser_engine_unavailable",
+      "billing_status": "not_billable"
+    },
+    {
+      "sample_id": "parser:paddleocr_vl_cloud:pdf-table-formula",
+      "requested_engine": "paddleocr_vl_cloud",
+      "document_id": "pdf-table-formula",
+      "document_path": "dataset/parser_benchmark/v1/documents/pdf-table-formula.pdf",
+      "extension": "pdf",
+      "supported": true,
+      "outcome": "unavailable",
+      "error_code": "parser_engine_unavailable",
+      "billing_status": "not_billable"
+    }
+  ]
+}

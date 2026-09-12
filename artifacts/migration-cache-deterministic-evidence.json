@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-12T04:06:02.8714721+00:00",
+  "branch": "feat/topic3-evaluation-cost-cache-20260828",
+  "commit": "4edbde495b8bb37d98e5ffef0ec198dafb8e4334",
+  "evidence_kind": "deterministic_cache_contract",
+  "status": "passed",
+  "test_count": 12,
+  "checks": [
+    {
+      "area": "embedding_batch_cache",
+      "tests": 4,
+      "result": "passed"
+    },
+    {
+      "area": "embedding_repository_isolation",
+      "tests": 2,
+      "result": "passed"
+    },
+    {
+      "area": "rag_stable_prompt_prefix",
+      "tests": 1,
+      "result": "passed"
+    },
+    {
+      "area": "wiki_prompt_layout_and_warmup",
+      "tests": 3,
+      "result": "passed"
+    },
+    {
+      "area": "provider_prompt_cache_usage_parsing",
+      "tests": 2,
+      "result": "passed"
+    }
+  ],
+  "log": {
+    "path": "artifacts/migration-cache-deterministic-tests.txt",
+    "sha256": "3c839a9f31abd5063e38ee3afc4191c0b04ba9b92d4097c73b4106152a4785ea"
+  },
+  "limitations": [
+    "hermetic deterministic evidence, not a live provider billing run",
+    "does not replace cold/warm live-run acceptance"
+  ]
+}

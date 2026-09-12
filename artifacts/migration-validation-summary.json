@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-12T04:49:49Z",
+  "branch": "feat/topic3-evaluation-cost-cache-20260828",
+  "tested_code_commit": "8622e4559a9b158f0dba9a1dd9155f76ca639c44",
+  "status": "passed_with_repository_environment_failures",
+  "passed": [
+    "go test -race ./internal/evaluation/...",
+    "12 focused cache and stable-prefix race tests",
+    "go test ./cmd/topic3-parser-corpus ./cmd/topic3-parser-benchmark ./internal/infrastructure/docparser/...",
+    "go vet ./cmd/topic3-parser-corpus ./cmd/topic3-parser-benchmark ./internal/evaluation/... ./internal/infrastructure/docparser/..."
+  ],
+  "full_repository_test": {
+    "command": "go test ./...",
+    "exit_code": 1,
+    "log": "artifacts/migration-go-test-all.txt.gz",
+    "log_sha256": "74858537cbc4b3e99f8fcc68615f037337d05eecd4b3d85cd4f65f5a5efe4139",
+    "uncompressed_log_sha256": "ff309a63c82ac3d2c9802125861f08b75a148d4cf4915c1a39b4c11a46c81a7e",
+    "migration_related_failures": 0,
+    "failure_categories": [
+      "Windows path-separator expectation in internal/agent/skills",
+      "DuckDB static-library linker mismatch in internal/agent/tools and internal/container",
+      "Windows SQLite temporary-file handles in internal/application/service",
+      "Docker npipe scheme assumptions in sandbox service tests",
+      "Windows unreadable-file permission semantics in a skill verifier test",
+      "logger output-format assumption in the Feishu wiki connector test",
+      "frontend capability-key parser assumption in internal/handler"
+    ]
+  },
+  "scope_note": "No file involved in the listed full-repository failures was changed by the selective migration from 0d505c8b. The affected migration packages passed their focused tests and vet checks."
+}

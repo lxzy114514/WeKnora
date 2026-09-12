@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-12T04:12:19Z",
+  "branch": "feat/topic3-evaluation-cost-cache-20260828",
+  "commit": "8622e4559a9b158f0dba9a1dd9155f76ca639c44",
+  "evidence_kind": "live_cold_warm_cache_run",
+  "status": "inconclusive",
+  "runs_created": 0,
+  "provider_calls_made": 0,
+  "cost_incurred": false,
+  "reason_code": "local_runtime_unavailable",
+  "reason": "Docker Desktop could not start its Linux engine because its local Secrets Engine socket is an inaccessible stale reparse point.",
+  "observations": [
+    "docker info could not connect to npipe:////./pipe/dockerDesktopLinuxEngine",
+    "Docker Desktop host log reports failure while removing C:/Users/21169/AppData/Local/docker-secrets-engine/engine.sock",
+    "the branch service was therefore not rebuilt or started",
+    "no historical evaluation output was relabeled as current-branch evidence"
+  ],
+  "safe_recovery": [
+    "restart Windows, then start Docker Desktop and verify docker info",
+    "if the socket remains inaccessible, use Docker Desktop repair with the user present",
+    "rerun the same fixed evaluation twice and compare the generated cold and warm reports"
+  ],
+  "related_evidence": {
+    "deterministic_contract": "artifacts/migration-cache-deterministic-evidence.json",
+    "deterministic_status": "passed"
+  },
+  "limitations": [
+    "deterministic tests prove cache contracts but do not prove live provider billing savings",
+    "live Embedding and prompt-cache savings remain unverified for this commit"
+  ]
+}

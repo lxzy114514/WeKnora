@@ -13,6 +13,7 @@
 | 成本页面 | 按模型和日期筛选调用数、缓存读取、Embedding 命中、估算费用 | 设置 → 模型管理 |
 | Embedding 缓存 | 租户/模型/配置指纹/维度/文本哈希隔离，批量部分命中、顺序保持、并发合并 | `embedding_cache` |
 | 提示词缓存 | 稳定系统前缀指纹与动态问题/上下文分离；Wiki 原有缓存路径纳入观测 | `chat_pipeline/common.go` |
+| 文档解析器基准（可选） | 独立审核的七文档真值、8×7 固定矩阵、五项指标和实际 fallback 记录 | `cmd/topic3-parser-benchmark`、`dataset/parser_benchmark/v1` |
 
 ## 文档导航
 
@@ -25,6 +26,7 @@
 - [实现重难点与参考资料](IMPLEMENTATION_CHALLENGES_AND_REFERENCES.md)：逐项解释为什么难、如何实现、参考依据、项目自有设计与已知边界。
 - [已知限制](LIMITATIONS.md)：仍需部署环境或管理员完成的事项。
 - [提交清单](submission.yaml)：机器可读的交付索引。
+- [迁移报告](MIGRATION_REPORT.md)：说明从第二套实现选择性迁入的范围、验证证据和未完成的真实环境实验。
 
 ## 最短验收路径
 
@@ -39,3 +41,11 @@ go run ./cmd/evalctl -dataset baseline-v1 -chat-model "<chat-id>" -embedding-mod
 结束后会生成 `artifacts/evaluation-report.json`、`artifacts/evaluation-detail.json` 和人类可读的 `artifacts/evaluation-report.md`。详细报告包含数据集、模型、分块参数、代码版本、检索/回答指标、成本、分阶段耗时和逐题可复算证据。
 
 > 本分支没有提交任何密钥，也没有伪造真实模型实验数字。没有可用于当前分支服务的评测凭据时，交付报告只记录确定性自动化结果。
+
+可选解析器基准不需要启动 WeKnora 服务：
+
+```powershell
+go run ./cmd/topic3-parser-benchmark -repository-root . -run-id parser-local
+```
+
+命令始终生成 56 单元矩阵。缺少外部解析服务或凭据时，对应单元会明确记为 `unavailable`；本机已执行结果为 `partial`、可用引擎 `1/8`，见 `artifacts/parser-benchmark-report.md`。这不能被表述为完整八引擎实测。

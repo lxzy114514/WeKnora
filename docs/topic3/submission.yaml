@@ -8,6 +8,7 @@ entrypoints:
   evaluation: go run ./cmd/evalctl -dataset baseline-v1 -chat-model <chat-id> -embedding-model <embedding-id> -summary-model <summary-id>
   deterministic_benchmark: go run ./cmd/evalbench
   gate: go run ./cmd/evalgate
+  parser_benchmark: go run ./cmd/topic3-parser-benchmark -repository-root . -run-id parser-local
 required_check: Evaluation Regression / Deterministic quality gate
 reports:
   overview: docs/topic3/README.md
@@ -18,8 +19,19 @@ reports:
   experiment: docs/topic3/EXPERIMENT_REPORT.md
   tests: docs/topic3/TEST_REPORT.md
   limitations: docs/topic3/LIMITATIONS.md
+  migration: docs/topic3/MIGRATION_REPORT.md
+evidence:
+  cache_contract: artifacts/migration-cache-deterministic-evidence.json
+  cache_live_status: artifacts/migration-cache-live-status.json
+  parser_report: artifacts/parser-benchmark-report.json
+  parser_ground_truth_approval: docs/topic3/audit/E1_4edbde49_ROUND2_REVIEW_RECEIPT.md
 security:
   raw_prompts_persisted: false
   secrets_committed: false
   embedding_cache_tenant_scoped: true
-optional_parser_comparison: not_implemented
+optional_parser_comparison:
+  status: partial
+  ready_engines: 1
+  registered_engines: 8
+  scored_cells: 2
+  matrix_cells: 56

@@ -45,3 +45,17 @@
 - CI 路径：`evalbench` 从当前代码生成 12 项质量指标，门禁比较 Recall、MRR、NDCG@10、ROUGE-L 共 4 项并通过。
 - 失败路径：把 Recall 从 `0.82` 降到 `0.60` 后，命令以状态 1 退出并报告 `REGRESSION retrieval.recall ... change=-0.220000 allowed=0.030000`。
 - 规格双审：首次规格审查发现 5 项缺口，均已修复并增加相应测试；最终复核结论见提交前差异检查记录。
+
+## 选择性迁移复核（2026-09-12）
+
+新增解析器语料、指标和运行器已通过以下检查：
+
+- `go test -race ./internal/evaluation/...`
+- `go test ./cmd/topic3-parser-corpus ./cmd/topic3-parser-benchmark ./internal/infrastructure/docparser/...`
+- `go vet ./cmd/topic3-parser-corpus ./cmd/topic3-parser-benchmark ./internal/evaluation/... ./internal/infrastructure/docparser/...`
+
+另外，Embedding 批量复用/并发合并、缓存隔离、普通 RAG/Wiki 稳定前缀和 DeepSeek cache usage 解析共 12 项聚焦测试在 `-race` 下通过。原始日志 SHA-256 为 `3c839a9f31abd5063e38ee3afc4191c0b04ba9b92d4097c73b4106152a4785ea`。
+
+本轮也重新执行了 `go test ./...`。它以状态 1 结束，但没有迁移相关包失败；原始日志 SHA-256 为 `ff309a63c82ac3d2c9802125861f08b75a148d4cf4915c1a39b4c11a46c81a7e`。失败项来自仓库既有的 Windows 路径分隔符断言、DuckDB/MinGW 链接、SQLite 临时文件句柄、Docker `npipe`、Windows 文件权限语义、日志输出格式断言和前端 capability key 解析断言。选择性迁移从 `0d505c8b` 起没有修改这些失败涉及的文件。
+
+机器可读摘要与 gzip 压缩的完整日志分别位于 `artifacts/migration-validation-summary.json` 和 `artifacts/migration-go-test-all.txt.gz`。真实冷/热模型实验因 Docker Desktop 无法启动而单独记为 `inconclusive`，不影响上述确定性测试结论，也不能由这些测试替代。
